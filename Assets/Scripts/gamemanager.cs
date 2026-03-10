@@ -69,6 +69,7 @@ public class gamemanager : MonoBehaviour
         menuActive = null;
     }
 
+    // TO DO: NEED TO UPDATE FOR GAME GOAL TO BE RELATED TO EXIT
     public void updateGameGoal(int amount)
     {
         gameGoalCount += amount;
