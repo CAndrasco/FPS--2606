@@ -9,14 +9,21 @@ public class enemyAI_1 : MonoBehaviour, IDamage
 
     [Header("---- Enemy Settings ----")]
     [SerializeField] int HP;
-
+    //[SerializeField] GameObject Weapon;
+    //[SerializeField] float damageRate;
+    [SerializeField] Transform armHittingPos1;
+    [SerializeField] Transform armHittingPos2;
+    [SerializeField] Transform armPivot1;
+    [SerializeField] Transform armPivot2;
 
     Color colorOrig;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    float damageTimer;
+
     void Start()
     {
         colorOrig = model.material.color;
+        gamemanager.instance.updateGameGoal(1);
     }
 
     // Update is called once per frame
@@ -25,11 +32,18 @@ public class enemyAI_1 : MonoBehaviour, IDamage
         
     }
 
+    //void Shoot() -- Not needed at the moment
+    //{
+    //    damageTimer = 0;
+    //    Instantiate(Weapon, armHittingPos1.position, armPivot1.rotation);
+    //}
+
     public void TakeDamage(int damage)
     {
         HP -= damage;
         if(HP <= 0)
         {
+            gamemanager.instance.updateGameGoal(-1);
             Destroy(gameObject);
         }
         else
