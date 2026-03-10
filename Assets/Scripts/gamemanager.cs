@@ -70,18 +70,18 @@ public class gamemanager : MonoBehaviour
     }
 
     // TO DO: NEED TO UPDATE FOR GAME GOAL TO BE RELATED TO EXIT
-    //public void updateGameGoal(int amount)
-    //{
-    //    gameGoalCount += amount;
+    public void updateGameGoal(int amount)
+    {
+        gameGoalCount += amount;
 
-    //    if (gameGoalCount <= 0)
-    //    {
-    //        statePause();
+        if (gameGoalCount <= 0)
+        {
+            statePause();
 
-    //        menuActive = menuWin;
-    //        menuActive.SetActive(true);
-    //    }
-    //}
+            menuActive = menuWin;
+            menuActive.SetActive(true);
+        }
+    }
 
     public void youLose()
     {
