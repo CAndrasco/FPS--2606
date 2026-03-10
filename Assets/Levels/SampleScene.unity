@@ -6221,7 +6221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2107d9f5cfc33044a810cf7f0ba12ba9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::cameraController
-  sens: 120
+  sens: 300
   lockVertMin: -70
   lockVertMax: 70
   invertY: 0
@@ -10444,6 +10444,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 508654792}
+  - component: {fileID: 508654793}
+  - component: {fileID: 508654794}
   m_Layer: 7
   m_Name: Arm_1 Pivot
   m_TagString: Untagged
@@ -10467,6 +10469,46 @@ Transform:
   - {fileID: 630464496}
   m_Father: {fileID: 1117237502}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &508654793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508654791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cbd6f4272cdeb8438f695171220a8dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Damage
+  Type: 2
+  rb: {fileID: 0}
+  damageAmount: 1
+  damageRate: 10
+  speed: 0
+  destroyTime: 0
+  hitEffect: {fileID: 0}
+--- !u!65 &508654794
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508654791}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &510568655
 GameObject:
   m_ObjectHideFlags: 0
@@ -24707,6 +24749,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1255701926}
+  - component: {fileID: 1255701927}
+  - component: {fileID: 1255701928}
   m_Layer: 7
   m_Name: Arm_2 Pivot
   m_TagString: Untagged
@@ -24730,6 +24774,46 @@ Transform:
   - {fileID: 229104093}
   m_Father: {fileID: 1117237502}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1255701927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1255701925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cbd6f4272cdeb8438f695171220a8dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Damage
+  Type: 2
+  rb: {fileID: 0}
+  damageAmount: 2
+  damageRate: 0
+  speed: 0
+  destroyTime: 0
+  hitEffect: {fileID: 0}
+--- !u!65 &1255701928
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1255701925}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1256802071
 PrefabInstance:
   m_ObjectHideFlags: 0
