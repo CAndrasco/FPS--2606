@@ -4,17 +4,14 @@ public class ammoPickup : MonoBehaviour
 {
     [SerializeField] int ammoAmount = 1;
 
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            playerController player = other.GetComponent<playerController>();
+        playerController player = other.GetComponent<playerController>();
 
-            if (player != null ) 
-            {
-                player.AddAmmo(ammoAmount);
-                Destroy(gameObject);
-            }
+        if (player != null)
+        {
+            player.AddAmmo(ammoAmount);
+            Destroy(gameObject);
         }
     }
 }
