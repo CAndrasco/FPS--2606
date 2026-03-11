@@ -43,7 +43,7 @@ public class playerController : MonoBehaviour, IDamage
         if (gamemanager.instance != null && gamemanager.instance.isPaused)
         {
             return;
-        } 
+        }
 
         movement();
         flashlightToggle();
@@ -66,7 +66,7 @@ public class playerController : MonoBehaviour, IDamage
         playerVel.y -= gravity * Time.deltaTime;
         controller.Move(playerVel * Time.deltaTime);
 
-        if(Input.GetButton("Fire1") && shootTimer >= shootRate && ammo > 0)
+        if (Input.GetButton("Fire1") && shootTimer >= shootRate && ammo > 0)
         {
             shoot();
         }
@@ -74,7 +74,7 @@ public class playerController : MonoBehaviour, IDamage
 
     void flashlightToggle()
     {
-        if(Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             flashlight.enabled = !flashlight.enabled;
         }
@@ -133,6 +133,4 @@ public class playerController : MonoBehaviour, IDamage
         }
     }
 
-
-
-    }
+}

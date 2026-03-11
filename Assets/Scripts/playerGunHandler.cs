@@ -3,7 +3,14 @@ using UnityEngine;
 public class playerGunHolder : MonoBehaviour
 {
     [SerializeField] Transform gunAnchor;
+    [SerializeField] GameObject pistol;
+
     GameObject currentGun;
+
+    void Start()
+    {
+        EquipGun(pistol); //Player starts with Pistol.
+    }
 
     public void EquipGun(GameObject equippedGunPrefab)
     {

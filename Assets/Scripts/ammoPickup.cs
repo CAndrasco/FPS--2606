@@ -13,7 +13,11 @@ public class ammoPickup : MonoBehaviour
             if (player != null ) 
             {
                 player.AddAmmo(ammoAmount);
+
+                FindFirstObjectByType<ammoSpawner>().AmmoPickedUp();
+
                 Destroy(gameObject);
+
             }
         }
     }

@@ -8,9 +8,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2864315765877540454, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 2938328406469731072, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
       propertyPath: m_Name
       value: Pistol_equipped
+      objectReference: {fileID: 0}
+    - target: {fileID: 2938328406469731072, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2938328406469731072, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3072909308907789526, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6498389369074501924, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
       propertyPath: m_Enabled
@@ -60,6 +76,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7168910072796038027, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327946223556848870, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8143318831801235085, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8143318831801235085, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8143318831801235085, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8143318831801235085, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e887d87137be633418031cffb54b00aa, type: 2}
     - target: {fileID: 8955946602591783545, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
       propertyPath: gunPrefabToEquip
       value: 
