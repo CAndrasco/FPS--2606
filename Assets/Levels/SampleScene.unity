@@ -22661,7 +22661,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::enemyAI_1
   model: {fileID: 1117237499}
-  agent: {fileID: 0}
+  agent: {fileID: 1117237504}
   ignoreLayer:
     serializedVersion: 2
     m_Bits: 0
