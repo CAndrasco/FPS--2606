@@ -1,5 +1,5 @@
 using UnityEngine;
-
+//If you see this you're safe to work. 
 public class ammoPickup : MonoBehaviour
 {
     [SerializeField] int ammoAmount = 1;
