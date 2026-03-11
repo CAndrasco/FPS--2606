@@ -43406,8 +43406,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6074984731780554633, guid: 3c48d3ea4b1a8d24e9be16c973cd11a4, type: 3}
   m_PrefabInstance: {fileID: 2146190876}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
-=======
+
+
 --- !u!1001 &1325779881946387942
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43618,7 +43618,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b5b9a9b6f4c6f144bd9fb99bd0c5ff2, type: 3}
->>>>>>> 74b40b9a089c6be9c1e2b551470c6c25c6a4f401
+
 --- !u!1001 &4711176938161115471
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43685,8 +43685,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7082021552155300219, guid: f16f13de256c86b48b76a8fd7a42a35e, type: 3}
   m_PrefabInstance: {fileID: 4711176938161115471}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
-=======
+
 --- !u!1001 &5244095179027891258
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43846,34 +43845,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
->>>>>>> 74b40b9a089c6be9c1e2b551470c6c25c6a4f401
->>>>>>> Stashed changes
-=======
->>>>>>> 74b40b9a089c6be9c1e2b551470c6c25c6a4f401
->>>>>>> Stashed changes
-=======
->>>>>>> 74b40b9a089c6be9c1e2b551470c6c25c6a4f401
->>>>>>> Stashed changes
-=======
->>>>>>> 74b40b9a089c6be9c1e2b551470c6c25c6a4f401
->>>>>>> Stashed changes
-=======
->>>>>>> 74b40b9a089c6be9c1e2b551470c6c25c6a4f401
->>>>>>> Stashed changes
-=======
->>>>>>> 74b40b9a089c6be9c1e2b551470c6c25c6a4f401
->>>>>>> Stashed changes
-=======
->>>>>>> 74b40b9a089c6be9c1e2b551470c6c25c6a4f401
->>>>>>> Stashed changes
+
+
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -43886,11 +43859,10 @@ SceneRoots:
   - {fileID: 226597216}
   - {fileID: 615995692}
   - {fileID: 2017862693}
-<<<<<<< HEAD
+
   - {fileID: 128459745}
   - {fileID: 2035437233}
   - {fileID: 1363584044}
-=======
   - {fileID: 5244095179027891258}
   - {fileID: 3631088853122042922}
   - {fileID: 1325779881946387942}
