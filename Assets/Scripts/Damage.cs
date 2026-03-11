@@ -48,7 +48,8 @@ public class Damage : MonoBehaviour
     {
         if(other.isTrigger) return;
         IDamage dmg = other.GetComponent<IDamage>();
-        if(dmg != null && Type == damageType.DOT)
+
+        if(dmg != null && Type == damageType.DOT && !isDamaging)
         {
             StartCoroutine(DamageOther(dmg));
         }
