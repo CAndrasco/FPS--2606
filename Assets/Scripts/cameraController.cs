@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class cameraController : MonoBehaviour
 {
-    [SerializeField] int sens = 120;
+    [SerializeField] float sens = 120f;
     [SerializeField] int lockVertMin = -70;
     [SerializeField] int lockVertMax = 70;
     [SerializeField] bool invertY = false;
