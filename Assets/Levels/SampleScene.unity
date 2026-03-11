@@ -30771,7 +30771,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   HP: 50
-  speed: 8
+  speed: 10
   gravity: 20
   flashlight: {fileID: 879836696}
   shootDamage: 2
@@ -45064,7 +45064,6 @@ PrefabInstance:
     - target: {fileID: 6074984731780554633, guid: 3c48d3ea4b1a8d24e9be16c973cd11a4, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.0000000745058
-      value: -2.5
       objectReference: {fileID: 0}
     - target: {fileID: 6074984731780554633, guid: 3c48d3ea4b1a8d24e9be16c973cd11a4, type: 3}
       propertyPath: m_LocalRotation.x
@@ -45800,11 +45799,9 @@ SceneRoots:
   - {fileID: 226597216}
   - {fileID: 615995692}
   - {fileID: 2017862693}
-  - {fileID: 128459745}
   - {fileID: 2035437233}
   - {fileID: 1363584044}
   - {fileID: 5244095179027891258}
   - {fileID: 3631088853122042922}
   - {fileID: 1325779881946387942}
-  - {fileID: 1435231808}
   - {fileID: 1554322726}
