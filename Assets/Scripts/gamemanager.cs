@@ -165,7 +165,7 @@ public class gamemanager : MonoBehaviour
 
         bossEnemy.SetActive(true);
         exitDoor.SetActive(true);
-        //updateGameGoal(exitDoor);
+        
     }
 
     public void EnemyKilled()
