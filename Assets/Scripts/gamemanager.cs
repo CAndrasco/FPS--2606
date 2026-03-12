@@ -16,6 +16,9 @@ public class gamemanager : MonoBehaviour
     [SerializeField] GameObject bossEnemy;
     [SerializeField] GameObject exitDoor;
 
+    [SerializeField] TMP_Text waveCounter;
+    [SerializeField] TMP_Text zombieCounter;
+    [SerializeField] TMP_Text exitDistanceText;
 
     public Image playerHPBar;
     public GameObject player;
@@ -25,7 +28,7 @@ public class gamemanager : MonoBehaviour
 
     float timeScaleOrig;
 
-    int gameGoalCount;
+    int gameExitDistance;
     public int enemiesAlive;
     int currentWave;
 
@@ -88,9 +91,11 @@ public class gamemanager : MonoBehaviour
     // TO DO: NEED TO UPDATE FOR GAME GOAL TO BE RELATED TO EXIT
     public void updateGameGoal(int amount)
     {
-        gameGoalCount += amount;
+        waveCounter.text = currentWave.ToString("F0");
+        zombieCounter.text = enemiesAlive.ToString("F0");
+        gameExitDistance += amount;
 
-        if (gameGoalCount <= 0)
+        if (gameExitDistance <= 0)
         {
             statePause();
 
@@ -109,8 +114,11 @@ public class gamemanager : MonoBehaviour
 
     void startWave1()
     {
-        currentWave = 1;
+        currentWave = 1;        
         enemiesAlive = wave1Enemies.Length;
+        updateGameGoal(currentWave);
+        updateGameGoal(enemiesAlive);
+
 
         for (int i = 0;
             i < wave1Enemies.Length;
@@ -124,6 +132,9 @@ public class gamemanager : MonoBehaviour
     {
         currentWave = 2;
         enemiesAlive = wave1Enemies.Length;
+        updateGameGoal(currentWave);
+        updateGameGoal(enemiesAlive);
+
 
         for (int i = 0;
             i < wave2Enemies.Length;
@@ -135,16 +146,20 @@ public class gamemanager : MonoBehaviour
 
     void startFinalWave()
     {
-        currentWave = 3;
+        currentWave = 3;    
         enemiesAlive = 1;
+        updateGameGoal(currentWave);
+        updateGameGoal(enemiesAlive);
 
         bossEnemy.SetActive(true);
         exitDoor.SetActive(true);
+        //updateGameGoal(exitDoor);
     }
 
     public void EnemyKilled()
     {
         enemiesAlive--;
+        zombieCounter.text = enemiesAlive.ToString("F0");
 
         if (enemiesAlive <= 0)
         {
