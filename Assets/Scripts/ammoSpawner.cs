@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class ammoSpawner : MonoBehaviour
@@ -19,11 +20,19 @@ public class ammoSpawner : MonoBehaviour
 
     public void SpawnAmmo()
     {
-        int rand = Random.Range(0, spawnPoints.Length);
+        for (int i = 0; i < spawnPoints.Length; i++)
+        {
+            int rand = Random.Range(0,spawnPoints.Length);
 
-        Instantiate(ammoPrefab, spawnPoints[rand].position, Quaternion.identity);
+            Transform spawn = spawnPoints[rand];
 
-        currentAmmo++;
+            if(spawn.childCount == 0)
+            {
+                Instantiate(ammoPrefab, spawn.position, Quaternion.identity, spawn);
+                currentAmmo++;
+                return;
+            }
+        }
     }
 
     public void AmmoPickedUp()
@@ -32,12 +41,18 @@ public class ammoSpawner : MonoBehaviour
 
         if(currentAmmo < maxAmmoOnMap)
         {
-            SpawnAmmo();
+            StartCoroutine(DelayedSpawn());
         }
     }
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    IEnumerator DelayedSpawn()
+    {
+        yield return new WaitForSeconds(Random.Range(10f,15f)); //Spawner waits 10-15 seconds.
+        SpawnAmmo();
     }
 }

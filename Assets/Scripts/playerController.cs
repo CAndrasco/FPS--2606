@@ -133,4 +133,9 @@ public class playerController : MonoBehaviour, IDamage
         }
     }
 
+    public bool IsAmmoFull()
+    {
+           return ammo >= ammoMax;
+    }
+
 }
