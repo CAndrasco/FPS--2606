@@ -83,4 +83,11 @@ public class enemyAI_1 : MonoBehaviour, IDamage
         yield return new WaitForSeconds(0.1f);
         model.material.color = colorOrig;
     }
+
+    void Die()
+    {
+        gamemanager.instance.EnemyKilled();
+        Destroy(gameObject);
+    }
+
 }
