@@ -1731,6 +1731,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9059011329850586006, guid: 3b50c13872eb23146a5f672626c6c232, type: 3}
   m_PrefabInstance: {fileID: 93160281}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &93160283 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7899732704068702132, guid: 3b50c13872eb23146a5f672626c6c232, type: 3}
+  m_PrefabInstance: {fileID: 93160281}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &107516268
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8140,6 +8145,11 @@ PrefabInstance:
 --- !u!4 &462546188 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9059011329850586006, guid: 3b50c13872eb23146a5f672626c6c232, type: 3}
+  m_PrefabInstance: {fileID: 462546187}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &462546189 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7899732704068702132, guid: 3b50c13872eb23146a5f672626c6c232, type: 3}
   m_PrefabInstance: {fileID: 462546187}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &463076005
@@ -17667,6 +17677,11 @@ PrefabInstance:
 --- !u!4 &999112990 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9059011329850586006, guid: 3b50c13872eb23146a5f672626c6c232, type: 3}
+  m_PrefabInstance: {fileID: 999112989}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &999112991 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7899732704068702132, guid: 3b50c13872eb23146a5f672626c6c232, type: 3}
   m_PrefabInstance: {fileID: 999112989}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1005484188
@@ -38363,7 +38378,7 @@ PrefabInstance:
       objectReference: {fileID: 4521076617702838691}
     - target: {fileID: 5906421719905582758, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
       propertyPath: exitSpawnPoints.Array.size
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5906421719905582758, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
       propertyPath: 'wave1Enemies.Array.data[0]'
@@ -38377,6 +38392,18 @@ PrefabInstance:
       propertyPath: 'exitSpawnPoints.Array.data[0]'
       value: 
       objectReference: {fileID: 1895672438195813301}
+    - target: {fileID: 5906421719905582758, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
+      propertyPath: 'exitSpawnPoints.Array.data[1]'
+      value: 
+      objectReference: {fileID: 999112991}
+    - target: {fileID: 5906421719905582758, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
+      propertyPath: 'exitSpawnPoints.Array.data[2]'
+      value: 
+      objectReference: {fileID: 93160283}
+    - target: {fileID: 5906421719905582758, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
+      propertyPath: 'exitSpawnPoints.Array.data[3]'
+      value: 
+      objectReference: {fileID: 462546189}
     - target: {fileID: 6424365242768191520, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
       propertyPath: m_Sprite
       value: 
