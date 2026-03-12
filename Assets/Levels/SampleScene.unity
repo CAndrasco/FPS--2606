@@ -13162,6 +13162,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6074984731780554633, guid: 3c48d3ea4b1a8d24e9be16c973cd11a4, type: 3}
   m_PrefabInstance: {fileID: 708222881}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &708356099 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 439323840951162396, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
+  m_PrefabInstance: {fileID: 4521076617702838689}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &710814847
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38263,6 +38268,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 439323840951162396, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1132448473043984572, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
+      propertyPath: m_text
+      value: 00
+      objectReference: {fileID: 0}
     - target: {fileID: 3117771623133158805, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -38343,6 +38356,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3447420704851475574, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3447420704851475574, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3447420704851475574, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -165
+      objectReference: {fileID: 0}
     - target: {fileID: 4747715365328208025, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
       propertyPath: m_Name
       value: UI
@@ -38360,6 +38385,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1125194534}
     - target: {fileID: 5906421719905582758, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
+      propertyPath: exitDistance
+      value: 
+      objectReference: {fileID: 708356099}
+    - target: {fileID: 5906421719905582758, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
       propertyPath: zombieCounter
       value: 
       objectReference: {fileID: 4521076617702838690}
@@ -38375,6 +38404,18 @@ PrefabInstance:
       propertyPath: 'wave2Enemies.Array.data[0]'
       value: 
       objectReference: {fileID: 8238446433986063799, guid: 318413c6e461e36459f136de0b4a6b11, type: 3}
+    - target: {fileID: 6424365242768191520, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 61b571b265f3a5941910825c6d7e5bbd, type: 3}
+    - target: {fileID: 7275828650038995309, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
+      propertyPath: m_Name
+      value: Meters
+      objectReference: {fileID: 0}
+    - target: {fileID: 8579334478586249448, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 132.3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

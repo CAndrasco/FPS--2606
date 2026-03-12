@@ -10,6 +10,7 @@ public class gamemanager : MonoBehaviour
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
+    [SerializeField] GameObject exitDistance;
 
     [SerializeField] GameObject[] wave1Enemies;
     [SerializeField] GameObject[] wave2Enemies;
@@ -28,9 +29,11 @@ public class gamemanager : MonoBehaviour
 
     float timeScaleOrig;
 
-    int gameExitDistance;
+    float gameExitDistance;
     public int enemiesAlive;
     int currentWave;
+
+    
 
 
     void Awake()
@@ -64,6 +67,23 @@ public class gamemanager : MonoBehaviour
                 stateUnpause();
             }
         }
+
+        // Real time distance tracking
+        // Only runs if exit door exists (wave 3)
+        if (exitDoor != null && exitDoor.activeInHierarchy)
+        {
+            exitDistance.SetActive(true);
+
+            float actualDistance = Vector3.Distance(player.transform.position, exitDoor.transform.position);
+            exitDistanceText.text = actualDistance.ToString("F0");
+
+            if(actualDistance <= 1.5f)
+            {
+                statePause();
+                menuActive = menuWin;
+                menuActive.SetActive(true);
+            }
+        }        
     }
 
     public void statePause()
@@ -93,9 +113,9 @@ public class gamemanager : MonoBehaviour
     {
         waveCounter.text = currentWave.ToString("F0");
         zombieCounter.text = enemiesAlive.ToString("F0");
-        gameExitDistance += amount;
+        gameExitDistance = Vector3.Distance(player.transform.position, exitDoor.transform.position);
 
-        if (gameExitDistance <= 0)
+        if (gameExitDistance <= 1.0f)
         {
             statePause();
 
