@@ -16,6 +16,7 @@ public class gamemanager : MonoBehaviour
     [SerializeField] GameObject[] wave2Enemies;
     [SerializeField] GameObject bossEnemy;
     [SerializeField] GameObject exitDoor;
+    [SerializeField] Transform[] exitSpawnPoints;
 
     [SerializeField] TMP_Text waveCounter;
     [SerializeField] TMP_Text zombieCounter;
@@ -143,7 +144,7 @@ public class gamemanager : MonoBehaviour
     void startWave2()
     {
         currentWave = 2;
-        enemiesAlive = wave1Enemies.Length;
+        enemiesAlive = wave2Enemies.Length;
         updateGameGoal(currentWave);
         updateGameGoal(enemiesAlive);
 
@@ -160,10 +161,17 @@ public class gamemanager : MonoBehaviour
     {
         currentWave = 3;    
         enemiesAlive = 1;
+
         updateGameGoal(currentWave);
         updateGameGoal(enemiesAlive);
 
         bossEnemy.SetActive(true);
+
+        int randomIndex = Random.Range(0, exitSpawnPoints.Length);
+
+        exitDoor.transform.position = exitSpawnPoints[randomIndex].position;
+        exitDoor.transform.rotation = exitSpawnPoints[randomIndex].rotation;
+
         exitDoor.SetActive(true);
         
     }
