@@ -38,15 +38,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6597627880196345542, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.2
+      value: -6.115978
       objectReference: {fileID: 0}
     - target: {fileID: 6597627880196345542, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.2
+      value: 0.5309795
       objectReference: {fileID: 0}
     - target: {fileID: 6597627880196345542, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.5
+      value: 1.1357534
       objectReference: {fileID: 0}
     - target: {fileID: 6597627880196345542, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -108,10 +108,49 @@ PrefabInstance:
     - {fileID: 6498389369074501924, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2938328406469731072, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 958280544990338827}
   m_SourcePrefab: {fileID: 100100000, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
+--- !u!4 &6552860583673677187 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1585646510303490095, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
+  m_PrefabInstance: {fileID: 5544272964343395756}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7221026108860012204 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2938328406469731072, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
   m_PrefabInstance: {fileID: 5544272964343395756}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &958280544990338827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7221026108860012204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fed10b89bacb0be4993d2e5208093361, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::gunSystem
+  damage: 10
+  timeBetweenShooting: 2
+  spread: 0
+  range: 20
+  reloadTime: 2
+  timeBetweenShots: 3
+  magazineSize: 12
+  bulletsPerTap: 1
+  allowButtonHold: 0
+  fpsCam: {fileID: 0}
+  attackPoint: {fileID: 6552860583673677187}
+  whatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 128
+  muzzleFlash: {fileID: 1000010254994808, guid: 9defeac88977c0d448aa4541073ee9e4, type: 3}
+  bulletHoleGraphic: {fileID: 1000010844420130, guid: 4edabb1c0dde62743b137378c7d22980, type: 3}
+  camShakeMagnitude: 0
+  camShakeDuration: 0
+  text: {fileID: 0}
