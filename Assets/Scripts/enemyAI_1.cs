@@ -39,6 +39,9 @@ public class enemyAI_1 : MonoBehaviour, IDamage
 
     void Start()
     {
+        if (agent == null)
+            agent = GetComponent<NavMeshAgent>(); // Try to get the NavMeshAgent component if not assigned in the inspector
+        
         colorOrig = model.material.color;
         gamemanager.instance.updateGameGoal(1);
         startingPos = transform.position;
@@ -48,7 +51,10 @@ public class enemyAI_1 : MonoBehaviour, IDamage
     // Update is called once per frame
     void Update()
     {
-        if(agent.remainingDistance < 0.01f)
+        if (agent == null) 
+            return; // If agent is still null, exit the Update method to avoid errors
+
+        if (agent.remainingDistance < 0.01f)
         {
             roamTimer += Time.deltaTime;
         }
