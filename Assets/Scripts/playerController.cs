@@ -1,4 +1,6 @@
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class playerController : MonoBehaviour, IDamage
 {
@@ -23,6 +25,8 @@ public class playerController : MonoBehaviour, IDamage
 
     [SerializeField] int ammo = 0; //Player current ammo.
     [SerializeField] int ammoMax = 10; //Player max ammo.
+    [SerializeField] TMP_Text ammoCountText;
+    [SerializeField] TMP_Text ammoMaxText;
 
     int HPOriginal; //Players original health.
     float shootTimer; //Timer for the shoot rate.
@@ -84,6 +88,7 @@ public class playerController : MonoBehaviour, IDamage
     {
         shootTimer = 0;
         ammo--;
+        ammoCountText.text = ammo.ToString("F0");
 
         RaycastHit hit;
 
@@ -107,6 +112,7 @@ public class playerController : MonoBehaviour, IDamage
     public void AddAmmo(int amount)
     {
         ammo += amount;
+        ammoCountText.text = ammo.ToString("F0");
 
         if (ammo > ammoMax)
         {
@@ -130,6 +136,7 @@ public class playerController : MonoBehaviour, IDamage
         if (gamemanager.instance != null && gamemanager.instance.playerHPBar != null)
         {
             gamemanager.instance.playerHPBar.fillAmount = (float)HP / HPOriginal;
+            ammoMaxText.text = ammoMax.ToString("F0");
         }
     }
 
