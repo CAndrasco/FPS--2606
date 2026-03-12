@@ -11,6 +11,12 @@ public class gamemanager : MonoBehaviour
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
 
+    [SerializeField] GameObject[] wave1Enemies;
+    [SerializeField] GameObject[] wave2Enemies;
+    [SerializeField] GameObject bossEnemy;
+    [SerializeField] GameObject exitDoor;
+
+
     public Image playerHPBar;
     public GameObject player;
     public playerController playerScript;
@@ -18,7 +24,11 @@ public class gamemanager : MonoBehaviour
     public bool isPaused;
 
     float timeScaleOrig;
+
     int gameGoalCount;
+    public int enemiesAlive;
+    int currentWave;
+
 
     void Awake()
     {
@@ -29,6 +39,12 @@ public class gamemanager : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<playerController>();
     }
+
+    void Start()
+    {
+        startWave1();
+    }
+
 
     void Update()
     {
@@ -90,4 +106,61 @@ public class gamemanager : MonoBehaviour
         menuActive = menuLose;
         menuActive.SetActive(true);
     }
+
+    void startWave1()
+    {
+        currentWave = 1;
+        enemiesAlive = wave1Enemies.Length;
+
+        for (int i = 0;
+            i < wave1Enemies.Length;
+            i++)
+        {
+            wave1Enemies[i].SetActive(true);
+        }
+    }
+
+    void startWave2()
+    {
+        currentWave = 2;
+        enemiesAlive = wave1Enemies.Length;
+
+        for (int i = 0;
+            i < wave2Enemies.Length;
+            i++)
+        {
+            wave2Enemies[i].SetActive(true);
+        }
+    }
+
+    void startFinalWave()
+    {
+        currentWave = 3;
+        enemiesAlive = 1;
+
+        bossEnemy.SetActive(true);
+        exitDoor.SetActive(true);
+    }
+
+    public void EnemyKilled()
+    {
+        enemiesAlive--;
+
+        if (enemiesAlive <= 0)
+        {
+            if (currentWave == 1)
+            {
+                startWave2();
+            }
+            else if (currentWave == 2)
+            {
+                startFinalWave();
+            }
+            else if (currentWave == 3)
+            {
+                exitDoor.SetActive(true);
+            }
+        }
+    }
+
 }
