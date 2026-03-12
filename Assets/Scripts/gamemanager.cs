@@ -171,7 +171,7 @@ public class gamemanager : MonoBehaviour
     public void EnemyKilled()
     {
         enemiesAlive--;
-        zombieCounter.text = enemiesAlive.ToString("F0");
+        updateGameGoal(enemiesAlive);
 
         if (enemiesAlive <= 0)
         {
