@@ -38364,6 +38364,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4521076617702838690}
     - target: {fileID: 5906421719905582758, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
+      propertyPath: exitDistanceText
+      value: 
+      objectReference: {fileID: 4521076617702838691}
+    - target: {fileID: 5906421719905582758, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
       propertyPath: 'wave1Enemies.Array.data[0]'
       value: 
       objectReference: {fileID: 8238446433986063799, guid: 318413c6e461e36459f136de0b4a6b11, type: 3}
@@ -38379,6 +38383,17 @@ PrefabInstance:
 --- !u!114 &4521076617702838690 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8475319063927286634, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
+  m_PrefabInstance: {fileID: 4521076617702838689}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &4521076617702838691 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1132448473043984572, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
   m_PrefabInstance: {fileID: 4521076617702838689}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
