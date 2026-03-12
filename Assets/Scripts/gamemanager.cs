@@ -17,7 +17,7 @@ public class gamemanager : MonoBehaviour
     [SerializeField] GameObject exitDoor;
 
     [SerializeField] TMP_Text waveCounter;
-
+    [SerializeField] TMP_Text zombieCounter;
 
     public Image playerHPBar;
     public GameObject player;
@@ -115,7 +115,7 @@ public class gamemanager : MonoBehaviour
         waveCounter.text = currentWave.ToString("F0");
 
         enemiesAlive = wave1Enemies.Length;
-        
+        zombieCounter.text = enemiesAlive.ToString("F0");
 
         for (int i = 0;
             i < wave1Enemies.Length;
@@ -131,7 +131,8 @@ public class gamemanager : MonoBehaviour
         waveCounter.text = currentWave.ToString("F0");
 
         enemiesAlive = wave1Enemies.Length;
-        
+        zombieCounter.text = enemiesAlive.ToString("F0");
+
 
         for (int i = 0;
             i < wave2Enemies.Length;
@@ -147,6 +148,7 @@ public class gamemanager : MonoBehaviour
         waveCounter.text = currentWave.ToString("F0");
 
         enemiesAlive = 1;
+        zombieCounter.text = enemiesAlive.ToString("F0");
 
         bossEnemy.SetActive(true);
         exitDoor.SetActive(true);
@@ -155,6 +157,7 @@ public class gamemanager : MonoBehaviour
     public void EnemyKilled()
     {
         enemiesAlive--;
+        zombieCounter.text = enemiesAlive.ToString("F0");
 
         if (enemiesAlive <= 0)
         {
