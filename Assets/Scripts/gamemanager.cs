@@ -16,6 +16,8 @@ public class gamemanager : MonoBehaviour
     [SerializeField] GameObject bossEnemy;
     [SerializeField] GameObject exitDoor;
 
+    [SerializeField] TMP_Text waveCounter;
+
 
     public Image playerHPBar;
     public GameObject player;
@@ -110,7 +112,10 @@ public class gamemanager : MonoBehaviour
     void startWave1()
     {
         currentWave = 1;
+        waveCounter.text = currentWave.ToString("F0");
+
         enemiesAlive = wave1Enemies.Length;
+        
 
         for (int i = 0;
             i < wave1Enemies.Length;
@@ -123,7 +128,10 @@ public class gamemanager : MonoBehaviour
     void startWave2()
     {
         currentWave = 2;
+        waveCounter.text = currentWave.ToString("F0");
+
         enemiesAlive = wave1Enemies.Length;
+        
 
         for (int i = 0;
             i < wave2Enemies.Length;
@@ -136,6 +144,8 @@ public class gamemanager : MonoBehaviour
     void startFinalWave()
     {
         currentWave = 3;
+        waveCounter.text = currentWave.ToString("F0");
+
         enemiesAlive = 1;
 
         bossEnemy.SetActive(true);
