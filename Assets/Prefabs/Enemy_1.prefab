@@ -205,13 +205,15 @@ MonoBehaviour:
   ignoreLayer:
     serializedVersion: 2
     m_Bits: 0
-  HP: 0
-  Weapon: {fileID: 0}
-  damageRate: 0
-  armHittingPos1: {fileID: 0}
-  armHittingPos2: {fileID: 0}
   armPivot1: {fileID: 0}
   armPivot2: {fileID: 0}
+  HP: 0
+  FOV: 0
+  faceTargetSpeed: 0
+  armRotateSpeed: 0
+  sprintSpeed: 0
+  roamPauseTime: 0
+  roamDistance: 0
 --- !u!1 &1867673755391165305
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,13 +306,15 @@ MonoBehaviour:
   ignoreLayer:
     serializedVersion: 2
     m_Bits: 0
-  HP: 0
-  Weapon: {fileID: 0}
-  damageRate: 0
-  armHittingPos1: {fileID: 0}
-  armHittingPos2: {fileID: 0}
   armPivot1: {fileID: 0}
   armPivot2: {fileID: 0}
+  HP: 0
+  FOV: 0
+  faceTargetSpeed: 0
+  armRotateSpeed: 0
+  sprintSpeed: 0
+  roamPauseTime: 0
+  roamDistance: 0
 --- !u!1 &3904305690433731649
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,13 +445,15 @@ MonoBehaviour:
   ignoreLayer:
     serializedVersion: 2
     m_Bits: 0
-  HP: 0
-  Weapon: {fileID: 0}
-  damageRate: 0
-  armHittingPos1: {fileID: 0}
-  armHittingPos2: {fileID: 0}
   armPivot1: {fileID: 0}
   armPivot2: {fileID: 0}
+  HP: 0
+  FOV: 0
+  faceTargetSpeed: 0
+  armRotateSpeed: 0
+  sprintSpeed: 0
+  roamPauseTime: 0
+  roamDistance: 0
 --- !u!1 &4370921157812302114
 GameObject:
   m_ObjectHideFlags: 0
@@ -579,13 +585,15 @@ MonoBehaviour:
   ignoreLayer:
     serializedVersion: 2
     m_Bits: 0
-  HP: 12
-  Weapon: {fileID: 0}
-  damageRate: 0
-  armHittingPos1: {fileID: 0}
-  armHittingPos2: {fileID: 0}
   armPivot1: {fileID: 0}
   armPivot2: {fileID: 0}
+  HP: 12
+  FOV: 0
+  faceTargetSpeed: 0
+  armRotateSpeed: 0
+  sprintSpeed: 0
+  roamPauseTime: 0
+  roamDistance: 0
 --- !u!1 &4443590485992561070
 GameObject:
   m_ObjectHideFlags: 0
@@ -725,13 +733,15 @@ MonoBehaviour:
   ignoreLayer:
     serializedVersion: 2
     m_Bits: 4
+  armPivot1: {fileID: 8003060256469032987}
+  armPivot2: {fileID: 9058326924972794208}
   HP: 1
-  Weapon: {fileID: 0}
-  damageRate: 1
-  armHittingPos1: {fileID: 0}
-  armHittingPos2: {fileID: 0}
-  armPivot1: {fileID: 0}
-  armPivot2: {fileID: 0}
+  FOV: 50
+  faceTargetSpeed: 5
+  armRotateSpeed: 5
+  sprintSpeed: 3
+  roamPauseTime: 3
+  roamDistance: 5
 --- !u!195 &4864030295495642535
 NavMeshAgent:
   m_ObjectHideFlags: 0
