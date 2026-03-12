@@ -39,9 +39,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1007760352027637245, guid: 8b5b9a9b6f4c6f144bd9fb99bd0c5ff2, type: 3}
+      propertyPath: gunPrefabToEquip
+      value: 
+      objectReference: {fileID: 2676681772555506062}
     - target: {fileID: 3932706328845010544, guid: 8b5b9a9b6f4c6f144bd9fb99bd0c5ff2, type: 3}
       propertyPath: m_Name
       value: ShotGun_equipped
+      objectReference: {fileID: 0}
+    - target: {fileID: 3932706328845010544, guid: 8b5b9a9b6f4c6f144bd9fb99bd0c5ff2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5443675323332205978, guid: 8b5b9a9b6f4c6f144bd9fb99bd0c5ff2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -92,6 +100,11 @@ PrefabInstance:
       addedObject: {fileID: 4058461925875458220}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b5b9a9b6f4c6f144bd9fb99bd0c5ff2, type: 3}
+--- !u!1 &2676681772555506062 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3932706328845010544, guid: 8b5b9a9b6f4c6f144bd9fb99bd0c5ff2, type: 3}
+  m_PrefabInstance: {fileID: 1420529931054733310}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6358358849226099300 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5443675323332205978, guid: 8b5b9a9b6f4c6f144bd9fb99bd0c5ff2, type: 3}

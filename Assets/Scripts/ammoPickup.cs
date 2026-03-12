@@ -1,17 +1,35 @@
 using UnityEngine;
-
+//If you see this you're safe to work. 
 public class ammoPickup : MonoBehaviour
 {
     [SerializeField] int ammoAmount = 1;
 
-    void OnTriggerEnter(Collider other)
-    {
-        playerController player = other.GetComponent<playerController>();
+    bool pickedUp = false;
 
-        if (player != null)
+    private void OnTriggerEnter(Collider other)
+    {
+        if (pickedUp) return;
+
+        if (other.CompareTag("Player"))
         {
-            player.AddAmmo(ammoAmount);
-            Destroy(gameObject);
+            playerController player = other.GetComponent<playerController>();
+
+            if (player != null ) 
+            {
+                if (player.IsAmmoFull())
+                    return;
+
+                pickedUp = true;
+
+                player.AddAmmo(ammoAmount);
+
+                FindFirstObjectByType<ammoSpawner>().AmmoPickedUp();
+
+                GetComponent<Collider>().enabled = false;
+
+                Destroy(gameObject);
+
+            }
         }
     }
 }
