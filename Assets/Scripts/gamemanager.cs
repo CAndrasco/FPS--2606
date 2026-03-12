@@ -113,15 +113,7 @@ public class gamemanager : MonoBehaviour
     {
         waveCounter.text = currentWave.ToString("F0");
         zombieCounter.text = enemiesAlive.ToString("F0");
-        gameExitDistance = Vector3.Distance(player.transform.position, exitDoor.transform.position);
-
-        if (gameExitDistance <= 1.0f)
-        {
-            statePause();
-
-            menuActive = menuWin;
-            menuActive.SetActive(true);
-        }
+        
     }
 
     public void youLose()
