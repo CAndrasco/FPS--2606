@@ -8,35 +8,118 @@ public class enemyAI_1 : MonoBehaviour, IDamage
     [SerializeField] Renderer model;
     [SerializeField] NavMeshAgent agent;
     [SerializeField] LayerMask ignoreLayer;
+    //[SerializeField] Transform armHittingPos1;
+    //[SerializeField] Transform armHittingPos2;
+    [SerializeField] Transform armPivot1;
+    [SerializeField] Transform armPivot2;
 
     [Header("---- Enemy Settings ----")]
     [SerializeField] int HP;
-    [SerializeField] GameObject Weapon;
-    [SerializeField] float damageRate;
-    [SerializeField] Transform armHittingPos1;
-    [SerializeField] Transform armHittingPos2;
-    [SerializeField] Transform armPivot1;
-    [SerializeField] Transform armPivot2;
+    //[SerializeField] GameObject Weapon;
+    //[SerializeField] float damageRate;
+    [SerializeField] int FOV;
+    [SerializeField] int faceTargetSpeed;
+    [SerializeField] int armRotateSpeed;
+    [SerializeField] int sprintSpeed;
+    [SerializeField] int roamPauseTime;
+    [SerializeField] int roamDistance;
+    
 
     Color colorOrig;
 
     bool playerInRange;
 
-    float damageTimer;
+    float roamTimer;
+    float angleToPlayer;
+    float stoppingDistanceOG;
+
+    Vector3 playerDir;
+    Vector3 startingPos;
+
 
     void Start()
     {
         colorOrig = model.material.color;
         gamemanager.instance.updateGameGoal(1);
+        startingPos = transform.position;
+        stoppingDistanceOG = agent.stoppingDistance;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (playerInRange)
+        if(agent.remainingDistance < 0.01f)
         {
-            agent.SetDestination(gamemanager.instance.player.transform.position);
+            roamTimer += Time.deltaTime;
         }
+        if(playerInRange && !CanSeePlayer())
+        {
+            CheckRoam();
+        }
+        else if(!playerInRange)
+        {
+            CheckRoam();
+        }
+    }
+
+    void CheckRoam()
+    {
+        if(agent.remainingDistance < 0.01f && roamTimer >= roamPauseTime)
+        {
+            Roam();
+        }
+    }
+
+    void Roam()
+    {
+        roamTimer = 0;
+        agent.stoppingDistance = 0;
+
+        Vector3 ranPos = Random.insideUnitSphere * roamDistance;
+        ranPos += startingPos;
+
+        NavMeshHit hit;
+        NavMesh.SamplePosition(ranPos, out hit, roamDistance, 1);
+        agent.SetDestination(hit.position);
+    }
+
+    bool CanSeePlayer()
+    {
+        playerDir = gamemanager.instance.player.transform.position - transform.position;
+        angleToPlayer = Vector3.Angle(playerDir, transform.forward);
+
+        Debug.DrawRay(transform.position, playerDir);
+
+        RaycastHit hit;
+        if(Physics.Raycast(transform.position,playerDir, out hit))
+        {
+            if (hit.collider.CompareTag("Player") && angleToPlayer <= FOV)
+            {
+                agent.SetDestination(gamemanager.instance.player.transform.position);
+                if(agent.remainingDistance <= agent.stoppingDistance)
+                {
+                    FaceTarget();
+                }
+                ArmRotate();
+                agent.stoppingDistance = stoppingDistanceOG;
+                return true;
+            }
+        }
+        agent.stoppingDistance = 0;
+        return false;
+    }
+
+    void FaceTarget()
+    {
+        Quaternion rot = Quaternion.LookRotation(playerDir);
+        transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * faceTargetSpeed);
+    }
+
+    void ArmRotate()
+    {
+        Quaternion rot = Quaternion.LookRotation(playerDir);
+        armPivot1.rotation = Quaternion.Lerp(armPivot1.rotation, rot, Time.deltaTime * armRotateSpeed);
+        armPivot2.rotation = Quaternion.Lerp(armPivot2.rotation, rot, Time.deltaTime * armRotateSpeed);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -55,19 +138,14 @@ public class enemyAI_1 : MonoBehaviour, IDamage
         }
     }
 
-    //void Shoot()
-    //{
-    //    damageTimer = 0;
-    //    Instantiate(Weapon, armHittingPos1.position, armPivot1.rotation);
-    //    Instantiate(Weapon, armHittingPos2.position, armPivot2.rotation);
-    //}
 
     public void TakeDamage(int damage)
     {
         HP -= damage;
         if(HP <= 0)
         {
-            gamemanager.instance.updateGameGoal(-1);
+            //gamemanager.instance.updateGameGoal(-1);
+            gamemanager.instance.EnemyKilled();
             Destroy(gameObject);
         }
         else

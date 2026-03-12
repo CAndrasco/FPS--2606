@@ -3105,6 +3105,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6074984731780554633, guid: 3c48d3ea4b1a8d24e9be16c973cd11a4, type: 3}
   m_PrefabInstance: {fileID: 203262089}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &204468386 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9058326924972794208, guid: 318413c6e461e36459f136de0b4a6b11, type: 3}
+  m_PrefabInstance: {fileID: 1659845956485728407}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &214314005
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17183,6 +17188,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &972269184 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8003060256469032987, guid: 318413c6e461e36459f136de0b4a6b11, type: 3}
+  m_PrefabInstance: {fileID: 1659845956485728407}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &975742290
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38053,8 +38063,36 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5655699479728536229, guid: 318413c6e461e36459f136de0b4a6b11, type: 3}
+      propertyPath: FOV
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5655699479728536229, guid: 318413c6e461e36459f136de0b4a6b11, type: 3}
+      propertyPath: armPivot1
+      value: 
+      objectReference: {fileID: 972269184}
+    - target: {fileID: 5655699479728536229, guid: 318413c6e461e36459f136de0b4a6b11, type: 3}
+      propertyPath: armPivot2
+      value: 
+      objectReference: {fileID: 204468386}
+    - target: {fileID: 5655699479728536229, guid: 318413c6e461e36459f136de0b4a6b11, type: 3}
       propertyPath: damageRate
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5655699479728536229, guid: 318413c6e461e36459f136de0b4a6b11, type: 3}
+      propertyPath: roamDistance
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5655699479728536229, guid: 318413c6e461e36459f136de0b4a6b11, type: 3}
+      propertyPath: roamPauseTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5655699479728536229, guid: 318413c6e461e36459f136de0b4a6b11, type: 3}
+      propertyPath: armRotateSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5655699479728536229, guid: 318413c6e461e36459f136de0b4a6b11, type: 3}
+      propertyPath: faceTargetSpeed
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5694716347597922731, guid: 318413c6e461e36459f136de0b4a6b11, type: 3}
       propertyPath: m_IsTrigger
@@ -38667,6 +38705,14 @@ PrefabInstance:
     - target: {fileID: 1056400876730552527, guid: db58ea134af84e744adaffb1e4faaf1e, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2805294043178702588, guid: db58ea134af84e744adaffb1e4faaf1e, type: 3}
+      propertyPath: ammo
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2805294043178702588, guid: db58ea134af84e744adaffb1e4faaf1e, type: 3}
+      propertyPath: shootDist
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2805294043178702588, guid: db58ea134af84e744adaffb1e4faaf1e, type: 3}
       propertyPath: ammoMaxText
