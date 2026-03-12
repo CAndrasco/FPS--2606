@@ -41,7 +41,10 @@ public class enemyAI_1 : MonoBehaviour, IDamage
     {
         if (agent == null)
             agent = GetComponent<NavMeshAgent>(); // Try to get the NavMeshAgent component if not assigned in the inspector
-        
+
+        if(model == null)
+            model = GetComponentInChildren<Renderer>(); // Try to get the Renderer component from children if not assigned in the inspector
+
         colorOrig = model.material.color;
         gamemanager.instance.updateGameGoal(1);
         startingPos = transform.position;
