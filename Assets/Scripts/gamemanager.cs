@@ -10,11 +10,13 @@ public class gamemanager : MonoBehaviour
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
+    [SerializeField] GameObject exitDistance;
 
     [SerializeField] GameObject[] wave1Enemies;
     [SerializeField] GameObject[] wave2Enemies;
     [SerializeField] GameObject bossEnemy;
     [SerializeField] GameObject exitDoor;
+    [SerializeField] Transform[] exitSpawnPoints;
 
     [SerializeField] TMP_Text waveCounter;
     [SerializeField] TMP_Text zombieCounter;
@@ -28,9 +30,11 @@ public class gamemanager : MonoBehaviour
 
     float timeScaleOrig;
 
-    int gameExitDistance;
+    float gameExitDistance;
     public int enemiesAlive;
     int currentWave;
+
+    
 
 
     void Awake()
@@ -64,6 +68,23 @@ public class gamemanager : MonoBehaviour
                 stateUnpause();
             }
         }
+
+        // Real time distance tracking
+        // Only runs if exit door exists (wave 3)
+        if (exitDoor != null && exitDoor.activeInHierarchy)
+        {
+            exitDistance.SetActive(true);
+
+            float actualDistance = Vector3.Distance(player.transform.position, exitDoor.transform.position);
+            exitDistanceText.text = actualDistance.ToString("F0");
+
+            if(actualDistance <= 1.5f)
+            {
+                statePause();
+                menuActive = menuWin;
+                menuActive.SetActive(true);
+            }
+        }        
     }
 
     public void statePause()
@@ -93,15 +114,7 @@ public class gamemanager : MonoBehaviour
     {
         waveCounter.text = currentWave.ToString("F0");
         zombieCounter.text = enemiesAlive.ToString("F0");
-        gameExitDistance += amount;
-
-        if (gameExitDistance <= 0)
-        {
-            statePause();
-
-            menuActive = menuWin;
-            menuActive.SetActive(true);
-        }
+        
     }
 
     public void youLose()
@@ -131,7 +144,7 @@ public class gamemanager : MonoBehaviour
     void startWave2()
     {
         currentWave = 2;
-        enemiesAlive = wave1Enemies.Length;
+        enemiesAlive = wave2Enemies.Length;
         updateGameGoal(currentWave);
         updateGameGoal(enemiesAlive);
 
@@ -148,18 +161,25 @@ public class gamemanager : MonoBehaviour
     {
         currentWave = 3;    
         enemiesAlive = 1;
+
         updateGameGoal(currentWave);
         updateGameGoal(enemiesAlive);
 
         bossEnemy.SetActive(true);
+
+        int randomIndex = Random.Range(0, exitSpawnPoints.Length);
+
+        exitDoor.transform.position = exitSpawnPoints[randomIndex].position;
+        exitDoor.transform.rotation = exitSpawnPoints[randomIndex].rotation;
+
         exitDoor.SetActive(true);
-        //updateGameGoal(exitDoor);
+        
     }
 
     public void EnemyKilled()
     {
         enemiesAlive--;
-        zombieCounter.text = enemiesAlive.ToString("F0");
+        updateGameGoal(enemiesAlive);
 
         if (enemiesAlive <= 0)
         {
