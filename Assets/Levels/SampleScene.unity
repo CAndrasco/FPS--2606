@@ -38113,6 +38113,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1918142684621055338, guid: 318413c6e461e36459f136de0b4a6b11, type: 3}
+      propertyPath: Type
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4477199607182763505, guid: 318413c6e461e36459f136de0b4a6b11, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.49
@@ -38153,9 +38157,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5655699479728536229, guid: 318413c6e461e36459f136de0b4a6b11, type: 3}
+      propertyPath: damageRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5694716347597922731, guid: 318413c6e461e36459f136de0b4a6b11, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504988990981144378, guid: 318413c6e461e36459f136de0b4a6b11, type: 3}
+      propertyPath: damageAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7747910369614393439, guid: 318413c6e461e36459f136de0b4a6b11, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8238446433986063799, guid: 318413c6e461e36459f136de0b4a6b11, type: 3}
       propertyPath: m_Name
       value: Enemy_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8448004998393012059, guid: 318413c6e461e36459f136de0b4a6b11, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9146814718610241476, guid: 318413c6e461e36459f136de0b4a6b11, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -38500,6 +38528,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pistol
       objectReference: {fileID: 0}
+    - target: {fileID: 2938328406469731072, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3072909308907789526, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -38604,65 +38636,8 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 7168910072796038027, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2938328406469731072, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
-      insertIndex: 1
-      addedObject: {fileID: 5244095179027891261}
-    - targetCorrespondingSourceObject: {fileID: 2938328406469731072, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
-      insertIndex: 2
-      addedObject: {fileID: 5244095179027891266}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
---- !u!1 &5244095179027891259 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2938328406469731072, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
-  m_PrefabInstance: {fileID: 5244095179027891258}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5244095179027891261
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5244095179027891259}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cbd6f4272cdeb8438f695171220a8dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Damage
-  Type: 0
-  rb: {fileID: 5244095179027891266}
-  damageAmount: 0
-  damageRate: 0
-  speed: 0
-  destroyTime: 0
-  hitEffect: {fileID: 0}
---- !u!54 &5244095179027891266
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5244095179027891259}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1001 &7666618896053911066
 PrefabInstance:
   m_ObjectHideFlags: 0
