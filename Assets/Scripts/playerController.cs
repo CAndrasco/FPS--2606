@@ -100,12 +100,8 @@ public class playerController : MonoBehaviour, IDamage
         {
             Debug.Log(hit.collider.name);
 
-            IDamage dmg = hit.collider.GetComponent<IDamage>();
+           
 
-            if (dmg != null)
-            {
-                dmg.TakeDamage(shootDamage);
-            }
         }
     }
 

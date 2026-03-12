@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Damage
   Type: 2
   rb: {fileID: 0}
-  damageAmount: 2
+  damageAmount: 1
   damageRate: 0
   speed: 0
   destroyTime: 0
@@ -68,7 +68,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 5110298387253400342}
   - component: {fileID: 7579213692473034382}
   - component: {fileID: 8448004998393012059}
+  - component: {fileID: 7377762902860881553}
   m_Layer: 7
   m_Name: Arm
   m_TagString: Untagged
@@ -181,12 +182,36 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7377762902860881553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1228515706732534375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ee4851c93dee3b4080bfdada487a885, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::enemyAI_1
+  model: {fileID: 0}
+  agent: {fileID: 0}
+  ignoreLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  HP: 0
+  Weapon: {fileID: 0}
+  damageRate: 0
+  armHittingPos1: {fileID: 0}
+  armHittingPos2: {fileID: 0}
+  armPivot1: {fileID: 0}
+  armPivot2: {fileID: 0}
 --- !u!1 &1867673755391165305
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,6 +223,7 @@ GameObject:
   - component: {fileID: 8003060256469032987}
   - component: {fileID: 8444805629097369326}
   - component: {fileID: 5534160186988055076}
+  - component: {fileID: 501894373527684556}
   m_Layer: 7
   m_Name: Arm_1 Pivot
   m_TagString: Untagged
@@ -261,6 +287,30 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &501894373527684556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1867673755391165305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ee4851c93dee3b4080bfdada487a885, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::enemyAI_1
+  model: {fileID: 0}
+  agent: {fileID: 0}
+  ignoreLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  HP: 0
+  Weapon: {fileID: 0}
+  damageRate: 0
+  armHittingPos1: {fileID: 0}
+  armHittingPos2: {fileID: 0}
+  armPivot1: {fileID: 0}
+  armPivot2: {fileID: 0}
 --- !u!1 &3904305690433731649
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,6 +323,7 @@ GameObject:
   - component: {fileID: 5939223715752560184}
   - component: {fileID: 5295893043653774952}
   - component: {fileID: 2543083371072846477}
+  - component: {fileID: 8038978017701512878}
   m_Layer: 7
   m_Name: Face
   m_TagString: Untagged
@@ -373,6 +424,30 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8038978017701512878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3904305690433731649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ee4851c93dee3b4080bfdada487a885, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::enemyAI_1
+  model: {fileID: 0}
+  agent: {fileID: 0}
+  ignoreLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  HP: 0
+  Weapon: {fileID: 0}
+  damageRate: 0
+  armHittingPos1: {fileID: 0}
+  armHittingPos2: {fileID: 0}
+  armPivot1: {fileID: 0}
+  armPivot2: {fileID: 0}
 --- !u!1 &4370921157812302114
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,6 +460,7 @@ GameObject:
   - component: {fileID: 951774711290884011}
   - component: {fileID: 7449347962220785556}
   - component: {fileID: 9146814718610241476}
+  - component: {fileID: 6370536506669962007}
   m_Layer: 7
   m_Name: Arm
   m_TagString: Untagged
@@ -480,12 +556,36 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6370536506669962007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4370921157812302114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ee4851c93dee3b4080bfdada487a885, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::enemyAI_1
+  model: {fileID: 0}
+  agent: {fileID: 0}
+  ignoreLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  HP: 12
+  Weapon: {fileID: 0}
+  damageRate: 0
+  armHittingPos1: {fileID: 0}
+  armHittingPos2: {fileID: 0}
+  armPivot1: {fileID: 0}
+  armPivot2: {fileID: 0}
 --- !u!1 &4443590485992561070
 GameObject:
   m_ObjectHideFlags: 0
@@ -624,10 +724,10 @@ MonoBehaviour:
   agent: {fileID: 4864030295495642535}
   ignoreLayer:
     serializedVersion: 2
-    m_Bits: 0
-  HP: 5
+    m_Bits: 4
+  HP: 1
   Weapon: {fileID: 0}
-  damageRate: 0
+  damageRate: 1
   armHittingPos1: {fileID: 0}
   armHittingPos2: {fileID: 0}
   armPivot1: {fileID: 0}
@@ -726,7 +826,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2

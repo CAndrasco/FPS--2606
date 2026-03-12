@@ -47,7 +47,7 @@ public class Damage : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         if(other.isTrigger) return;
-        IDamage dmg = other.GetComponent<IDamage>();
+        IDamage dmg = other.GetComponentInParent<IDamage>();
 
         if(dmg != null && Type == damageType.DOT && !isDamaging)
         {
