@@ -98,19 +98,19 @@ public class playerController : MonoBehaviour, IDamage
                 shootDist,
                 ~ignoreLayer))
         {
-            Debug.Log(hit.collider.name);
+            //Debug.Log(hit.collider.name);
 
-            IDamage damageable = hit.collider.GetComponent<IDamage>();
+            //IDamage damageable = hit.collider.GetComponent<IDamage>();
 
-            if (damageable == null)
-            {
-                damageable = hit.collider.GetComponentInParent<IDamage>();
-            }
+            //if (damageable == null)
+            //{
+            //    damageable = hit.collider.GetComponentInParent<IDamage>();
+            //}
 
-            if (damageable != null)
-            {
-                damageable.TakeDamage(shootDamage);
-            }
+            //if (damageable != null)
+            //{
+            //    damageable.TakeDamage(shootDamage);
+            //}
         }
     }
 

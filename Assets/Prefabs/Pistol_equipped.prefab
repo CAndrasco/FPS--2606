@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fed10b89bacb0be4993d2e5208093361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gunSystem
-  damage: 100
+  damage: 1
   timeBetweenShooting: 0.25
   spread: 0
   range: 20

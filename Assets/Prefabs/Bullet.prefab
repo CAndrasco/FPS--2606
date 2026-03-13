@@ -99,8 +99,8 @@ MonoBehaviour:
   rb: {fileID: 8828778867334372685}
   damageAmount: 5
   damageRate: 0
-  speed: 100
-  destroyTime: 5
+  speed: 120
+  destroyTime: 10
   hitEffect: {fileID: 0}
 --- !u!96 &3326551375704089316
 TrailRenderer:

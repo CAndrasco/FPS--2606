@@ -42,19 +42,53 @@ public class gunSystem : MonoBehaviour
     private void Update()
     {
         MyInput();
-
-
-        //SetText
-        //text.SetText(bulletsLeft + " / " + magazineSize);
+        UpdateAmmoUI();
     }
+    public void AddAmmo(int amount)
+    {
+        bulletsLeft += amount;
+
+        if (bulletsLeft > magazineSize)
+        {
+            bulletsLeft = magazineSize;
+        }
+
+        UpdateAmmoUI();
+    }
+
+    public bool IsAmmoFull()
+    {
+        return bulletsLeft >= magazineSize;
+    }
+
+    public int GetCurrentAmmo()
+    {
+        return bulletsLeft;
+    }
+
+    public int GetMaxAmmo()
+    {
+        return magazineSize;
+    }
+
+    private void UpdateAmmoUI()
+    {
+        if (text != null)
+        {
+            text.SetText(bulletsLeft + " / " + magazineSize);
+        }
+    }
+
     private void MyInput()
     {
         if (allowButtonHold) shooting = Input.GetKey(KeyCode.Mouse0);
         else shooting = Input.GetKeyDown(KeyCode.Mouse0);
 
 
-        if (Input.GetKeyDown(KeyCode.R) && bulletsLeft < magazineSize && !reloading) Reload();
-
+        if (Input.GetKeyDown(KeyCode.R) && bulletsLeft < magazineSize && !reloading)
+        {
+            Reload();
+        }
 
         //Shoot
         if (readyToShoot && shooting && !reloading && bulletsLeft > 0)
@@ -63,6 +97,7 @@ public class gunSystem : MonoBehaviour
             Shoot();
         }
     }
+
     private void Shoot()
     {
         readyToShoot = false;
