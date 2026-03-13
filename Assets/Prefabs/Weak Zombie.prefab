@@ -597,7 +597,7 @@ GameObject:
   - component: {fileID: 5694716347597922731}
   - component: {fileID: 4820609747303075557}
   m_Layer: 7
-  m_Name: Enemy_1
+  m_Name: Weak Zombie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -612,8 +612,8 @@ Transform:
   m_GameObject: {fileID: 8238446433986063799}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.49, y: 1.45, z: 25.12918}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalPosition: {x: -2.49, y: -1.82155, z: 25.12918}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2286615654277135334}
