@@ -24,7 +24,7 @@ public class playerController : MonoBehaviour, IDamage
     [Header("---- Ammo ----")]
 
     [SerializeField] int ammo = 0; //Player current ammo.
-    [SerializeField] int ammoMax = 10; //Player max ammo.
+    [SerializeField] int ammoMax = 8; // Max ammo = 8 for a standard pistol.
     [SerializeField] TMP_Text ammoCountText;
     [SerializeField] TMP_Text ammoMaxText;
 
