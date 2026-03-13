@@ -23,7 +23,9 @@ public class enemyAI_1 : MonoBehaviour, IDamage
     [SerializeField] int sprintSpeed;
     [SerializeField] int roamPauseTime;
     [SerializeField] int roamDistance;
-    
+    [SerializeField] float flashlightSlowMultiplier = 0.2f; // How much the enemy's speed is reduced when in the player's flashlight
+    [SerializeField] float flashlightCheckDistance = 20f; // The distance at which the enemy checks if it's in the player's flashlight
+
 
     Color colorOrig;
 
@@ -54,6 +56,15 @@ public class enemyAI_1 : MonoBehaviour, IDamage
     // Update is called once per frame
     void Update()
     {
+        if (HitByFlashlight()) // Check if the enemy is currently being hit by the player's flashlight
+        {
+            agent.speed = sprintSpeed * flashlightSlowMultiplier; // Reduce speed when hit by flashlight
+        }
+        else
+        {
+            agent.speed = sprintSpeed; // Reset to normal speed when not hit by flashlight
+        }
+
         if (agent == null) 
             return; // If agent is still null, exit the Update method to avoid errors
 
@@ -175,6 +186,23 @@ public class enemyAI_1 : MonoBehaviour, IDamage
     {
         gamemanager.instance.EnemyKilled();
         Destroy(gameObject);
+    }
+
+    bool HitByFlashlight() // This method checks if the enemy is currently being hit by the player's flashlight
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(Camera.main.transform.position,
+            Camera.main.transform.forward,
+            out hit,
+            flashlightCheckDistance))
+        {
+            if (hit.collider.GetComponentInParent<enemyAI_1>() == this)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
