@@ -537,7 +537,7 @@ MonoBehaviour:
   FOV: 60
   faceTargetSpeed: 6
   armRotateSpeed: 6
-  sprintSpeed: 6
+  sprintSpeed: 8
   roamPauseTime: 0
   roamDistance: 0
   flashlightSlowMultiplier: 0.01
