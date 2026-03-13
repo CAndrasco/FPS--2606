@@ -176,12 +176,6 @@ public class enemyAI_1 : MonoBehaviour, IDamage
         }
     }
 
-    //void Die()
-    //{
-    //    gamemanager.instance.EnemyKilled();
-    //    Destroy(gameObject);
-    //}
-
     bool HitByFlashlight() // This method checks if the enemy is currently being hit by the player's flashlight
     {
         RaycastHit hit;
