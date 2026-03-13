@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 
 public class gunSystem : MonoBehaviour
@@ -8,11 +7,12 @@ public class gunSystem : MonoBehaviour
     public float timeBetweenShooting, spread, range, reloadTime, timeBetweenShots;
     public int magazineSize, bulletsPerTap;
     public bool allowButtonHold;
-    int bulletsLeft, bulletsShot;
+    int bulletsShot;
     public GameObject bulletPrefab;
 
     //bools 
     bool shooting, readyToShoot, reloading;
+    bool triggerReleased = true; // This variable tracks whether the trigger has been released since the last shot, preventing continuous shooting when the mouse button is held down.
 
 
     //Reference
@@ -26,12 +26,14 @@ public class gunSystem : MonoBehaviour
     public GameObject muzzleFlash, bulletHoleGraphic;
   
     public float camShakeMagnitude, camShakeDuration;
-    public TextMeshProUGUI text;
+
+    playerController player; // Reference to the playerController script.
 
 
     private void Awake()
     {
-        bulletsLeft = magazineSize;
+        player = FindFirstObjectByType<playerController>(); // Find the playerController script in the scene and assign it to the player variable.
+
         readyToShoot = true;
 
         if (fpsCam == null)
@@ -42,64 +44,32 @@ public class gunSystem : MonoBehaviour
     private void Update()
     {
         MyInput();
-        UpdateAmmoUI();
-    }
-    public void AddAmmo(int amount)
-    {
-        bulletsLeft += amount;
-
-        if (bulletsLeft > magazineSize)
-        {
-            bulletsLeft = magazineSize;
-        }
-
-        UpdateAmmoUI();
-    }
-
-    public bool IsAmmoFull()
-    {
-        return bulletsLeft >= magazineSize;
-    }
-
-    public int GetCurrentAmmo()
-    {
-        return bulletsLeft;
-    }
-
-    public int GetMaxAmmo()
-    {
-        return magazineSize;
-    }
-
-    private void UpdateAmmoUI()
-    {
-        if (text != null)
-        {
-            text.SetText(bulletsLeft + " / " + magazineSize);
-        }
+        //UpdateAmmoUI();
     }
 
     private void MyInput()
     {
-        if (allowButtonHold) shooting = Input.GetKey(KeyCode.Mouse0);
-        else shooting = Input.GetKeyDown(KeyCode.Mouse0);
+        if (Input.GetMouseButtonUp(0))
+            triggerReleased = true;
 
+        if (triggerReleased && Input.GetMouseButtonDown(0) && readyToShoot && !reloading && player.GetCurrentAmmo() > 0)
+        {
+            triggerReleased = false;
+            Shoot();
+        }
 
-        if (Input.GetKeyDown(KeyCode.R) && bulletsLeft < magazineSize && !reloading)
+        if (Input.GetKeyDown(KeyCode.R) && player.GetCurrentAmmo() < magazineSize && !reloading)
         {
             Reload();
         }
 
-        //Shoot
-        if (readyToShoot && shooting && !reloading && bulletsLeft > 0)
-        {
-            bulletsShot = bulletsPerTap;
-            Shoot();
-        }
+        
     }
 
     private void Shoot()
     {
+        Debug.Log("Shoot called on: " + gameObject.name + " frame: " + Time.frameCount); // Log the name of the gun that is shooting for debugging purposes.
+
         readyToShoot = false;
 
         Vector3 targetPoint;
@@ -133,15 +103,10 @@ public class gunSystem : MonoBehaviour
             Instantiate(muzzleFlash, attackPoint.position, attackPoint.rotation);
         }
 
-        bulletsLeft--;
-        bulletsShot--;
+        player.UseAmmo(1); // Tell the playerController script that ammo has been used.
 
         Invoke("ResetShot", timeBetweenShooting);
 
-        if (bulletsShot > 0 && bulletsLeft > 0)
-        {
-            Invoke("Shoot", timeBetweenShots);
-        }
     }
     private void ResetShot()
     {
@@ -154,7 +119,6 @@ public class gunSystem : MonoBehaviour
     }
     private void ReloadFinished()
     {
-        bulletsLeft = magazineSize;
         reloading = false;
     }
 }

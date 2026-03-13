@@ -105,11 +105,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: e887d87137be633418031cffb54b00aa, type: 2}
     - target: {fileID: 8955946602591783545, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8955946602591783545, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
       propertyPath: gunPrefabToEquip
       value: 
       objectReference: {fileID: 7221026108860012204}
     m_RemovedComponents:
     - {fileID: 6498389369074501924, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
+    - {fileID: 8955946602591783545, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -145,9 +150,9 @@ MonoBehaviour:
   range: 20
   reloadTime: 2
   timeBetweenShots: 0.25
-  magazineSize: 12
+  magazineSize: 8
   bulletsPerTap: 1
-  allowButtonHold: 1
+  allowButtonHold: 0
   bulletPrefab: {fileID: 4959019289503928211, guid: 19608346e8ef5984fb1a5a04ab4b0069, type: 3}
   fpsCam: {fileID: 0}
   attackPoint: {fileID: 6552860583673677187}
@@ -158,4 +163,3 @@ MonoBehaviour:
   bulletHoleGraphic: {fileID: 1000010844420130, guid: 4edabb1c0dde62743b137378c7d22980, type: 3}
   camShakeMagnitude: 0
   camShakeDuration: 0
-  text: {fileID: 0}

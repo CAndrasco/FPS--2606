@@ -70,10 +70,12 @@ public class playerController : MonoBehaviour, IDamage
         playerVel.y -= gravity * Time.deltaTime;
         controller.Move(playerVel * Time.deltaTime);
 
-        if (Input.GetButton("Fire1") && shootTimer >= shootRate && ammo > 0)
-        {
-            shoot();
-        }
+        //if (Input.GetButton("Fire1") && shootTimer >= shootRate && ammo > 0)
+        //{
+        //    shoot();
+        //}
+
+        //Shooting handled by gunSystem.
     }
 
     void flashlightToggle()
@@ -84,38 +86,27 @@ public class playerController : MonoBehaviour, IDamage
         }
     }
 
-    void shoot()
-    {
-        if (ammo <= 0)
-            return;
+    // Shooting handled by gunSystem.
 
-        shootTimer = 0;
-        ammo--;
-        updatePlayerUI();
+    //void shoot()
+    //{
+    //    if (ammo <= 0)
+    //        return;
 
-        RaycastHit hit;
+    //    shootTimer = 0;
+    //    ammo--;
+    //    updatePlayerUI();
 
-        if (Physics.Raycast(Camera.main.transform.position,
-                Camera.main.transform.forward,
-                out hit,
-                shootDist,
-                ~ignoreLayer))
-        {
-            //Debug.Log(hit.collider.name);
+    //    RaycastHit hit;
 
-            //IDamage damageable = hit.collider.GetComponent<IDamage>();
-
-            //if (damageable == null)
-            //{
-            //    damageable = hit.collider.GetComponentInParent<IDamage>();
-            //}
-
-            //if (damageable != null)
-            //{
-            //    damageable.TakeDamage(shootDamage);
-            //}
-        }
-    }
+    //    if (Physics.Raycast(Camera.main.transform.position,
+    //            Camera.main.transform.forward,
+    //            out hit,
+    //            shootDist,
+    //            ~ignoreLayer))
+        
+          
+    //}
 
     public void AddAmmo(int amount)
     {
@@ -153,6 +144,20 @@ public class playerController : MonoBehaviour, IDamage
     public bool IsAmmoFull()
     {
            return ammo >= ammoMax;
+    }
+
+    public int GetCurrentAmmo()
+    {
+        return ammo;
+    }
+
+    public void UseAmmo(int amount)
+    {
+        ammo -= amount;
+        if (ammo < 0)
+            ammo = 0;
+
+        updatePlayerUI();
     }
 
 }

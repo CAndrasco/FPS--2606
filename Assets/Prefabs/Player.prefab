@@ -72,11 +72,13 @@ MonoBehaviour:
   speed: 10
   gravity: 20
   flashlight: {fileID: 7513640841776570450}
-  shootDamage: 2
+  shootDamage: 1
   shootDist: 15
   shootRate: 0.5
   ammo: 0
-  ammoMax: 6
+  ammoMax: 8
+  ammoCountText: {fileID: 0}
+  ammoMaxText: {fileID: 0}
 --- !u!143 &6353500568661966218
 CharacterController:
   m_ObjectHideFlags: 0
