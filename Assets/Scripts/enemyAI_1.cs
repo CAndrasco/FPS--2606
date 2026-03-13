@@ -46,7 +46,7 @@ public class enemyAI_1 : MonoBehaviour, IDamage
             model = GetComponentInChildren<Renderer>(); // Try to get the Renderer component from children if not assigned in the inspector
 
         colorOrig = model.material.color;
-        gamemanager.instance.updateGameGoal(1);
+        //gamemanager.instance.updateGameGoal();
         startingPos = transform.position;
         stoppingDistanceOG = agent.stoppingDistance;
     }

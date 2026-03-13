@@ -73,10 +73,9 @@ public class gamemanager : MonoBehaviour
         // Only runs if exit door exists (wave 3)
         if (exitDoor != null && exitDoor.activeInHierarchy)
         {
-            exitDistance.SetActive(true);
-
+            
             float actualDistance = Vector3.Distance(player.transform.position, exitDoor.transform.position);
-            exitDistanceText.text = actualDistance.ToString("F0");
+            exitDistanceText.text = actualDistance.ToString("F0") + "m";
 
             if(actualDistance <= 1.5f)
             {
@@ -110,7 +109,7 @@ public class gamemanager : MonoBehaviour
     }
 
     
-    public void updateGameGoal(int amount)
+    public void updateGameGoal()
     {
         waveCounter.text = currentWave.ToString("F0");
         zombieCounter.text = enemiesAlive.ToString("F0");
@@ -129,8 +128,8 @@ public class gamemanager : MonoBehaviour
     {
         currentWave = 1;        
         enemiesAlive = wave1Enemies.Length;
-        updateGameGoal(currentWave);
-        updateGameGoal(enemiesAlive);
+        updateGameGoal();
+        
 
 
         for (int i = 0;
@@ -145,8 +144,8 @@ public class gamemanager : MonoBehaviour
     {
         currentWave = 2;
         enemiesAlive = wave2Enemies.Length;
-        updateGameGoal(currentWave);
-        updateGameGoal(enemiesAlive);
+        updateGameGoal();
+        
 
 
         for (int i = 0;
@@ -162,8 +161,8 @@ public class gamemanager : MonoBehaviour
         currentWave = 3;    
         enemiesAlive = 1;
 
-        updateGameGoal(currentWave);
-        updateGameGoal(enemiesAlive);
+        updateGameGoal();
+        
 
         bossEnemy.SetActive(true);
 
@@ -173,13 +172,14 @@ public class gamemanager : MonoBehaviour
         exitDoor.transform.rotation = exitSpawnPoints[randomIndex].rotation;
 
         exitDoor.SetActive(true);
+        exitDistance.SetActive(true);
         
     }
 
     public void EnemyKilled()
     {
         enemiesAlive--;
-        updateGameGoal(enemiesAlive);
+        
 
         if (enemiesAlive <= 0)
         {
@@ -190,12 +190,18 @@ public class gamemanager : MonoBehaviour
             else if (currentWave == 2)
             {
                 startFinalWave();
-            }
-            else if (currentWave == 3)
-            {
                 exitDoor.SetActive(true);
             }
         }
+        else
+        {
+            updateGameGoal();
+        }
+            //else if (currentWave == 3)
+            //{
+            //    exitDoor.SetActive(true);
+            //}
+        
     }
 
 }
