@@ -41,14 +41,23 @@ public class gamemanager : MonoBehaviour
     {
         instance = this;
 
-        timeScaleOrig = Time.timeScale;
+        Time.timeScale = 1;
+        timeScaleOrig = 1;
 
         player = GameObject.FindWithTag("Player");
-        playerScript = player.GetComponent<playerController>();
+
+        if(player != null)
+        {
+            playerScript = player.GetComponent<playerController>();
+        }
+        
     }
 
     void Start()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
         startWave1();
     }
 
