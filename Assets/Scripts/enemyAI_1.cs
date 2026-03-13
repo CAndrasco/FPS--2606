@@ -8,15 +8,11 @@ public class enemyAI_1 : MonoBehaviour, IDamage
     [SerializeField] Renderer model;
     [SerializeField] NavMeshAgent agent;
     [SerializeField] LayerMask ignoreLayer;
-    //[SerializeField] Transform armHittingPos1;
-    //[SerializeField] Transform armHittingPos2;
     [SerializeField] Transform armPivot1;
     [SerializeField] Transform armPivot2;
 
     [Header("---- Enemy Settings ----")]
     [SerializeField] int HP;
-    //[SerializeField] GameObject Weapon;
-    //[SerializeField] float damageRate;
     [SerializeField] int FOV;
     [SerializeField] int faceTargetSpeed;
     [SerializeField] int armRotateSpeed;
@@ -26,14 +22,14 @@ public class enemyAI_1 : MonoBehaviour, IDamage
     [SerializeField] float flashlightSlowMultiplier = 0.2f; // How much the enemy's speed is reduced when in the player's flashlight
     [SerializeField] float flashlightCheckDistance = 20f; // The distance at which the enemy checks if it's in the player's flashlight
 
-
-    Color colorOrig;
+    Color OGcolor;
 
     bool playerInRange;
 
     float roamTimer;
     float angleToPlayer;
     float stoppingDistanceOG;
+    float OGSpeed;
 
     Vector3 playerDir;
     Vector3 startingPos;
@@ -47,8 +43,8 @@ public class enemyAI_1 : MonoBehaviour, IDamage
         if(model == null)
             model = GetComponentInChildren<Renderer>(); // Try to get the Renderer component from children if not assigned in the inspector
 
-        colorOrig = model.material.color;
-        //gamemanager.instance.updateGameGoal();
+        OGcolor = model.material.color;
+        OGSpeed = agent.speed;
         startingPos = transform.position;
         stoppingDistanceOG = agent.stoppingDistance;
     }
@@ -58,11 +54,11 @@ public class enemyAI_1 : MonoBehaviour, IDamage
     {
         if (HitByFlashlight()) // Check if the enemy is currently being hit by the player's flashlight
         {
-            agent.speed = sprintSpeed * flashlightSlowMultiplier; // Reduce speed when hit by flashlight
+            agent.speed = OGSpeed * flashlightSlowMultiplier; // Reduce speed when hit by flashlight
         }
         else
         {
-            agent.speed = sprintSpeed; // Reset to normal speed when not hit by flashlight
+            agent.speed = OGSpeed; // Reset to normal speed when not hit by flashlight
         }
 
         if (agent == null) 
@@ -116,6 +112,10 @@ public class enemyAI_1 : MonoBehaviour, IDamage
             if (hit.collider.CompareTag("Player") && angleToPlayer <= FOV)
             {
                 agent.SetDestination(gamemanager.instance.player.transform.position);
+                if (!HitByFlashlight())
+                {
+                    agent.speed = sprintSpeed; 
+                }
                 if(agent.remainingDistance <= agent.stoppingDistance)
                 {
                     FaceTarget();
@@ -164,22 +164,13 @@ public class enemyAI_1 : MonoBehaviour, IDamage
         HP -= damage;
         if(HP <= 0)
         {
-            //gamemanager.instance.updateGameGoal(-1);
             gamemanager.instance.EnemyKilled();
             Destroy(gameObject);
         }
         else
         {
-            StartCoroutine(flashRed());
+            StartCoroutine(FlashRed());
         }
-    }
-
-    //just to check enemies are taking damage wont be needed in final build
-    IEnumerator flashRed()
-    {
-        model.material.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        model.material.color = colorOrig;
     }
 
     void Die()
@@ -203,6 +194,13 @@ public class enemyAI_1 : MonoBehaviour, IDamage
             }
         }
         return false;
+    }
+
+    IEnumerator FlashRed()
+    {
+        model.material.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        model.material.color = OGcolor;
     }
 
 }
