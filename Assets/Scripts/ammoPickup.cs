@@ -9,27 +9,31 @@ public class ammoPickup : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (pickedUp) return;
+        if (!other.CompareTag("Player")) return;
 
-        if (other.CompareTag("Player"))
+        gunSystem gun = other.GetComponentInChildren<gunSystem>();
+
+        if (gun == null)
         {
-            playerController player = other.GetComponent<playerController>();
-
-            if (player != null ) 
-            {
-                if (player.IsAmmoFull())
-                    return;
-
-                pickedUp = true;
-
-                player.AddAmmo(ammoAmount);
-
-                FindFirstObjectByType<ammoSpawner>().AmmoPickedUp();
-
-                GetComponent<Collider>().enabled = false;
-
-                Destroy(gameObject);
-
-            }
+            Debug.LogWarning("No gunSystem found on player.");
+            return;
         }
+
+        if (gun.IsAmmoFull())
+            return;
+
+        pickedUp = true;
+
+        gun.AddAmmo(ammoAmount);
+
+        ammoSpawner spawner = FindFirstObjectByType<ammoSpawner>();
+        if (spawner != null)
+        {
+            spawner.AmmoPickedUp();
+        }
+
+        GetComponent<Collider>().enabled = false;
+        Destroy(gameObject);
+
     }
 }

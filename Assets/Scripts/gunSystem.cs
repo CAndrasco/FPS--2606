@@ -9,7 +9,7 @@ public class gunSystem : MonoBehaviour
     public int magazineSize, bulletsPerTap;
     public bool allowButtonHold;
     int bulletsLeft, bulletsShot;
-
+    public GameObject bulletPrefab;
 
     //bools 
     bool shooting, readyToShoot, reloading;
@@ -33,23 +33,62 @@ public class gunSystem : MonoBehaviour
     {
         bulletsLeft = magazineSize;
         readyToShoot = true;
+
+        if (fpsCam == null)
+        {
+            fpsCam = Camera.main;
+        }
     }
     private void Update()
     {
         MyInput();
-
-
-        //SetText
-        text.SetText(bulletsLeft + " / " + magazineSize);
+        UpdateAmmoUI();
     }
+    public void AddAmmo(int amount)
+    {
+        bulletsLeft += amount;
+
+        if (bulletsLeft > magazineSize)
+        {
+            bulletsLeft = magazineSize;
+        }
+
+        UpdateAmmoUI();
+    }
+
+    public bool IsAmmoFull()
+    {
+        return bulletsLeft >= magazineSize;
+    }
+
+    public int GetCurrentAmmo()
+    {
+        return bulletsLeft;
+    }
+
+    public int GetMaxAmmo()
+    {
+        return magazineSize;
+    }
+
+    private void UpdateAmmoUI()
+    {
+        if (text != null)
+        {
+            text.SetText(bulletsLeft + " / " + magazineSize);
+        }
+    }
+
     private void MyInput()
     {
         if (allowButtonHold) shooting = Input.GetKey(KeyCode.Mouse0);
         else shooting = Input.GetKeyDown(KeyCode.Mouse0);
 
 
-        if (Input.GetKeyDown(KeyCode.R) && bulletsLeft < magazineSize && !reloading) Reload();
-
+        if (Input.GetKeyDown(KeyCode.R) && bulletsLeft < magazineSize && !reloading)
+        {
+            Reload();
+        }
 
         //Shoot
         if (readyToShoot && shooting && !reloading && bulletsLeft > 0)
@@ -58,48 +97,51 @@ public class gunSystem : MonoBehaviour
             Shoot();
         }
     }
+
     private void Shoot()
     {
         readyToShoot = false;
 
+        Vector3 targetPoint;
 
-        //Spread
+        // Aim from center of camera
+        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out rayHit, range))
+        {
+            targetPoint = rayHit.point;
+        }
+        else
+        {
+            targetPoint = fpsCam.transform.position + fpsCam.transform.forward * range;
+        }
+
+        // Direction from gun to target
+        Vector3 directionWithoutSpread = targetPoint - attackPoint.position;
+
+        // Spread
         float x = Random.Range(-spread, spread);
         float y = Random.Range(-spread, spread);
 
+        Vector3 directionWithSpread = directionWithoutSpread + new Vector3(x, y, 0);
 
-        //Calculate Direction with Spread
-        Vector3 direction = fpsCam.transform.forward + new Vector3(x, y, 0);
+        // Spawn bullet
+        GameObject currentBullet = Instantiate(bulletPrefab, attackPoint.position, Quaternion.identity);
+        currentBullet.transform.forward = directionWithSpread.normalized;
 
-
-        //RayCast
-        if (Physics.Raycast(fpsCam.transform.position, direction, out rayHit, range, whatIsEnemy))
+        // Spawn muzzle flash
+        if (muzzleFlash != null)
         {
-            Debug.Log(rayHit.collider.name);
-
-
-            if (rayHit.collider.CompareTag("Enemy"))
-                rayHit.collider.GetComponent<IDamage>().TakeDamage(damage);
+            Instantiate(muzzleFlash, attackPoint.position, attackPoint.rotation);
         }
-
-
-  
-
-
-        //Graphics
-        Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.Euler(0, 180, 0));
-        Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);
-
 
         bulletsLeft--;
         bulletsShot--;
 
-
         Invoke("ResetShot", timeBetweenShooting);
 
-
         if (bulletsShot > 0 && bulletsLeft > 0)
+        {
             Invoke("Shoot", timeBetweenShots);
+        }
     }
     private void ResetShot()
     {

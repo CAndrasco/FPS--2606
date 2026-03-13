@@ -88,7 +88,7 @@ public class playerController : MonoBehaviour, IDamage
     {
         shootTimer = 0;
         ammo--;
-        ammoCountText.text = ammo.ToString("F0");
+        updatePlayerUI();
 
         RaycastHit hit;
 
@@ -98,21 +98,26 @@ public class playerController : MonoBehaviour, IDamage
                 shootDist,
                 ~ignoreLayer))
         {
-            Debug.Log(hit.collider.name);
+            //Debug.Log(hit.collider.name);
 
-            IDamage dmg = hit.collider.GetComponent<IDamage>();
+            //IDamage damageable = hit.collider.GetComponent<IDamage>();
 
-            if (dmg != null)
-            {
-                dmg.TakeDamage(shootDamage);
-            }
+            //if (damageable == null)
+            //{
+            //    damageable = hit.collider.GetComponentInParent<IDamage>();
+            //}
+
+            //if (damageable != null)
+            //{
+            //    damageable.TakeDamage(shootDamage);
+            //}
         }
     }
 
     public void AddAmmo(int amount)
     {
         ammo += amount;
-        ammoCountText.text = ammo.ToString("F0");
+        updatePlayerUI();
 
         if (ammo > ammoMax)
         {
@@ -136,6 +141,7 @@ public class playerController : MonoBehaviour, IDamage
         if (gamemanager.instance != null && gamemanager.instance.playerHPBar != null)
         {
             gamemanager.instance.playerHPBar.fillAmount = (float)HP / HPOriginal;
+            ammoCountText.text = ammo.ToString("F0");
             ammoMaxText.text = ammoMax.ToString("F0");
         }
     }

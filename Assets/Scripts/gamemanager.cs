@@ -41,14 +41,23 @@ public class gamemanager : MonoBehaviour
     {
         instance = this;
 
-        timeScaleOrig = Time.timeScale;
+        Time.timeScale = 1;
+        timeScaleOrig = 1;
 
         player = GameObject.FindWithTag("Player");
-        playerScript = player.GetComponent<playerController>();
+
+        if(player != null)
+        {
+            playerScript = player.GetComponent<playerController>();
+        }
+        
     }
 
     void Start()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
         startWave1();
     }
 
@@ -73,12 +82,11 @@ public class gamemanager : MonoBehaviour
         // Only runs if exit door exists (wave 3)
         if (exitDoor != null && exitDoor.activeInHierarchy)
         {
-            exitDistance.SetActive(true);
-
+            
             float actualDistance = Vector3.Distance(player.transform.position, exitDoor.transform.position);
-            exitDistanceText.text = actualDistance.ToString("F0");
+            exitDistanceText.text = actualDistance.ToString("F0") + "m";
 
-            if(actualDistance <= 1.5f)
+            if(actualDistance <= 2.5f)
             {
                 statePause();
                 menuActive = menuWin;
@@ -109,8 +117,8 @@ public class gamemanager : MonoBehaviour
         menuActive = null;
     }
 
-    // TO DO: NEED TO UPDATE FOR GAME GOAL TO BE RELATED TO EXIT
-    public void updateGameGoal(int amount)
+    
+    public void updateGameGoal()
     {
         waveCounter.text = currentWave.ToString("F0");
         zombieCounter.text = enemiesAlive.ToString("F0");
@@ -129,8 +137,8 @@ public class gamemanager : MonoBehaviour
     {
         currentWave = 1;        
         enemiesAlive = wave1Enemies.Length;
-        updateGameGoal(currentWave);
-        updateGameGoal(enemiesAlive);
+        updateGameGoal();
+        
 
 
         for (int i = 0;
@@ -145,8 +153,8 @@ public class gamemanager : MonoBehaviour
     {
         currentWave = 2;
         enemiesAlive = wave2Enemies.Length;
-        updateGameGoal(currentWave);
-        updateGameGoal(enemiesAlive);
+        updateGameGoal();
+        
 
 
         for (int i = 0;
@@ -162,8 +170,8 @@ public class gamemanager : MonoBehaviour
         currentWave = 3;    
         enemiesAlive = 1;
 
-        updateGameGoal(currentWave);
-        updateGameGoal(enemiesAlive);
+        updateGameGoal();
+        
 
         bossEnemy.SetActive(true);
 
@@ -173,13 +181,14 @@ public class gamemanager : MonoBehaviour
         exitDoor.transform.rotation = exitSpawnPoints[randomIndex].rotation;
 
         exitDoor.SetActive(true);
+        exitDistance.SetActive(true);
         
     }
 
     public void EnemyKilled()
     {
         enemiesAlive--;
-        updateGameGoal(enemiesAlive);
+        
 
         if (enemiesAlive <= 0)
         {
@@ -190,12 +199,18 @@ public class gamemanager : MonoBehaviour
             else if (currentWave == 2)
             {
                 startFinalWave();
-            }
-            else if (currentWave == 3)
-            {
                 exitDoor.SetActive(true);
             }
         }
+        else
+        {
+            updateGameGoal();
+        }
+            //else if (currentWave == 3)
+            //{
+            //    exitDoor.SetActive(true);
+            //}
+        
     }
 
 }
