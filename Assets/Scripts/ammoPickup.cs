@@ -11,20 +11,20 @@ public class ammoPickup : MonoBehaviour
         if (pickedUp) return;
         if (!other.CompareTag("Player")) return;
 
-        gunSystem gun = other.GetComponentInChildren<gunSystem>();
+        playerController player = other.GetComponent<playerController>(); // Get the playerController component from the player object.
 
-        if (gun == null)
+        if (player == null) // If the playerController component is not found, log a warning and exit the method.
         {
-            Debug.LogWarning("No gunSystem found on player.");
+            Debug.LogWarning("No playerController found.");
             return;
         }
 
-        if (gun.IsAmmoFull())
+        if (player.IsAmmoFull()) // If the player's ammo is already full, exit the method without picking up the ammo.
             return;
 
         pickedUp = true;
 
-        gun.AddAmmo(ammoAmount);
+        player.AddAmmo(ammoAmount); // Add the specified amount of ammo to the player's ammo count.
 
         ammoSpawner spawner = FindFirstObjectByType<ammoSpawner>();
         if (spawner != null)

@@ -24,7 +24,7 @@ public class playerController : MonoBehaviour, IDamage
     [Header("---- Ammo ----")]
 
     [SerializeField] int ammo = 0; //Player current ammo.
-    [SerializeField] int ammoMax = 10; //Player max ammo.
+    [SerializeField] int ammoMax = 8; // Max ammo = 8 for a standard pistol.
     [SerializeField] TMP_Text ammoCountText;
     [SerializeField] TMP_Text ammoMaxText;
 
@@ -70,10 +70,12 @@ public class playerController : MonoBehaviour, IDamage
         playerVel.y -= gravity * Time.deltaTime;
         controller.Move(playerVel * Time.deltaTime);
 
-        if (Input.GetButton("Fire1") && shootTimer >= shootRate && ammo > 0)
-        {
-            shoot();
-        }
+        //if (Input.GetButton("Fire1") && shootTimer >= shootRate && ammo > 0)
+        //{
+        //    shoot();
+        //}
+
+        //Shooting handled by gunSystem.
     }
 
     void flashlightToggle()
@@ -84,45 +86,38 @@ public class playerController : MonoBehaviour, IDamage
         }
     }
 
-    void shoot()
-    {
-        shootTimer = 0;
-        ammo--;
-        updatePlayerUI();
+    // Shooting handled by gunSystem.
 
-        RaycastHit hit;
+    //void shoot()
+    //{
+    //    if (ammo <= 0)
+    //        return;
 
-        if (Physics.Raycast(Camera.main.transform.position,
-                Camera.main.transform.forward,
-                out hit,
-                shootDist,
-                ~ignoreLayer))
-        {
-            //Debug.Log(hit.collider.name);
+    //    shootTimer = 0;
+    //    ammo--;
+    //    updatePlayerUI();
 
-            //IDamage damageable = hit.collider.GetComponent<IDamage>();
+    //    RaycastHit hit;
 
-            //if (damageable == null)
-            //{
-            //    damageable = hit.collider.GetComponentInParent<IDamage>();
-            //}
-
-            //if (damageable != null)
-            //{
-            //    damageable.TakeDamage(shootDamage);
-            //}
-        }
-    }
+    //    if (Physics.Raycast(Camera.main.transform.position,
+    //            Camera.main.transform.forward,
+    //            out hit,
+    //            shootDist,
+    //            ~ignoreLayer))
+        
+          
+    //}
 
     public void AddAmmo(int amount)
     {
         ammo += amount;
-        updatePlayerUI();
 
         if (ammo > ammoMax)
         {
             ammo = ammoMax;
         }
+
+        updatePlayerUI();
     }
 
     public void TakeDamage(int amount)
@@ -149,6 +144,20 @@ public class playerController : MonoBehaviour, IDamage
     public bool IsAmmoFull()
     {
            return ammo >= ammoMax;
+    }
+
+    public int GetCurrentAmmo()
+    {
+        return ammo;
+    }
+
+    public void UseAmmo(int amount)
+    {
+        ammo -= amount;
+        if (ammo < 0)
+            ammo = 0;
+
+        updatePlayerUI();
     }
 
 }
