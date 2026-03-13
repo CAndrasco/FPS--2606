@@ -77,7 +77,7 @@ public class gamemanager : MonoBehaviour
             float actualDistance = Vector3.Distance(player.transform.position, exitDoor.transform.position);
             exitDistanceText.text = actualDistance.ToString("F0") + "m";
 
-            if(actualDistance <= 1.5f)
+            if(actualDistance <= 2.5f)
             {
                 statePause();
                 menuActive = menuWin;
