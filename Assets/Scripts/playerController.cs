@@ -117,12 +117,13 @@ public class playerController : MonoBehaviour, IDamage
     public void AddAmmo(int amount)
     {
         ammo += amount;
-        updatePlayerUI();
 
         if (ammo > ammoMax)
         {
             ammo = ammoMax;
         }
+
+        updatePlayerUI();
     }
 
     public void TakeDamage(int amount)
