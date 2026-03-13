@@ -86,6 +86,9 @@ public class playerController : MonoBehaviour, IDamage
 
     void shoot()
     {
+        if (ammo <= 0)
+            return;
+
         shootTimer = 0;
         ammo--;
         updatePlayerUI();
