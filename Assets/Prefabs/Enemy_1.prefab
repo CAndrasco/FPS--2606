@@ -612,7 +612,7 @@ Transform:
   m_GameObject: {fileID: 8238446433986063799}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.49, y: 1.0500002, z: 25.12918}
+  m_LocalPosition: {x: -2.49, y: 1.45, z: 25.12918}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -643,11 +643,11 @@ MonoBehaviour:
   armPivot2: {fileID: 9058326924972794208}
   HP: 1
   FOV: 50
-  faceTargetSpeed: 5
-  armRotateSpeed: 5
-  sprintSpeed: 6
+  faceTargetSpeed: 3
+  armRotateSpeed: 3
+  sprintSpeed: 3
   roamPauseTime: 3
-  roamDistance: 5
+  roamDistance: 3
   flashlightSlowMultiplier: 0.01
   flashlightCheckDistance: 200
 --- !u!195 &4864030295495642535
