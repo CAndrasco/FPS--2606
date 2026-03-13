@@ -665,9 +665,11 @@ MonoBehaviour:
   FOV: 50
   faceTargetSpeed: 5
   armRotateSpeed: 5
-  sprintSpeed: 3
+  sprintSpeed: 6
   roamPauseTime: 3
   roamDistance: 5
+  flashlightSlowMultiplier: 0.01
+  flashlightCheckDistance: 200
 --- !u!195 &4864030295495642535
 NavMeshAgent:
   m_ObjectHideFlags: 0
