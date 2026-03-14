@@ -10,7 +10,7 @@ public class exitDoor : MonoBehaviour
         {
             triggered = true;
 
-            gamemanager.instance.updateGameGoal();
+            gamemanager.instance.youWin(); // Call the youWin() method from the gamemanager instance to trigger the win condition when the player enters the exit door.
 
         }
     }

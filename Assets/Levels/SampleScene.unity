@@ -411,6 +411,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5108931305220205028, guid: 1c3ca12ea1a9ae84699a0d3ff4e1ffff, type: 3}
   m_PrefabInstance: {fileID: 8997296289011564049}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &487363912 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1056400876730552527, guid: db58ea134af84e744adaffb1e4faaf1e, type: 3}
+  m_PrefabInstance: {fileID: 7666618896053911066}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &539667165
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1027,12 +1032,12 @@ GameObject:
   - component: {fileID: 1554322724}
   - component: {fileID: 1554322723}
   m_Layer: 0
-  m_Name: Ceiling(hideme)
+  m_Name: Ceiling(hide when working)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1554322723
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1782,7 +1787,7 @@ MonoBehaviour:
   zombieCounter: {fileID: 3131581335713122653}
   exitDistanceText: {fileID: 505292456025302548}
   playerHPBar: {fileID: 5525037948365962360}
-  player: {fileID: 0}
+  player: {fileID: 487363912}
   playerScript: {fileID: 0}
   isPaused: 0
   enemiesAlive: 0
