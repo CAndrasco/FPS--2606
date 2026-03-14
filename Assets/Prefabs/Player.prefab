@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::playerGunHolder
   gunAnchor: {fileID: 5540866257727410581}
-  pistol: {fileID: 7221026108860012204, guid: 9240d8a9e8ae4ec4fbcf5ca0c327ecf9, type: 3}
+  pistol: {fileID: 0}
 --- !u!114 &2805294043178702588
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1996,11 +1996,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2805294043178702588, guid: db58ea134af84e744adaffb1e4faaf1e, type: 3}
       propertyPath: ammo
-      value: 300
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2805294043178702588, guid: db58ea134af84e744adaffb1e4faaf1e, type: 3}
       propertyPath: speed
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2805294043178702588, guid: db58ea134af84e744adaffb1e4faaf1e, type: 3}
+      propertyPath: ammoMax
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2805294043178702588, guid: db58ea134af84e744adaffb1e4faaf1e, type: 3}
       propertyPath: shootDist
