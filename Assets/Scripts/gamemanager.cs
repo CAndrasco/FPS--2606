@@ -175,6 +175,8 @@ public class gamemanager : MonoBehaviour
 
         Transform spawnPoint = exitSpawnPoints[randomIndex];
 
+
+        //replaces wall with prefab
         spawnPoint.parent.gameObject.SetActive(false);
 
         exitDoor = Instantiate(
