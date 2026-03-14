@@ -1884,9 +1884,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5737050775765438547, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 83.2
+      objectReference: {fileID: 0}
     - target: {fileID: 7045977300155785198, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
       propertyPath: m_Name
       value: UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 8737282774239593910, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 90.49992
       objectReference: {fileID: 0}
     - target: {fileID: 9016560740072354430, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
       propertyPath: m_Pivot.x
@@ -1996,11 +2004,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2805294043178702588, guid: db58ea134af84e744adaffb1e4faaf1e, type: 3}
       propertyPath: ammo
-      value: 300
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2805294043178702588, guid: db58ea134af84e744adaffb1e4faaf1e, type: 3}
       propertyPath: speed
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2805294043178702588, guid: db58ea134af84e744adaffb1e4faaf1e, type: 3}
+      propertyPath: ammoMax
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2805294043178702588, guid: db58ea134af84e744adaffb1e4faaf1e, type: 3}
       propertyPath: shootDist
@@ -2095,9 +2107,8 @@ MonoBehaviour:
   - {fileID: 1692688868}
   - {fileID: 1015097828}
   bossEnemy: {fileID: 539667169}
-  exitDoor: {fileID: 5780919847778688636, guid: 3b50c13872eb23146a5f672626c6c232, type: 3}
+  exitDoorPrefab: {fileID: 9000586914919119384, guid: 8933b4614605b0e41b6dd7c9922ec462, type: 3}
   exitSpawnPoints:
-  - {fileID: 0}
   - {fileID: 999112991}
   - {fileID: 93160283}
   - {fileID: 462546189}
@@ -2106,6 +2117,7 @@ MonoBehaviour:
   exitDistanceText: {fileID: 505292456025302548}
   playerHPBar: {fileID: 5525037948365962360}
   player: {fileID: 487363912}
+  exitDoor: {fileID: 5780919847778688636, guid: 3b50c13872eb23146a5f672626c6c232, type: 3}
   playerScript: {fileID: 0}
   isPaused: 0
   enemiesAlive: 0
@@ -2117,6 +2129,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2168226620319898719, guid: d2a4846b9e093974c91f5903d610ed16, type: 3}
+      propertyPath: maxAmmoOnMap
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3138460028723760689, guid: d2a4846b9e093974c91f5903d610ed16, type: 3}
       propertyPath: m_Name
       value: Ammo
