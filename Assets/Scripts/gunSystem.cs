@@ -49,10 +49,10 @@ public class gunSystem : MonoBehaviour
 
     private void MyInput()
     {
-        if (Input.GetMouseButtonUp(0))
-            triggerReleased = true;
+        //if (Input.GetMouseButtonUp(0))
+        //    triggerReleased = true;
 
-        if (triggerReleased && Input.GetMouseButtonDown(0) && readyToShoot && !reloading && player.GetCurrentAmmo() > 0)
+        if (Input.GetMouseButtonDown(0) && readyToShoot && !reloading && player.GetCurrentAmmo() > 0)
         {
             triggerReleased = false;
             Shoot();
@@ -68,8 +68,8 @@ public class gunSystem : MonoBehaviour
 
     private void Shoot()
     {
-        Debug.Log("Shoot called on: " + gameObject.name + " frame: " + Time.frameCount); // Log the name of the gun that is shooting for debugging purposes.
-
+        //Debug.Log("Shoot called on: " + gameObject.name + " frame: " + Time.frameCount); // Log the name of the gun that is shooting for debugging purposes.
+        Debug.Log($"[SHOOT] Object: {gameObject.name} | Script ID: {this.GetInstanceID()} | Frame: {Time.frameCount} | Time: {Time.time}");
         readyToShoot = false;
 
         Vector3 targetPoint;
