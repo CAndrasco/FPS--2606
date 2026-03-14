@@ -52,7 +52,7 @@ public class ammoSpawner : MonoBehaviour
 
     IEnumerator DelayedSpawn()
     {
-        yield return new WaitForSeconds(Random.Range(10f,15f)); //Spawner waits 10-15 seconds.
+        yield return new WaitForSeconds(Random.Range(3f,7f)); //Spawner waits 3-7 seconds.
         SpawnAmmo();
     }
 }

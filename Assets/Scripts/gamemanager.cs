@@ -15,7 +15,7 @@ public class gamemanager : MonoBehaviour
     [SerializeField] GameObject[] wave1Enemies;
     [SerializeField] GameObject[] wave2Enemies;
     [SerializeField] GameObject bossEnemy;
-    [SerializeField] GameObject exitDoor;
+    [SerializeField] GameObject exitDoorPrefab;
     [SerializeField] Transform[] exitSpawnPoints;
 
     [SerializeField] TMP_Text waveCounter;
@@ -24,6 +24,7 @@ public class gamemanager : MonoBehaviour
 
     public Image playerHPBar;
     public GameObject player;
+    public GameObject exitDoor;
     public playerController playerScript;
 
     public bool isPaused;
@@ -82,16 +83,12 @@ public class gamemanager : MonoBehaviour
         // Only runs if exit door exists (wave 3)
         if (exitDoor != null && exitDoor.activeInHierarchy)
         {
-            
-            float actualDistance = Vector3.Distance(player.transform.position, exitDoor.transform.position);
+            //You can replace Camera.main with player.transform as an alternate way. I was just trying to get it to work... - T
+            float actualDistance = Vector3.Distance(Camera.main.transform.position, exitDoor.transform.position);
             exitDistanceText.text = actualDistance.ToString("F0") + "m";
 
-            if(actualDistance <= 2.5f)
-            {
-                statePause();
-                menuActive = menuWin;
-                menuActive.SetActive(true);
-            }
+            //The trigger script on exit door handles the win. - T
+
         }        
     }
 
@@ -167,22 +164,25 @@ public class gamemanager : MonoBehaviour
 
     void startFinalWave()
     {
-        currentWave = 3;    
+        currentWave = 3;
         enemiesAlive = 1;
 
         updateGameGoal();
-        
 
         bossEnemy.SetActive(true);
 
         int randomIndex = Random.Range(0, exitSpawnPoints.Length);
 
-        exitDoor.transform.position = exitSpawnPoints[randomIndex].position;
-        exitDoor.transform.rotation = exitSpawnPoints[randomIndex].rotation;
+        Transform spawnPoint = exitSpawnPoints[randomIndex];
 
-        exitDoor.SetActive(true);
+
+        //replaces wall with prefab
+        spawnPoint.parent.gameObject.SetActive(false);
+
+        exitDoor = Instantiate(
+            exitDoorPrefab, exitSpawnPoints[randomIndex].position, exitSpawnPoints[randomIndex].rotation);
+
         exitDistance.SetActive(true);
-        
     }
 
     public void EnemyKilled()
@@ -199,7 +199,6 @@ public class gamemanager : MonoBehaviour
             else if (currentWave == 2)
             {
                 startFinalWave();
-                exitDoor.SetActive(true);
             }
         }
         else
@@ -211,6 +210,13 @@ public class gamemanager : MonoBehaviour
             //    exitDoor.SetActive(true);
             //}
         
+    }
+
+    public void youWin() // Called by exitDoor trigger when player enters the exit door
+    {
+        statePause();
+        menuActive = menuWin;
+        menuActive.SetActive(true);
     }
 
 }

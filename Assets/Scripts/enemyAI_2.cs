@@ -25,6 +25,8 @@ public class enemyAI_2 : MonoBehaviour, IDamage
 
     Color OGColor;
 
+    bool isDead = false;
+
     float angleToPlayer;
     float OGSpeed;
 
@@ -82,9 +84,13 @@ public class enemyAI_2 : MonoBehaviour, IDamage
 
     public void TakeDamage(int damage)
     {
+        if (isDead) return;
+
         HP -= damage;
+
         if (HP <= 0)
         {
+            isDead = true;
             gamemanager.instance.EnemyKilled();
             Destroy(gameObject);
         }

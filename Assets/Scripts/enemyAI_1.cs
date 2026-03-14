@@ -25,6 +25,7 @@ public class enemyAI_1 : MonoBehaviour, IDamage
     Color OGcolor;
 
     bool playerInRange;
+    bool isDead = false;
 
     float roamTimer;
     float angleToPlayer;
@@ -157,13 +158,15 @@ public class enemyAI_1 : MonoBehaviour, IDamage
             playerInRange = false;
         }
     }
-
-
     public void TakeDamage(int damage)
     {
+        if (isDead) return;
+
         HP -= damage;
-        if(HP <= 0)
+
+        if (HP <= 0)
         {
+            isDead = true;
             gamemanager.instance.EnemyKilled();
             Destroy(gameObject);
         }
@@ -171,12 +174,6 @@ public class enemyAI_1 : MonoBehaviour, IDamage
         {
             StartCoroutine(FlashRed());
         }
-    }
-
-    void Die()
-    {
-        gamemanager.instance.EnemyKilled();
-        Destroy(gameObject);
     }
 
     bool HitByFlashlight() // This method checks if the enemy is currently being hit by the player's flashlight

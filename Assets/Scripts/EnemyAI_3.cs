@@ -1,7 +1,9 @@
 using UnityEngine;
+using System.Collections;
 using UnityEngine.AI;
+using UnityEditor;
 
-public class EnemyAI_3 : MonoBehaviour
+public class enemyAI_3 : MonoBehaviour, IDamage
 {
     [Header("---- Unity Components ----")]
     [SerializeField] Renderer model;
@@ -11,16 +13,24 @@ public class EnemyAI_3 : MonoBehaviour
     [SerializeField] Transform armPivot2;
 
     [Header("---- Enemy Settings ----")]
+    [SerializeField] int HP;
+    [SerializeField] int FOV;
     [SerializeField] int faceTargetSpeed;
     [SerializeField] int armRotateSpeed;
+    [SerializeField] int sprintSpeed;
+    [SerializeField] int roamPauseTime;
+    [SerializeField] int roamDistance;
     [SerializeField] float flashlightSlowMultiplier = 0.2f; // How much the enemy's speed is reduced when in the player's flashlight
     [SerializeField] float flashlightCheckDistance = 20f; // The distance at which the enemy checks if it's in the player's flashlight
 
-    float OGspeed;
+    Color OGColor;
+
+    bool isDead = false;
+
     float angleToPlayer;
+    float OGSpeed;
 
     Vector3 playerDir;
-
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -31,29 +41,31 @@ public class EnemyAI_3 : MonoBehaviour
         if (model == null)
             model = GetComponentInChildren<Renderer>(); // Try to get the Renderer component from children if not assigned in the inspector
 
-        OGspeed = agent.speed;
+        OGColor = model.material.color;
+        OGSpeed = agent.speed;
     }
 
     // Update is called once per frame
     void Update()
     {
+        agent.SetDestination(gamemanager.instance.player.transform.position);
+
         if (agent == null)
             return; // If agent is still null, exit the Update method to avoid errors
 
-        agent.SetDestination(gamemanager.instance.player.transform.position);
-        playerDir = gamemanager.instance.player.transform.position - transform.position;
-
-        FaceTarget();
-        ArmRotate();
-
-        if(HitByFlashlight())
+        if (HitByFlashlight())
         {
-            agent.speed = OGspeed * flashlightSlowMultiplier;
+            agent.speed = OGSpeed * flashlightSlowMultiplier;
+        }
+        else if (!HitByFlashlight() && CanSeePlayer())
+        {
+            agent.speed = sprintSpeed;
         }
         else
         {
-            agent.speed = OGspeed;
+            agent.speed = OGSpeed;
         }
+
     }
 
     bool HitByFlashlight() // This method checks if the enemy is currently being hit by the player's flashlight
@@ -62,12 +74,30 @@ public class EnemyAI_3 : MonoBehaviour
 
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, flashlightCheckDistance))
         {
-            if (hit.collider.GetComponentInParent<EnemyAI_3>() == this)
+            if (hit.collider.GetComponentInParent<enemyAI_2>() == this)
             {
                 return true;
             }
         }
         return false;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (isDead) return;
+
+        HP -= damage;
+
+        if (HP <= 0)
+        {
+            isDead = true;
+            gamemanager.instance.EnemyKilled();
+            Destroy(gameObject);
+        }
+        else
+        {
+            StartCoroutine(FlashRed());
+        }
     }
 
     void FaceTarget()
@@ -82,4 +112,37 @@ public class EnemyAI_3 : MonoBehaviour
         armPivot1.rotation = Quaternion.Lerp(armPivot1.rotation, rot, Time.deltaTime * armRotateSpeed);
         armPivot2.rotation = Quaternion.Lerp(armPivot2.rotation, rot, Time.deltaTime * armRotateSpeed);
     }
+
+    bool CanSeePlayer()
+    {
+        playerDir = gamemanager.instance.player.transform.position - transform.position;
+        angleToPlayer = Vector3.Angle(playerDir, transform.forward);
+
+        Debug.DrawRay(transform.position, playerDir);
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, playerDir, out hit))
+        {
+            if (hit.collider.CompareTag("Player") && angleToPlayer <= FOV)
+            {
+                if (agent.remainingDistance <= agent.stoppingDistance)
+                {
+                    FaceTarget();
+                }
+                ArmRotate();
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    IEnumerator FlashRed()
+    {
+        model.material.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        model.material.color = OGColor;
+    }
+
 }
