@@ -82,16 +82,12 @@ public class gamemanager : MonoBehaviour
         // Only runs if exit door exists (wave 3)
         if (exitDoor != null && exitDoor.activeInHierarchy)
         {
-            
-            float actualDistance = Vector3.Distance(player.transform.position, exitDoor.transform.position);
+            //You can replace Camera.main with player.transform as an alternate way. I was just trying to get it to work... - T
+            float actualDistance = Vector3.Distance(Camera.main.transform.position, exitDoor.transform.position);
             exitDistanceText.text = actualDistance.ToString("F0") + "m";
 
-            if(actualDistance <= 2.5f)
-            {
-                statePause();
-                menuActive = menuWin;
-                menuActive.SetActive(true);
-            }
+            //The trigger script on exit door handles the win. - T
+
         }        
     }
 
@@ -199,7 +195,6 @@ public class gamemanager : MonoBehaviour
             else if (currentWave == 2)
             {
                 startFinalWave();
-                exitDoor.SetActive(true);
             }
         }
         else
@@ -211,6 +206,13 @@ public class gamemanager : MonoBehaviour
             //    exitDoor.SetActive(true);
             //}
         
+    }
+
+    public void youWin() // Called by exitDoor trigger when player enters the exit door
+    {
+        statePause();
+        menuActive = menuWin;
+        menuActive.SetActive(true);
     }
 
 }
