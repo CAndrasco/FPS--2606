@@ -1886,7 +1886,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5737050775765438547, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 83.2
+      value: 86.1
       objectReference: {fileID: 0}
     - target: {fileID: 7045977300155785198, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
       propertyPath: m_Name
@@ -1977,7 +1977,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1822457298438385107, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 73b824534f9f3e145b321ddc75ea9c2f, type: 3}
@@ -2249,11 +2250,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4755292039860055472, guid: 1c3ca12ea1a9ae84699a0d3ff4e1ffff, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6103972721612502746, guid: 1c3ca12ea1a9ae84699a0d3ff4e1ffff, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7489951036301615090, guid: 1c3ca12ea1a9ae84699a0d3ff4e1ffff, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8011499954742443226, guid: 1c3ca12ea1a9ae84699a0d3ff4e1ffff, type: 3}
       propertyPath: m_Name
       value: Level Stuff
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1674551631383931744, guid: 1c3ca12ea1a9ae84699a0d3ff4e1ffff, type: 3}
+    - {fileID: 2628201981528769096, guid: 1c3ca12ea1a9ae84699a0d3ff4e1ffff, type: 3}
+    - {fileID: 177516039893577738, guid: 1c3ca12ea1a9ae84699a0d3ff4e1ffff, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 195845261672097675, guid: 1c3ca12ea1a9ae84699a0d3ff4e1ffff, type: 3}
