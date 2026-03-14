@@ -15,7 +15,7 @@ public class gamemanager : MonoBehaviour
     [SerializeField] GameObject[] wave1Enemies;
     [SerializeField] GameObject[] wave2Enemies;
     [SerializeField] GameObject bossEnemy;
-    [SerializeField] GameObject exitDoor;
+    [SerializeField] GameObject exitDoorPrefab;
     [SerializeField] Transform[] exitSpawnPoints;
 
     [SerializeField] TMP_Text waveCounter;
@@ -24,6 +24,7 @@ public class gamemanager : MonoBehaviour
 
     public Image playerHPBar;
     public GameObject player;
+    public GameObject exitDoor;
     public playerController playerScript;
 
     public bool isPaused;
@@ -163,22 +164,23 @@ public class gamemanager : MonoBehaviour
 
     void startFinalWave()
     {
-        currentWave = 3;    
+        currentWave = 3;
         enemiesAlive = 1;
 
         updateGameGoal();
-        
 
         bossEnemy.SetActive(true);
 
         int randomIndex = Random.Range(0, exitSpawnPoints.Length);
 
-        exitDoor.transform.position = exitSpawnPoints[randomIndex].position;
-        exitDoor.transform.rotation = exitSpawnPoints[randomIndex].rotation;
+        Transform spawnPoint = exitSpawnPoints[randomIndex];
 
-        exitDoor.SetActive(true);
+        spawnPoint.parent.gameObject.SetActive(false);
+
+        exitDoor = Instantiate(
+            exitDoorPrefab, exitSpawnPoints[randomIndex].position, exitSpawnPoints[randomIndex].rotation);
+
         exitDistance.SetActive(true);
-        
     }
 
     public void EnemyKilled()
