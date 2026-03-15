@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80c61ec1e370e0e46b9c1b94ba5e878c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ammoPickup
-  ammoAmount: 1
+  ammoAmount: 8
 --- !u!33 &6332600636949506216
 MeshFilter:
   m_ObjectHideFlags: 0

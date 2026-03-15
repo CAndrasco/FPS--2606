@@ -5,7 +5,7 @@ public class ammoSpawner : MonoBehaviour
 {
     [SerializeField] GameObject ammoPrefab;
     [SerializeField] Transform[] spawnPoints;
-    [SerializeField] int maxAmmoOnMap = 5;
+    [SerializeField] int maxAmmoOnMap = 15;
 
     int currentAmmo;
 
