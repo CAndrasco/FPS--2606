@@ -10,21 +10,7 @@ public class miniMapFollow : MonoBehaviour
         if(gamemanager.instance != null && gamemanager.instance.player != null)
         {
             player = gamemanager.instance.player.transform;
-        }
-
-        //create light for map layer
-        GameObject lightGameObject = new GameObject("Minimap_Sun");
-        Light lightPtr = lightGameObject.AddComponent<Light>();
-
-        lightPtr.type = LightType.Directional;
-        lightPtr.intensity = 1.0f;
-
-        //set to only hit map layer
-        lightPtr.cullingMask = 1 << LayerMask.NameToLayer("MapLayer");
-        
-        //have light follow camera
-        lightGameObject.transform.parent = transform;
-        lightGameObject.transform.localRotation = Quaternion.Euler(90,0,0); 
+        }        
     }
 
 
