@@ -98,6 +98,9 @@ public class gamemanager : MonoBehaviour
         isPaused = true;
         Time.timeScale = 0;
 
+        //turn off minimap when paused
+        if(minimapUI != null) minimapUI.SetActive(false);
+
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }
@@ -107,6 +110,9 @@ public class gamemanager : MonoBehaviour
         isPaused = false;
 
         Time.timeScale = timeScaleOrig;
+
+        //turn minimap back on when unpaused
+        if(minimapUI != null) minimapUI.SetActive(true);
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
