@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 2709006355965860122}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.44177502, y: -0.6527762, z: 0.46061537}
+  m_LocalPosition: {x: 0.29, y: -0.31, z: 0.538}
   m_LocalScale: {x: -3.4467893, y: 4.5875773, z: 0.44047046}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -40,6 +40,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1007760352027637245, guid: 8b5b9a9b6f4c6f144bd9fb99bd0c5ff2, type: 3}
+      propertyPath: gunType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1007760352027637245, guid: 8b5b9a9b6f4c6f144bd9fb99bd0c5ff2, type: 3}
       propertyPath: gunPrefabToEquip
       value: 
       objectReference: {fileID: 2676681772555506062}
@@ -49,19 +53,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3932706328845010544, guid: 8b5b9a9b6f4c6f144bd9fb99bd0c5ff2, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3932706328845010544, guid: 8b5b9a9b6f4c6f144bd9fb99bd0c5ff2, type: 3}
+      propertyPath: m_TagString
+      value: MainCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 5443675323332205978, guid: 8b5b9a9b6f4c6f144bd9fb99bd0c5ff2, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.2901251
       objectReference: {fileID: 0}
     - target: {fileID: 5443675323332205978, guid: 8b5b9a9b6f4c6f144bd9fb99bd0c5ff2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -22.000065
+      value: -22.50101
       objectReference: {fileID: 0}
     - target: {fileID: 5443675323332205978, guid: 8b5b9a9b6f4c6f144bd9fb99bd0c5ff2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.41229215
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5443675323332205978, guid: 8b5b9a9b6f4c6f144bd9fb99bd0c5ff2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.673629
+      value: -5.79698
       objectReference: {fileID: 0}
     - target: {fileID: 5443675323332205978, guid: 8b5b9a9b6f4c6f144bd9fb99bd0c5ff2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -98,13 +110,46 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5443675323332205978, guid: 8b5b9a9b6f4c6f144bd9fb99bd0c5ff2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4058461925875458220}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3932706328845010544, guid: 8b5b9a9b6f4c6f144bd9fb99bd0c5ff2, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 5521265356503043827}
   m_SourcePrefab: {fileID: 100100000, guid: 8b5b9a9b6f4c6f144bd9fb99bd0c5ff2, type: 3}
 --- !u!1 &2676681772555506062 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3932706328845010544, guid: 8b5b9a9b6f4c6f144bd9fb99bd0c5ff2, type: 3}
   m_PrefabInstance: {fileID: 1420529931054733310}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5521265356503043827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2676681772555506062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fed10b89bacb0be4993d2e5208093361, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::gunSystem
+  timeBetweenShooting: 1
+  spread: 2
+  range: 10
+  reloadTime: 0
+  timeBetweenShots: 1
+  magazineSize: 6
+  bulletsPerTap: 2
+  allowButtonHold: 1
+  bulletPrefab: {fileID: 4959019289503928211, guid: 19608346e8ef5984fb1a5a04ab4b0069, type: 3}
+  fpsCam: {fileID: 0}
+  attackPoint: {fileID: 4058461925875458220}
+  whatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 128
+  muzzleFlash: {fileID: 0}
+  bulletHoleGraphic: {fileID: 0}
+  camShakeMagnitude: 0
+  camShakeDuration: 0
 --- !u!4 &6358358849226099300 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5443675323332205978, guid: 8b5b9a9b6f4c6f144bd9fb99bd0c5ff2, type: 3}

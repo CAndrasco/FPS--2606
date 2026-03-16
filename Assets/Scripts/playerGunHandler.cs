@@ -3,13 +3,32 @@ using UnityEngine;
 public class playerGunHolder : MonoBehaviour
 {
     [SerializeField] Transform gunAnchor;
+
+    [Header("Gun Prefabs")]
     [SerializeField] GameObject pistol;
+    [SerializeField] GameObject shotGun;
+    [SerializeField] GameObject machineGun;
 
     GameObject currentGun;
 
     void Start()
     {
-        EquipGun(pistol); //Player starts with Pistol.
+     
+    }
+
+    public void EquipPistol()
+    {
+        EquipGun(pistol);
+    }
+
+    public void EquipShotGun()
+    {
+        EquipGun(shotGun);
+    }
+
+    public void EquipMachineGun()
+    {
+        EquipGun(machineGun);
     }
 
     public void EquipGun(GameObject equippedGunPrefab)
@@ -32,7 +51,6 @@ public class playerGunHolder : MonoBehaviour
         }
 
         currentGun = Instantiate(equippedGunPrefab, gunAnchor);
-
         currentGun.transform.localPosition = Vector3.zero;
         currentGun.transform.localRotation = Quaternion.identity;
 
