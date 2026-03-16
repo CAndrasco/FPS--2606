@@ -160,13 +160,13 @@ public class enemyAI_1 : MonoBehaviour, IDamage
     }
     public void TakeDamage(int damage)
     {
-        if (isDead) return;
+        //if (isDead) return;
 
         HP -= damage;
 
         if (HP <= 0)
         {
-            isDead = true;
+            //isDead = true;
             gamemanager.instance.EnemyKilled();
             Destroy(gameObject);
         }

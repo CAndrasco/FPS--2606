@@ -286,7 +286,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4195369018838239701}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -18.407421, y: -0.84309995, z: 105.02658}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -313,7 +313,7 @@ MonoBehaviour:
   agent: {fileID: 8014789431632323478}
   ignoreLayer:
     serializedVersion: 2
-    m_Bits: 4
+    m_Bits: 0
   armPivot1: {fileID: 263977926759185085}
   armPivot2: {fileID: 7849358696205643899}
   HP: 2

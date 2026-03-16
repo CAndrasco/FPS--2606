@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4449223994589813281}
   - component: {fileID: 4277800072910537872}
-  m_Layer: 9
+  m_Layer: 3
   m_Name: Gun Anchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,6 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::playerGunHolder
   gunAnchor: {fileID: 4449223994589813281}
   pistol: {fileID: 7221026108860012204, guid: 9240d8a9e8ae4ec4fbcf5ca0c327ecf9, type: 3}
+  shotGun: {fileID: 0}
+  machineGun: {fileID: 0}
 --- !u!1 &3601455460305119048
 GameObject:
   m_ObjectHideFlags: 0
@@ -57,7 +59,7 @@ GameObject:
   - component: {fileID: 1196476105634729321}
   - component: {fileID: 3206592768616313629}
   - component: {fileID: 363824491391547199}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Flashlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,7 +188,7 @@ GameObject:
   - component: {fileID: 1022450169038866460}
   - component: {fileID: 7915809061144945628}
   - component: {fileID: 3650560421066850941}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -345,7 +347,7 @@ GameObject:
   - component: {fileID: 8701417003158712683}
   - component: {fileID: 5437269138129786384}
   - component: {fileID: 6015290233508475765}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -382,6 +384,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::playerGunHolder
   gunAnchor: {fileID: 4449223994589813281}
   pistol: {fileID: 0}
+  shotGun: {fileID: 0}
+  machineGun: {fileID: 0}
 --- !u!114 &332976204517667251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -401,6 +405,8 @@ MonoBehaviour:
   HP: 50
   speed: 20
   gravity: 20
+  sprintSpeed: 10
+  jumpForce: 8
   flashlight: {fileID: 3206592768616313629}
   shootDamage: 1
   shootDist: 15
