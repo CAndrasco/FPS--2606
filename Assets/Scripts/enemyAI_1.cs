@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.AI;
+using UnityEngine.SocialPlatforms.GameCenter;
 
 public class enemyAI_1 : MonoBehaviour, IDamage
 {
@@ -10,6 +11,7 @@ public class enemyAI_1 : MonoBehaviour, IDamage
     [SerializeField] LayerMask ignoreLayer;
     [SerializeField] Transform armPivot1;
     [SerializeField] Transform armPivot2;
+    [SerializeField] LayerMask flashlightCheckIgnore;
 
     [Header("---- Enemy Settings ----")]
     [SerializeField] int HP;
@@ -21,10 +23,12 @@ public class enemyAI_1 : MonoBehaviour, IDamage
     [SerializeField] int roamDistance;
     [SerializeField] float flashlightSlowMultiplier = 0.2f; // How much the enemy's speed is reduced when in the player's flashlight
     [SerializeField] float flashlightCheckDistance = 20f; // The distance at which the enemy checks if it's in the player's flashlight
+    [SerializeField] int cameraFOV;
 
     Color OGcolor;
 
     bool playerInRange;
+    bool isSlowed = false;
     bool isDead = false;
 
     float roamTimer;
@@ -160,13 +164,13 @@ public class enemyAI_1 : MonoBehaviour, IDamage
     }
     public void TakeDamage(int damage)
     {
-        if (isDead) return;
+        //if (isDead) return;
 
         HP -= damage;
 
         if (HP <= 0)
         {
-            isDead = true;
+            //isDead = true;
             gamemanager.instance.EnemyKilled();
             Destroy(gameObject);
         }
@@ -179,12 +183,29 @@ public class enemyAI_1 : MonoBehaviour, IDamage
     bool HitByFlashlight() // This method checks if the enemy is currently being hit by the player's flashlight
     {
         RaycastHit hit;
+        //Vector3 center = transform.position;
 
-        if (Physics.Raycast(Camera.main.transform.position,
-            Camera.main.transform.forward,
-            out hit,
+        //Collider[] hitCollider = Physics.OverlapSphere(center, flashlightCheckDistance);
+        //playerDir = gamemanager.instance.player.transform.position;
+        //angleToPlayer = Vector3.Angle(playerDir, transform.forward);
+        //Debug.DrawRay(playerDir, gamemanager.instance.player.transform.position, Color.purple);
+
+        //for (int i = 0; i < hitCollider.Length; i++)
+        //{
+        //    if (hitCollider[i].CompareTag("Player"))
+        //    {
+        //        isSlowed = true;
+        //    }
+        //    else
+        //    {
+        //        isSlowed = false;
+        //    }
+        //}
+
+        if (Physics.Raycast(gamemanager.instance.player.transform.position, gamemanager.instance.player.transform.forward, out hit,
             flashlightCheckDistance))
         {
+            //return true;
             if (hit.collider.GetComponentInParent<enemyAI_1>() == this)
             {
                 return true;

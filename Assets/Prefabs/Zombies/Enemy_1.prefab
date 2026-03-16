@@ -611,9 +611,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8652524503538064033}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -12.34016, y: -1.82155, z: -69.98307}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3777987796288641159}
@@ -638,7 +638,7 @@ MonoBehaviour:
   agent: {fileID: 1062164104553382505}
   ignoreLayer:
     serializedVersion: 2
-    m_Bits: 4
+    m_Bits: 0
   armPivot1: {fileID: 3272166315870827316}
   armPivot2: {fileID: 6650160764328401875}
   HP: 1
@@ -647,7 +647,7 @@ MonoBehaviour:
   armRotateSpeed: 3
   sprintSpeed: 5
   roamPauseTime: 3
-  roamDistance: 3
+  roamDistance: 18
   flashlightSlowMultiplier: 0.01
   flashlightCheckDistance: 200
 --- !u!195 &1062164104553382505
