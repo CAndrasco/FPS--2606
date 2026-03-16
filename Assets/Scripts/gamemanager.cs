@@ -14,7 +14,7 @@ public class gamemanager : MonoBehaviour
 
     [SerializeField] GameObject[] wave1Enemies;
     [SerializeField] GameObject[] wave2Enemies;
-    [SerializeField] GameObject bossEnemy;
+    [SerializeField] GameObject [] bossEnemies;
     [SerializeField] GameObject exitDoorPrefab;
     [SerializeField] Transform[] exitSpawnPoints;
 
@@ -165,11 +165,14 @@ public class gamemanager : MonoBehaviour
     void startFinalWave()
     {
         currentWave = 3;
-        enemiesAlive = 1;
+        enemiesAlive = bossEnemies.Length;
 
         updateGameGoal();
 
-        bossEnemy.SetActive(true);
+        for (int i = 0; i < bossEnemies.Length; i++)
+        {
+            bossEnemies[i].SetActive(true);
+        }
 
         int randomIndex = Random.Range(0, exitSpawnPoints.Length);
 
