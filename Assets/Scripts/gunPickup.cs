@@ -2,19 +2,42 @@ using UnityEngine;
 
 public class gunPickup : MonoBehaviour
 {
-    [Header("The gun prefab that gets equipped")]
-    [SerializeField] GameObject gunPrefabToEquip;
+    public enum GunType
+    {
+        Pistol,
+        ShotGun,
+        MachineGun
+    }
+
+    [SerializeField] GunType gunType;
 
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
 
-        playerGunHolder gunHolder = other.GetComponent<playerGunHolder>();
+        playerGunHolder gunHolder = other.GetComponentInParent<playerGunHolder>();
 
-        if (gunHolder != null)
+        if (gunHolder == null)
         {
-            gunHolder.EquipGun(gunPrefabToEquip);
-            Destroy(gameObject);
+            Debug.LogError("playerGunHolder not found on player!");
+            return;
         }
+
+        switch (gunType)
+        {
+            case GunType.Pistol:
+                gunHolder.EquipPistol();
+                break;
+
+            case GunType.ShotGun:
+                gunHolder.EquipShotGun();
+                break;
+
+            case GunType.MachineGun:
+                gunHolder.EquipMachineGun();
+                break;
+        }
+
+        Destroy(gameObject);
     }
 }

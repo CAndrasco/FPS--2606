@@ -28,6 +28,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2938328406469731072, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
+      propertyPath: m_TagString
+      value: MainCamera
+      objectReference: {fileID: 0}
     - target: {fileID: 3072909308907789526, guid: c32dac8ebf5ede544a82059149bcc7c3, type: 3}
       propertyPath: m_Layer
       value: 9
@@ -144,7 +148,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fed10b89bacb0be4993d2e5208093361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gunSystem
-  damage: 1
   timeBetweenShooting: 0.25
   spread: 0
   range: 20

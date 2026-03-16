@@ -131,7 +131,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2394539613395363839
 Transform:
   m_ObjectHideFlags: 0
@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 179ca122fc5591045831714b55c3c1ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::gunPickup
-  gunPrefabToEquip: {fileID: 2676681772555506062, guid: ebbd10e0a33645241aea8844a44509f9, type: 3}
+  gunType: 1
 --- !u!33 &6678405320805029364
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -3,7 +3,6 @@ using UnityEngine;
 public class gunSystem : MonoBehaviour
 {
     //Gun stats
-    public int damage;
     public float timeBetweenShooting, spread, range, reloadTime, timeBetweenShots;
     public int magazineSize, bulletsPerTap;
     public bool allowButtonHold;
@@ -30,16 +29,15 @@ public class gunSystem : MonoBehaviour
     playerController player; // Reference to the playerController script.
 
 
+
     private void Awake()
     {
-        player = FindFirstObjectByType<playerController>(); // Find the playerController script in the scene and assign it to the player variable.
-
-        readyToShoot = true;
+        player = GetComponentInParent<playerController>();
 
         if (fpsCam == null)
-        {
             fpsCam = Camera.main;
-        }
+
+        readyToShoot = true;
     }
     private void Update()
     {
@@ -52,18 +50,13 @@ public class gunSystem : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
             triggerReleased = true;
 
-        if (triggerReleased && Input.GetMouseButtonDown(0) && readyToShoot && !reloading && player.GetCurrentAmmo() > 0)
+        if (triggerReleased && Input.GetMouseButtonDown(0) && readyToShoot && player.GetCurrentAmmo() > 0)
         {
             triggerReleased = false;
             Shoot();
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && player.GetCurrentAmmo() < magazineSize && !reloading)
-        {
-            Reload();
-        }
-
-        
+      
     }
 
     private void Shoot()

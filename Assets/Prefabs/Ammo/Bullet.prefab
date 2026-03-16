@@ -97,10 +97,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Damage
   Type: 0
   rb: {fileID: 8828778867334372685}
-  damageAmount: 1
+  damageAmount: 10
   damageRate: 0
-  speed: 120
-  destroyTime: 10
+  speed: 200
+  destroyTime: 5
   hitEffect: {fileID: 0}
 --- !u!96 &3326551375704089316
 TrailRenderer:
@@ -151,11 +151,11 @@ TrailRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Time: 0.12
+  m_Time: 0.01
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.1
+    widthMultiplier: 0.05
     widthCurve:
       serializedVersion: 2
       m_Curve:
