@@ -3,14 +3,15 @@ using UnityEngine;
 public class miniMapFollow : MonoBehaviour
 {
     [SerializeField] Transform player;
-
+    
     void Start()
     {
         //Grab player from gamemanager
         if(gamemanager.instance != null && gamemanager.instance.player != null)
         {
             player = gamemanager.instance.player.transform;
-        }        
+        }    
+       
     }
 
 
