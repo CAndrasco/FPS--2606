@@ -12,6 +12,9 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] int HP; //Players Health.
     [SerializeField] int speed; //Players Movement Speed.
     [SerializeField] int gravity; //Players Gravity.
+    [SerializeField] int sprintSpeed = 10; //Players Sprint Speed.
+    [SerializeField] int jumpForce = 8; //Players Jump Force.
+
 
     [Header("---- Flashlight ----")]
     [SerializeField] Light flashlight; //Players flashlight.
@@ -57,15 +60,30 @@ public class playerController : MonoBehaviour, IDamage
     {
         shootTimer += Time.deltaTime;
 
-        if (controller.isGrounded && playerVel.y < 0)
+        if (controller.isGrounded)
         {
-            playerVel.y = 0;
+            if (playerVel.y < 0)
+            {
+                playerVel.y = -2f;
+            }
+
+            if(Input.GetButtonDown("Jump"))
+            {
+                playerVel.y = jumpForce;
+            }
         }
 
         moveDir = Input.GetAxis("Horizontal") * transform.right +
             Input.GetAxis("Vertical") * transform.forward;
 
-        controller.Move(moveDir * speed * Time.deltaTime);
+        int currentSpeed = speed;
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            currentSpeed = sprintSpeed;
+        }
+
+        controller.Move(moveDir * currentSpeed * Time.deltaTime);
 
         playerVel.y -= gravity * Time.deltaTime;
         controller.Move(playerVel * Time.deltaTime);
