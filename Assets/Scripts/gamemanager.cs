@@ -11,6 +11,7 @@ public class gamemanager : MonoBehaviour
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
     [SerializeField] GameObject exitDistance;
+    [SerializeField] GameObject minimapUI;
 
     [SerializeField] GameObject[] wave1Enemies;
     [SerializeField] GameObject[] wave2Enemies;
