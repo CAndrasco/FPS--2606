@@ -21,15 +21,15 @@ public class enemyAI_1 : MonoBehaviour, IDamage
     [SerializeField] int sprintSpeed;
     [SerializeField] int roamPauseTime;
     [SerializeField] int roamDistance;
-    [SerializeField] float flashlightSlowMultiplier = 0.2f; // How much the enemy's speed is reduced when in the player's flashlight
-    [SerializeField] float flashlightCheckDistance = 20f; // The distance at which the enemy checks if it's in the player's flashlight
-    [SerializeField] int cameraFOV;
+    [SerializeField] float flashlightSlowMultiplier; // How much the enemy's speed is reduced when in the player's flashlight
+    [SerializeField] float flashlightCheckDistance; // The distance at which the enemy checks if it's in the player's flashlight
+    //[SerializeField] int cameraFOV;
 
     Color OGcolor;
 
     bool playerInRange;
-    bool isSlowed = false;
-    bool isDead = false;
+    //bool isSlowed = false;
+    //bool isDead = false;
 
     float roamTimer;
     float angleToPlayer;
