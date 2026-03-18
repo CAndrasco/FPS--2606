@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.AI;
 using UnityEditor;
+using Unity.Hierarchy;
 
 public class enemyAI_3 : MonoBehaviour, IDamage
 {
@@ -23,10 +24,17 @@ public class enemyAI_3 : MonoBehaviour, IDamage
     [SerializeField] float flashlightSlowMultiplier = 0.2f; // How much the enemy's speed is reduced when in the player's flashlight
     [SerializeField] float flashlightCheckDistance = 20f; // The distance at which the enemy checks if it's in the player's flashlight
 
+    [Header("---- Enemy Attack Settings ----")]
+    [SerializeField] float waitChargeTimer;
+    [SerializeField] float chargingSprintSpeed;
+    [SerializeField] float chargingDistance;
+
     Color OGColor;
 
     bool isDead = false;
+    bool hasSeenPlayer = false;
 
+    float chargingTimer;
     float angleToPlayer;
     float OGSpeed;
 
@@ -48,23 +56,35 @@ public class enemyAI_3 : MonoBehaviour, IDamage
     // Update is called once per frame
     void Update()
     {
-        agent.SetDestination(gamemanager.instance.player.transform.position);
+        //agent.SetDestination(gamemanager.instance.player.transform.position);
 
-        if (agent == null)
-            return; // If agent is still null, exit the Update method to avoid errors
-
-        if (HitByFlashlight())
+        if(CanSeePlayer())
         {
-            agent.speed = OGSpeed * flashlightSlowMultiplier;
-        }
-        else if (!HitByFlashlight() && CanSeePlayer())
-        {
-            agent.speed = sprintSpeed;
+            chargingTimer += Time.deltaTime;
+            if (chargingTimer >= waitChargeTimer)
+            {
+                ChargingPlayer(); 
+            }
         }
         else
         {
             agent.speed = OGSpeed;
         }
+        if (agent == null)
+            return; // If agent is still null, exit the Update method to avoid errors
+
+        //if (HitByFlashlight())
+        //{
+        //    agent.speed = OGSpeed * flashlightSlowMultiplier;
+        //}
+        //else if (!HitByFlashlight() && CanSeePlayer())
+        //{
+        //    agent.speed = sprintSpeed;
+        //}
+        //else
+        //{
+        //    agent.speed = OGSpeed;
+        //}
 
     }
 
@@ -74,12 +94,20 @@ public class enemyAI_3 : MonoBehaviour, IDamage
 
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, flashlightCheckDistance))
         {
-            if (hit.collider.GetComponentInParent<enemyAI_2>() == this)
+            if (hit.collider.GetComponentInParent<enemyAI_3>() == this)
             {
                 return true;
             }
         }
         return false;
+    }
+
+    void ChargingPlayer() // charges player's location from before timer starts
+    {
+        chargingTimer = 0;
+        playerDir = gamemanager.instance.player.transform.position;
+        agent.speed = chargingSprintSpeed;
+        agent.SetDestination(playerDir);
     }
 
     public void TakeDamage(int damage)
@@ -130,7 +158,7 @@ public class enemyAI_3 : MonoBehaviour, IDamage
                     FaceTarget();
                 }
                 ArmRotate();
-
+                hasSeenPlayer = true;
                 return true;
             }
         }
@@ -143,6 +171,11 @@ public class enemyAI_3 : MonoBehaviour, IDamage
         model.material.color = Color.red;
         yield return new WaitForSeconds(0.1f);
         model.material.color = OGColor;
+    }
+
+    IEnumerator Timer(float time)
+    {
+        yield return new WaitForSeconds(time);
     }
 
 }
