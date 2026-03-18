@@ -3,7 +3,8 @@ using System.Collections;
 
 public class Damage : MonoBehaviour
 {
-    enum damageType { bullet, stationary, DOT}
+    enum damageType { bullet, stationary, DOT }
+
     [SerializeField] damageType Type;
     [SerializeField] Rigidbody rb;
     [SerializeField] int damageAmount;
@@ -13,13 +14,19 @@ public class Damage : MonoBehaviour
     [SerializeField] ParticleSystem hitEffect;
 
     bool isDamaging;
+    bool hasHit = false;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if(Type == damageType.bullet)
+        if (Type == damageType.bullet)
         {
+            // Shoot bullet forward
             rb.linearVelocity = transform.forward * speed;
+
+            // Prevent tunneling through objects
+            rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+
+            // Destroy bullet after time
             Destroy(gameObject, destroyTime);
         }
     }
@@ -27,30 +34,33 @@ public class Damage : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.isTrigger) return;
-        //IDamage dmg = other.GetComponent<IDamage>();
-        IDamage dmg = other.GetComponentInParent<IDamage>(); // For cases where the collider is on a child object of the one with the IDamage script
 
-        if (dmg != null && Type != damageType.DOT)
+        IDamage dmg = other.GetComponentInParent<IDamage>();
+
+        if (dmg != null && Type != damageType.DOT && !hasHit)
         {
+            hasHit = true;
             dmg.TakeDamage(damageAmount);
         }
 
-        if(Type == damageType.bullet)
+        if (Type == damageType.bullet)
         {
-            if(hitEffect != null)
+            if (hitEffect != null)
             {
                 Instantiate(hitEffect, transform.position, Quaternion.identity);
             }
+
             Destroy(gameObject);
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if(other.isTrigger) return;
+        if (other.isTrigger) return;
+
         IDamage dmg = other.GetComponentInParent<IDamage>();
 
-        if(dmg != null && Type == damageType.DOT && !isDamaging)
+        if (dmg != null && Type == damageType.DOT && !isDamaging)
         {
             StartCoroutine(DamageOther(dmg));
         }
@@ -63,5 +73,4 @@ public class Damage : MonoBehaviour
         yield return new WaitForSeconds(damageRate);
         isDamaging = false;
     }
-
 }

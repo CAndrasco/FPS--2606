@@ -1,14 +1,12 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.AI;
-using UnityEditor;
 
 public class enemyAI_2 : MonoBehaviour, IDamage
 {
     [Header("---- Unity Components ----")]
     [SerializeField] Renderer model;
     [SerializeField] NavMeshAgent agent;
-    [SerializeField] LayerMask ignoreLayer;
     [SerializeField] Transform armPivot1;
     [SerializeField] Transform armPivot2;
 
@@ -18,12 +16,17 @@ public class enemyAI_2 : MonoBehaviour, IDamage
     [SerializeField] int faceTargetSpeed;
     [SerializeField] int armRotateSpeed;
     [SerializeField] int sprintSpeed;
-    [SerializeField] int roamPauseTime;
-    [SerializeField] int roamDistance;
-    [SerializeField] float flashlightSlowMultiplier; // How much the enemy's speed is reduced when in the player's flashlight
-    [SerializeField] float flashlightCheckDistance; // The distance at which the enemy checks if it's in the player's flashlight
+    [SerializeField] float flashlightSlowMultiplier = 0.2f;
+    [SerializeField] float flashlightCheckDistance = 20f;
 
-    Color OGColor;
+    [Header("---- Attack Settings ----")]
+    [SerializeField] int attackDamage = 20;
+    [SerializeField] float attackRate = 1.0f;
+    [SerializeField] float attackRange = 2f;
+
+    float attackTimer;
+
+    Color OGcolor;
 
     bool isDead = false;
 
@@ -32,54 +35,107 @@ public class enemyAI_2 : MonoBehaviour, IDamage
 
     Vector3 playerDir;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         if (agent == null)
-            agent = GetComponent<NavMeshAgent>(); // Try to get the NavMeshAgent component if not assigned in the inspector
+            agent = GetComponent<NavMeshAgent>();
 
         if (model == null)
-            model = GetComponentInChildren<Renderer>(); // Try to get the Renderer component from children if not assigned in the inspector
+            model = GetComponentInChildren<Renderer>();
 
-        OGColor = model.material.color;
-        OGSpeed = agent.speed;   
+        OGcolor = model.material.color;
+        OGSpeed = agent.speed;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        agent.SetDestination(gamemanager.instance.player.transform.position);
-        
-        if (agent == null)
-            return; // If agent is still null, exit the Update method to avoid errors
+        if (agent == null) return;
+
+        attackTimer += Time.deltaTime;
 
         if (HitByFlashlight())
         {
             agent.speed = OGSpeed * flashlightSlowMultiplier;
         }
-        else if (!HitByFlashlight() && CanSeePlayer())
+        else
         {
             agent.speed = sprintSpeed;
         }
-        else
+
+        if (CanSeePlayer())
         {
-            agent.speed = OGSpeed;
+            agent.SetDestination(gamemanager.instance.player.transform.position);
         }
-        
+
+        float distanceToPlayer = Vector3.Distance(transform.position, gamemanager.instance.player.transform.position);
+
+        if (distanceToPlayer <= attackRange)
+        {
+            TryAttack();
+        }
     }
 
-    bool HitByFlashlight() // This method checks if the enemy is currently being hit by the player's flashlight
+    void TryAttack()
+    {
+        if (attackTimer >= attackRate)
+        {
+            gamemanager.instance.playerScript.TakeDamage(attackDamage);
+            attackTimer = 0f;
+        }
+    }
+
+    bool HitByFlashlight()
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, flashlightCheckDistance))
+        if (Physics.Raycast(
+            gamemanager.instance.player.transform.position,
+            gamemanager.instance.player.transform.forward,
+            out hit,
+            flashlightCheckDistance))
         {
             if (hit.collider.GetComponentInParent<enemyAI_2>() == this)
             {
                 return true;
             }
         }
+
         return false;
+    }
+
+    bool CanSeePlayer()
+    {
+        playerDir = gamemanager.instance.player.transform.position - transform.position;
+        angleToPlayer = Vector3.Angle(playerDir, transform.forward);
+
+        Debug.DrawRay(transform.position, playerDir);
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, playerDir, out hit))
+        {
+            if (hit.collider.CompareTag("Player") && angleToPlayer <= FOV)
+            {
+                FaceTarget();
+                ArmRotate();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    void FaceTarget()
+    {
+        Quaternion rot = Quaternion.LookRotation(playerDir);
+        transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * faceTargetSpeed);
+    }
+
+    void ArmRotate()
+    {
+        Quaternion rot = Quaternion.LookRotation(playerDir);
+        armPivot1.rotation = Quaternion.Lerp(armPivot1.rotation, rot, Time.deltaTime * armRotateSpeed);
+        armPivot2.rotation = Quaternion.Lerp(armPivot2.rotation, rot, Time.deltaTime * armRotateSpeed);
     }
 
     public void TakeDamage(int damage)
@@ -100,49 +156,10 @@ public class enemyAI_2 : MonoBehaviour, IDamage
         }
     }
 
-    void FaceTarget()
-    {
-        Quaternion rot = Quaternion.LookRotation(playerDir);
-        transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * faceTargetSpeed);
-    }
-
-    void ArmRotate()
-    {
-        Quaternion rot = Quaternion.LookRotation(playerDir);
-        armPivot1.rotation = Quaternion.Lerp(armPivot1.rotation, rot, Time.deltaTime * armRotateSpeed);
-        armPivot2.rotation = Quaternion.Lerp(armPivot2.rotation, rot, Time.deltaTime * armRotateSpeed);
-    }
-
-    bool CanSeePlayer()
-    {
-        playerDir = gamemanager.instance.player.transform.position - transform.position;
-        angleToPlayer = Vector3.Angle(playerDir, transform.forward);
-
-        Debug.DrawRay(transform.position, playerDir);
-
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, playerDir, out hit))
-        {
-            if (hit.collider.CompareTag("Player") && angleToPlayer <= FOV)
-            {               
-                if (agent.remainingDistance <= agent.stoppingDistance)
-                {
-                    FaceTarget();
-                }
-                ArmRotate();
-                
-                return true;
-            }
-        }
-        
-        return false;
-    }
-
     IEnumerator FlashRed()
     {
         model.material.color = Color.red;
         yield return new WaitForSeconds(0.1f);
-        model.material.color = OGColor;
+        model.material.color = OGcolor;
     }
-
 }
