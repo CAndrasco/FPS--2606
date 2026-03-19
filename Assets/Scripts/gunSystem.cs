@@ -44,7 +44,11 @@ public class gunSystem : MonoBehaviour
 
     private void Update()
     {
-        MyInput();
+        if (!gamemanager.instance.isPaused)
+        {
+            MyInput();
+        }
+        
     }
 
     private void MyInput()
