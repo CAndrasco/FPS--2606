@@ -119,7 +119,7 @@ public class enemyAI_3 : MonoBehaviour, IDamage
         if (HP <= 0)
         {
             isDead = true;
-            gamemanager.instance.EnemyKilled();
+            waveManager.instance.EnemyKilled();
             Destroy(gameObject);
         }
         else
