@@ -51,7 +51,7 @@ public class playerController : MonoBehaviour, IDamage
         {
             return;
         }
-
+        
         movement();
         flashlightToggle();
     }
