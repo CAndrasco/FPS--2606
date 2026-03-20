@@ -8,6 +8,7 @@ public class enemyAI_1 : MonoBehaviour, IDamage
     [Header("---- Unity Components ----")]
     [SerializeField] Renderer model;
     [SerializeField] NavMeshAgent agent;
+    [SerializeField] Animator anim; //added for animation syncing.
     [SerializeField] LayerMask ignoreLayer;
     [SerializeField] Transform armPivot1;
     [SerializeField] Transform armPivot2;
@@ -34,7 +35,7 @@ public class enemyAI_1 : MonoBehaviour, IDamage
 
     Color OGcolor;
 
-    bool playerInRange;
+    public bool playerInRange; //Change to public for zombie sounds script.
     bool isDead = false;
 
     float roamTimer;
@@ -45,7 +46,6 @@ public class enemyAI_1 : MonoBehaviour, IDamage
     Vector3 playerDir;
     Vector3 startingPos;
 
-    // DAMAGE FIX
     bool canTakeDamage = true;
     float damageCooldown = 0.05f;
 
@@ -57,6 +57,9 @@ public class enemyAI_1 : MonoBehaviour, IDamage
         if (model == null)
             model = GetComponentInChildren<Renderer>();
 
+        if (anim == null) //added for animation syncing.
+            anim = GetComponent<Animator>();
+
         OGcolor = model.material.color;
         OGSpeed = agent.speed;
         startingPos = transform.position;
@@ -67,6 +70,13 @@ public class enemyAI_1 : MonoBehaviour, IDamage
     {
         attackTimer += Time.deltaTime;
 
+        if (agent == null)
+            return;
+
+        // Update the speed parameter in the animator based on the agent's velocity.
+        float speed = agent.velocity.magnitude;
+        anim.SetFloat("Speed", speed / agent.speed);
+
         if (HitByFlashlight())
         {
             agent.speed = OGSpeed * flashlightSlowMultiplier;
@@ -75,9 +85,6 @@ public class enemyAI_1 : MonoBehaviour, IDamage
         {
             agent.speed = OGSpeed;
         }
-
-        if (agent == null)
-            return;
 
         if (agent.remainingDistance < 0.01f)
         {

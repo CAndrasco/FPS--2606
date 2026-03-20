@@ -5,53 +5,49 @@ using UnityEngine.UI;
 public class playerController : MonoBehaviour, IDamage
 {
     [Header("---- Player Components ----")]
-    [SerializeField] CharacterController controller; //Player Character Controller.
-    [SerializeField] LayerMask ignoreLayer; //Layer mask for the raycast to detect objects.
+    [SerializeField] CharacterController controller;
+    [SerializeField] LayerMask ignoreLayer;
 
     [Header("---- Player Stats ----")]
-    [SerializeField] int HP; //Players Health.
-    [SerializeField] int speed; //Players Movement Speed.
-    [SerializeField] int gravity; //Players Gravity.
-    [SerializeField] int sprintSpeed = 10; //Players Sprint Speed.
-    [SerializeField] int jumpForce = 8; //Players Jump Force.
-
+    [SerializeField] int HP;
+    [SerializeField] int speed;
+    [SerializeField] int gravity;
+    [SerializeField] int sprintSpeed = 10;
+    [SerializeField] int jumpForce = 8;
 
     [Header("---- Flashlight ----")]
-    [SerializeField] Light flashlight; //Players flashlight.
+    [SerializeField] Light flashlight;
 
     [Header("---- Gun ----")]
-    [SerializeField] int shootDamage; //Damage of the gun.
-    [SerializeField] int shootDist; //shoot distance.
-    [SerializeField] float shootRate; //Shoot rate.
+    [SerializeField] int shootDamage;
+    [SerializeField] int shootDist;
+    [SerializeField] float shootRate;
 
     [Header("---- Ammo ----")]
-
-    [SerializeField] int ammo = 0; //Player current ammo.
-    [SerializeField] int ammoMax = 8; // Max ammo = 8 for a standard pistol.
+    [SerializeField] int ammo = 0;
+    [SerializeField] int ammoMax = 8;
     [SerializeField] TMP_Text ammoCountText;
     [SerializeField] TMP_Text ammoMaxText;
 
-    int HPOriginal; //Players original health.
-    float shootTimer; //Timer for the shoot rate.
+    int HPOriginal;
+    float shootTimer;
 
     Vector3 moveDir;
     Vector3 playerVel;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         HPOriginal = HP;
         updatePlayerUI();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (gamemanager.instance != null && gamemanager.instance.isPaused)
         {
             return;
         }
-        
+
         movement();
         flashlightToggle();
     }
@@ -67,14 +63,14 @@ public class playerController : MonoBehaviour, IDamage
                 playerVel.y = -2f;
             }
 
-            if(Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown("Jump"))
             {
                 playerVel.y = jumpForce;
             }
         }
 
         moveDir = Input.GetAxis("Horizontal") * transform.right +
-            Input.GetAxis("Vertical") * transform.forward;
+                  Input.GetAxis("Vertical") * transform.forward;
 
         int currentSpeed = speed;
 
@@ -87,13 +83,6 @@ public class playerController : MonoBehaviour, IDamage
 
         playerVel.y -= gravity * Time.deltaTime;
         controller.Move(playerVel * Time.deltaTime);
-
-        //if (Input.GetButton("Fire1") && shootTimer >= shootRate && ammo > 0)
-        //{
-        //    shoot();
-        //}
-
-        //Shooting handled by gunSystem.
     }
 
     void flashlightToggle()
@@ -103,28 +92,6 @@ public class playerController : MonoBehaviour, IDamage
             flashlight.enabled = !flashlight.enabled;
         }
     }
-
-    // Shooting handled by gunSystem.
-
-    //void shoot()
-    //{
-    //    if (ammo <= 0)
-    //        return;
-
-    //    shootTimer = 0;
-    //    ammo--;
-    //    updatePlayerUI();
-
-    //    RaycastHit hit;
-
-    //    if (Physics.Raycast(Camera.main.transform.position,
-    //            Camera.main.transform.forward,
-    //            out hit,
-    //            shootDist,
-    //            ~ignoreLayer))
-        
-          
-    //}
 
     public void AddAmmo(int amount)
     {
@@ -161,7 +128,7 @@ public class playerController : MonoBehaviour, IDamage
 
     public bool IsAmmoFull()
     {
-           return ammo >= ammoMax;
+        return ammo >= ammoMax;
     }
 
     public int GetCurrentAmmo()
@@ -172,10 +139,12 @@ public class playerController : MonoBehaviour, IDamage
     public void UseAmmo(int amount)
     {
         ammo -= amount;
+
         if (ammo < 0)
+        {
             ammo = 0;
+        }
 
         updatePlayerUI();
     }
-
 }

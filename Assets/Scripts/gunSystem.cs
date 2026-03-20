@@ -24,13 +24,14 @@ public class gunSystem : MonoBehaviour
 
     public float camShakeMagnitude, camShakeDuration;
 
-    // 🔊 Gun sound
+    //Sound
     public AudioSource gunAudio;
     public AudioClip gunShotSound;
 
+    //Recoil
+    [SerializeField] weaponRecoil recoil;
+
     playerController player;
-
-
 
     private void Awake()
     {
@@ -48,7 +49,6 @@ public class gunSystem : MonoBehaviour
         {
             MyInput();
         }
-        
     }
 
     private void MyInput()
@@ -100,13 +100,20 @@ public class gunSystem : MonoBehaviour
             Instantiate(muzzleFlash, attackPoint.position, attackPoint.rotation);
         }
 
-        // Gunshot sound.
+        //added gunshot sound.
         if (gunAudio != null && gunShotSound != null)
         {
             gunAudio.pitch = Random.Range(0.9f, 1.1f);
             gunAudio.PlayOneShot(gunShotSound);
         }
 
+        //Added recoil trigger.
+        if (recoil != null)
+        {
+            recoil.Fire();
+        }
+
+        // Use ammo
         player.UseAmmo(1);
 
         Invoke("ResetShot", timeBetweenShooting);
