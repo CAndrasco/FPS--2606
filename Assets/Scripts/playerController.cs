@@ -1,6 +1,6 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
+using System.Collections;
 
 public class playerController : MonoBehaviour, IDamage
 {
@@ -114,6 +114,10 @@ public class playerController : MonoBehaviour, IDamage
         {
             gamemanager.instance.youLose();
         }
+    }
+    IEnumerator flashDamage()
+    {
+       
     }
 
     public void updatePlayerUI()
