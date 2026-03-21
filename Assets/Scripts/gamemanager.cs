@@ -16,6 +16,7 @@ public class gamemanager : MonoBehaviour
     [SerializeField] TMP_Text waveCounter;
     [SerializeField] TMP_Text zombieCounter;
     [SerializeField] TMP_Text exitDistanceText;
+    public GameObject damagePlayerFlash;
 
     public Image playerHPBar;
     public GameObject player;
