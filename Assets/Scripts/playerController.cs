@@ -33,9 +33,16 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] AudioSource aud;
     [SerializeField] AudioClip[] audHurt;
     [SerializeField] float audHurtVol;
+    [SerializeField] AudioClip[] audJump;
+    [SerializeField] float audJumpVol;
+    [SerializeField] AudioClip[] audStep;
+    [SerializeField] float audStepVol;
+
 
     int HPOriginal;
     float shootTimer;
+    bool isPlayingStep;
+    bool isSprinting;
 
     Vector3 moveDir;
     Vector3 playerVel;
@@ -82,14 +89,33 @@ public class playerController : MonoBehaviour, IDamage
         if (Input.GetKey(KeyCode.LeftShift))
         {
             currentSpeed = sprintSpeed;
+            
         }
+        
 
-        controller.Move(moveDir * currentSpeed * Time.deltaTime);
+            controller.Move(moveDir * currentSpeed * Time.deltaTime);
 
         playerVel.y -= gravity * Time.deltaTime;
         controller.Move(playerVel * Time.deltaTime);
-    }
 
+        //StartCoroutine(playStep());
+    }
+    //IEnumerator playStep()
+    //{
+    //    isPlayingStep = true;
+    //    aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
+    //    if(isSprinting)
+    //    {
+    //        yield return new WaitForSeconds(0.3f);
+    //    }
+    //    else
+    //    {
+    //        yield return new WaitForSeconds(0.5f);
+    //    }
+    //    isPlayingStep = false;
+    //}
+
+    
     void flashlightToggle()
     {
         if (Input.GetKeyDown(KeyCode.F))

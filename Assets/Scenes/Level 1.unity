@@ -15556,6 +15556,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e59b0529813d5cf4498d66d8d5e3b66c, type: 3}
   - {fileID: 8300000, guid: ddafcb18cec463642a8d9dd202e4e906, type: 3}
   audHurtVol: 0.5
+  audJump:
+  - {fileID: 8300000, guid: 1c3641d126bd5f844822d80da7a497f8, type: 3}
+  - {fileID: 8300000, guid: 6a594def5f9f5324f8e6b107fdb68057, type: 3}
+  - {fileID: 8300000, guid: 0e28beddf175827478ace60d63a37e8c, type: 3}
+  audJumpVol: 0.5
+  audStep:
+  - {fileID: 8300000, guid: 6b14ad944d7d3ea4f9af69e80c37bb69, type: 3}
+  audStepVol: 0.5
 --- !u!114 &1812522168979506800
 MonoBehaviour:
   m_ObjectHideFlags: 0
