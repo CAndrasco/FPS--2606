@@ -29,6 +29,11 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] TMP_Text ammoCountText;
     [SerializeField] TMP_Text ammoMaxText;
 
+    [Header("----Audio----")]
+    [SerializeField] AudioSource aud;
+    [SerializeField] AudioClip[] audHurt;
+    [SerializeField] float audHurtVol;
+
     int HPOriginal;
     float shootTimer;
 
@@ -114,6 +119,7 @@ public class playerController : MonoBehaviour, IDamage
             gamemanager.instance.bloodOverlay.gameObject.SetActive(true);
         }
         updatePlayerUI();
+        aud.PlayOneShot(audHurt[Random.Range(0, audHurt.Length)], audHurtVol);
         StartCoroutine(flashDamage());
 
         if (HP <= 0)
