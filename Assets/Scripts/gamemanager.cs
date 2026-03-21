@@ -21,6 +21,7 @@ public class gamemanager : MonoBehaviour
     public GameObject player;
     public playerController playerScript;
     public GameObject damagePlayerFlash;
+    public Image bloodOverlay;
 
     public bool isPaused;
 

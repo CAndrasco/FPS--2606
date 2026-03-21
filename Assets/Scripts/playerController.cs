@@ -108,8 +108,12 @@ public class playerController : MonoBehaviour, IDamage
     public void TakeDamage(int amount)
     {
         HP -= amount;
+        //wake up blood overlay
+        if (gamemanager.instance.bloodOverlay != null & !gamemanager.instance.bloodOverlay.gameObject.activeSelf)
+        {
+            gamemanager.instance.bloodOverlay.gameObject.SetActive(true);
+        }
         updatePlayerUI();
-
         StartCoroutine(flashDamage());
 
         if (HP <= 0)
@@ -120,7 +124,7 @@ public class playerController : MonoBehaviour, IDamage
     IEnumerator flashDamage()
     {
         gamemanager.instance.damagePlayerFlash.SetActive(true);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         gamemanager.instance.damagePlayerFlash.SetActive(false);
     }
 
@@ -128,7 +132,21 @@ public class playerController : MonoBehaviour, IDamage
     {
         if (gamemanager.instance != null && gamemanager.instance.playerHPBar != null)
         {
-            gamemanager.instance.playerHPBar.fillAmount = (float)HP / HPOriginal;
+            float hpRatio = (float)HP / HPOriginal;
+            gamemanager.instance.playerHPBar.fillAmount = hpRatio;
+
+            //handle blood overlay
+            if(gamemanager.instance.bloodOverlay != null)
+            {
+                //get current color
+                Color c = gamemanager.instance.bloodOverlay.color;
+                //flip ratio
+                c.a = 1f - hpRatio;
+                //apply it back
+                gamemanager.instance.bloodOverlay.color = c;
+            }
+
+
             ammoCountText.text = ammo.ToString("F0");
             ammoMaxText.text = ammoMax.ToString("F0");
         }
