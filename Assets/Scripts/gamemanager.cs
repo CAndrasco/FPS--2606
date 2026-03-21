@@ -15,12 +15,12 @@ public class gamemanager : MonoBehaviour
 
     [SerializeField] TMP_Text waveCounter;
     [SerializeField] TMP_Text zombieCounter;
-    [SerializeField] TMP_Text exitDistanceText;
-    public GameObject damagePlayerFlash;
+    [SerializeField] TMP_Text exitDistanceText;    
 
     public Image playerHPBar;
     public GameObject player;
     public playerController playerScript;
+    public GameObject damagePlayerFlash;
 
     public bool isPaused;
 
