@@ -31,8 +31,6 @@ public class enemyAI_2 : MonoBehaviour, IDamage
 
     void Start()
     {
-        anim.Play("ZombieAnimator");
-
         OGcolor = model.material.color;
         OGSpeed = agent.speed;
 

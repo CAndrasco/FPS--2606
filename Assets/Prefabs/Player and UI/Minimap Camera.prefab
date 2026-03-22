@@ -73,7 +73,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 14
+  orthographic size: 15
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -145,4 +145,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 070301a432e82104884d93b5c2964593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::miniMapFollow
+  floorTag: Floor
   player: {fileID: 0}

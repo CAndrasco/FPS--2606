@@ -2518,7 +2518,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4408928315246080854
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2528,7 +2528,7 @@ RectTransform:
   m_GameObject: {fileID: 4060494448998922484}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 19.651697, y: 11.237, z: 1}
+  m_LocalScale: {x: 39.93618, y: 22.635443, z: 1.5375}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 188866011736847928}
@@ -2929,8 +2929,8 @@ MonoBehaviour:
   playerHPBar: {fileID: 7891152045639655254}
   player: {fileID: 0}
   playerScript: {fileID: 0}
-  damagePlayerFlash: {fileID: 0}
-  bloodOverlay: {fileID: 0}
+  damagePlayerFlash: {fileID: 7668909333595060214}
+  bloodOverlay: {fileID: 7509972060404769886}
   isPaused: 0
 --- !u!1 &5348860641889868484
 GameObject:
@@ -3715,7 +3715,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3007560706637187464
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3756,7 +3756,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.39215687}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
