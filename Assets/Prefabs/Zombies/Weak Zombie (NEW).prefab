@@ -2092,7 +2092,7 @@ MonoBehaviour:
   armPivot2: {fileID: 2953018118356217124}
   anim: {fileID: 1363336257900746774}
   HP: 10
-  FOV: 50
+  FOV: 180
   faceTargetSpeed: 3
   armRotateSpeed: 3
   sprintSpeed: 3

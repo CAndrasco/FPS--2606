@@ -4,17 +4,21 @@ using UnityEngine.AI;
 
 public class enemyAI_2 : MonoBehaviour, IDamage
 {
+    [Header("---- Components ----")]
     [SerializeField] Renderer model;
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Transform armPivot1;
     [SerializeField] Transform armPivot2;
+    [SerializeField] Animator anim;
 
+    [Header("---- Stats ----")]
     [SerializeField] int HP = 100;
     [SerializeField] int FOV = 120;
     [SerializeField] int faceTargetSpeed = 6;
     [SerializeField] int armRotateSpeed = 6;
     [SerializeField] int sprintSpeed = 8;
 
+    [Header("---- Attack ----")]
     [SerializeField] int attackDamage = 20;
     [SerializeField] float attackRate = 1f;
     [SerializeField] float attackRange = 2f;
@@ -27,12 +31,20 @@ public class enemyAI_2 : MonoBehaviour, IDamage
 
     void Start()
     {
+        anim.Play("ZombieAnimator");
+
         OGcolor = model.material.color;
         OGSpeed = agent.speed;
+
+        // Auto assign animator if not set
+        if (anim == null)
+            anim = GetComponent<Animator>();
     }
 
     void Update()
     {
+        Debug.Log("Animator: " + anim);
+
         attackTimer += Time.deltaTime;
 
         agent.speed = sprintSpeed;
@@ -44,6 +56,13 @@ public class enemyAI_2 : MonoBehaviour, IDamage
 
         if (dist <= attackRange)
             TryAttack();
+
+        // should fix animation..(matches enemyAI_1 behavior)
+        if (agent != null && anim != null && agent.speed > 0)
+        {
+            float speed = agent.velocity.magnitude;
+            anim.SetFloat("Speed", speed / agent.speed);
+        }
     }
 
     void TryAttack()

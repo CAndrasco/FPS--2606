@@ -59,7 +59,7 @@ public class waveManager : MonoBehaviour
 
     void Spawn(GameObject enemy)
     {
-        for (int i = 0; i < 10; i++) // try multiple times to find valid spot
+        for (int i = 0; i < 10; i++) // try multiple positions
         {
             Vector3 ranPos = Random.insideUnitSphere * spawnDist;
             ranPos += transform.position;
@@ -67,8 +67,12 @@ public class waveManager : MonoBehaviour
             NavMeshHit hit;
             if (NavMesh.SamplePosition(ranPos, out hit, spawnDist, NavMesh.AllAreas))
             {
-                // prevent roof spawns..
+                // this will prevent roof spawns
                 if (hit.position.y > transform.position.y + 2f)
+                    continue;
+
+                // prevents indoor spawns (ceiling check)
+                if (Physics.Raycast(hit.position + Vector3.up * 1f, Vector3.up, 10f))
                     continue;
 
                 Instantiate(enemy, hit.position, Quaternion.Euler(0, Random.Range(0, 360), 0));
