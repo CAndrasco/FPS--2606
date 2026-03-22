@@ -11,8 +11,7 @@ public class gunSystem : MonoBehaviour
 
     //bools 
     bool shooting, readyToShoot, reloading;
-    bool triggerReleased = true; // This variable tracks whether the trigger has been released since the last shot, preventing continuous shooting when the mouse button is held down.
-
+    bool triggerReleased = true;
 
     //Reference
     public Camera fpsCam;
@@ -20,15 +19,19 @@ public class gunSystem : MonoBehaviour
     public RaycastHit rayHit;
     public LayerMask whatIsEnemy;
 
-
     //Graphics
     public GameObject muzzleFlash, bulletHoleGraphic;
-  
+
     public float camShakeMagnitude, camShakeDuration;
 
-    playerController player; // Reference to the playerController script.
+    //Sound
+    public AudioSource gunAudio;
+    public AudioClip gunShotSound;
 
+    //Recoil
+    [SerializeField] weaponRecoil recoil;
 
+    playerController player;
 
     private void Awake()
     {
@@ -39,10 +42,13 @@ public class gunSystem : MonoBehaviour
 
         readyToShoot = true;
     }
+
     private void Update()
     {
-        MyInput();
-        //UpdateAmmoUI();
+        if (!gamemanager.instance.isPaused)
+        {
+            MyInput();
+        }
     }
 
     private void MyInput()
@@ -55,13 +61,11 @@ public class gunSystem : MonoBehaviour
             triggerReleased = false;
             Shoot();
         }
-
-      
     }
 
     private void Shoot()
     {
-        Debug.Log("Shoot called on: " + gameObject.name + " frame: " + Time.frameCount); // Log the name of the gun that is shooting for debugging purposes.
+        Debug.Log("Shoot called on: " + gameObject.name + " frame: " + Time.frameCount);
 
         readyToShoot = false;
 
@@ -96,24 +100,38 @@ public class gunSystem : MonoBehaviour
             Instantiate(muzzleFlash, attackPoint.position, attackPoint.rotation);
         }
 
-        player.UseAmmo(1); // Tell the playerController script that ammo has been used.
+        //added gunshot sound.
+        if (gunAudio != null && gunShotSound != null)
+        {
+            gunAudio.pitch = Random.Range(0.9f, 1.1f);
+            gunAudio.PlayOneShot(gunShotSound);
+        }
+
+        //Added recoil trigger.
+        if (recoil != null)
+        {
+            recoil.Fire();
+        }
+
+        // Use ammo
+        player.UseAmmo(1);
 
         Invoke("ResetShot", timeBetweenShooting);
-
     }
+
     private void ResetShot()
     {
         readyToShoot = true;
     }
+
     private void Reload()
     {
         reloading = true;
         Invoke("ReloadFinished", reloadTime);
     }
+
     private void ReloadFinished()
     {
         reloading = false;
     }
 }
-
-

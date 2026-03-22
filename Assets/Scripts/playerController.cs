@@ -1,50 +1,58 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
+using System.Collections;
 
 public class playerController : MonoBehaviour, IDamage
 {
     [Header("---- Player Components ----")]
-    [SerializeField] CharacterController controller; //Player Character Controller.
-    [SerializeField] LayerMask ignoreLayer; //Layer mask for the raycast to detect objects.
+    [SerializeField] CharacterController controller;
+    [SerializeField] LayerMask ignoreLayer;
 
     [Header("---- Player Stats ----")]
-    [SerializeField] int HP; //Players Health.
-    [SerializeField] int speed; //Players Movement Speed.
-    [SerializeField] int gravity; //Players Gravity.
-    [SerializeField] int sprintSpeed = 10; //Players Sprint Speed.
-    [SerializeField] int jumpForce = 8; //Players Jump Force.
-
+    [SerializeField] int HP;
+    [SerializeField] int speed;
+    [SerializeField] int gravity;
+    [SerializeField] int sprintSpeed = 10;
+    [SerializeField] int jumpForce = 8;
 
     [Header("---- Flashlight ----")]
-    [SerializeField] Light flashlight; //Players flashlight.
+    [SerializeField] Light flashlight;
 
     [Header("---- Gun ----")]
-    [SerializeField] int shootDamage; //Damage of the gun.
-    [SerializeField] int shootDist; //shoot distance.
-    [SerializeField] float shootRate; //Shoot rate.
+    [SerializeField] int shootDamage;
+    [SerializeField] int shootDist;
+    [SerializeField] float shootRate;
 
     [Header("---- Ammo ----")]
-
-    [SerializeField] int ammo = 0; //Player current ammo.
-    [SerializeField] int ammoMax = 8; // Max ammo = 8 for a standard pistol.
+    [SerializeField] int ammo = 0;
+    [SerializeField] int ammoMax = 8;
     [SerializeField] TMP_Text ammoCountText;
     [SerializeField] TMP_Text ammoMaxText;
 
-    int HPOriginal; //Players original health.
-    float shootTimer; //Timer for the shoot rate.
+    [Header("----Audio----")]
+    [SerializeField] AudioSource aud;
+    [SerializeField] AudioClip[] audHurt;
+    [SerializeField] float audHurtVol;
+    [SerializeField] AudioClip[] audJump;
+    [SerializeField] float audJumpVol;
+    [SerializeField] AudioClip[] audStep;
+    [SerializeField] float audStepVol;
+
+
+    int HPOriginal;
+    float shootTimer;
+    bool isPlayingStep;
+    bool isSprinting;
 
     Vector3 moveDir;
     Vector3 playerVel;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         HPOriginal = HP;
         updatePlayerUI();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (gamemanager.instance != null && gamemanager.instance.isPaused)
@@ -67,35 +75,47 @@ public class playerController : MonoBehaviour, IDamage
                 playerVel.y = -2f;
             }
 
-            if(Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown("Jump"))
             {
                 playerVel.y = jumpForce;
             }
         }
 
         moveDir = Input.GetAxis("Horizontal") * transform.right +
-            Input.GetAxis("Vertical") * transform.forward;
+                  Input.GetAxis("Vertical") * transform.forward;
 
         int currentSpeed = speed;
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
             currentSpeed = sprintSpeed;
+            
         }
+        
 
-        controller.Move(moveDir * currentSpeed * Time.deltaTime);
+            controller.Move(moveDir * currentSpeed * Time.deltaTime);
 
         playerVel.y -= gravity * Time.deltaTime;
         controller.Move(playerVel * Time.deltaTime);
 
-        //if (Input.GetButton("Fire1") && shootTimer >= shootRate && ammo > 0)
-        //{
-        //    shoot();
-        //}
-
-        //Shooting handled by gunSystem.
+        //StartCoroutine(playStep());
     }
+    //IEnumerator playStep()
+    //{
+    //    isPlayingStep = true;
+    //    aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
+    //    if(isSprinting)
+    //    {
+    //        yield return new WaitForSeconds(0.3f);
+    //    }
+    //    else
+    //    {
+    //        yield return new WaitForSeconds(0.5f);
+    //    }
+    //    isPlayingStep = false;
+    //}
 
+    
     void flashlightToggle()
     {
         if (Input.GetKeyDown(KeyCode.F))
@@ -103,28 +123,6 @@ public class playerController : MonoBehaviour, IDamage
             flashlight.enabled = !flashlight.enabled;
         }
     }
-
-    // Shooting handled by gunSystem.
-
-    //void shoot()
-    //{
-    //    if (ammo <= 0)
-    //        return;
-
-    //    shootTimer = 0;
-    //    ammo--;
-    //    updatePlayerUI();
-
-    //    RaycastHit hit;
-
-    //    if (Physics.Raycast(Camera.main.transform.position,
-    //            Camera.main.transform.forward,
-    //            out hit,
-    //            shootDist,
-    //            ~ignoreLayer))
-        
-          
-    //}
 
     public void AddAmmo(int amount)
     {
@@ -141,19 +139,46 @@ public class playerController : MonoBehaviour, IDamage
     public void TakeDamage(int amount)
     {
         HP -= amount;
+        //wake up blood overlay
+        if (gamemanager.instance.bloodOverlay != null & !gamemanager.instance.bloodOverlay.gameObject.activeSelf)
+        {
+            gamemanager.instance.bloodOverlay.gameObject.SetActive(true);
+        }
         updatePlayerUI();
+        aud.PlayOneShot(audHurt[Random.Range(0, audHurt.Length)], audHurtVol);
+        StartCoroutine(flashDamage());
 
         if (HP <= 0)
         {
             gamemanager.instance.youLose();
         }
     }
+    IEnumerator flashDamage()
+    {
+        gamemanager.instance.damagePlayerFlash.SetActive(true);
+        yield return new WaitForSeconds(0.2f);
+        gamemanager.instance.damagePlayerFlash.SetActive(false);
+    }
 
     public void updatePlayerUI()
     {
         if (gamemanager.instance != null && gamemanager.instance.playerHPBar != null)
         {
-            gamemanager.instance.playerHPBar.fillAmount = (float)HP / HPOriginal;
+            float hpRatio = (float)HP / HPOriginal;
+            gamemanager.instance.playerHPBar.fillAmount = hpRatio;
+
+            //handle blood overlay
+            if(gamemanager.instance.bloodOverlay != null)
+            {
+                //get current color
+                Color c = gamemanager.instance.bloodOverlay.color;
+                //flip ratio
+                c.a = 1f - hpRatio;
+                //apply it back
+                gamemanager.instance.bloodOverlay.color = c;
+            }
+
+
             ammoCountText.text = ammo.ToString("F0");
             ammoMaxText.text = ammoMax.ToString("F0");
         }
@@ -161,7 +186,7 @@ public class playerController : MonoBehaviour, IDamage
 
     public bool IsAmmoFull()
     {
-           return ammo >= ammoMax;
+        return ammo >= ammoMax;
     }
 
     public int GetCurrentAmmo()
@@ -172,10 +197,12 @@ public class playerController : MonoBehaviour, IDamage
     public void UseAmmo(int amount)
     {
         ammo -= amount;
+
         if (ammo < 0)
+        {
             ammo = 0;
+        }
 
         updatePlayerUI();
     }
-
 }

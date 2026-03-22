@@ -8,6 +8,7 @@ public class enemyAI_1 : MonoBehaviour, IDamage
     [Header("---- Unity Components ----")]
     [SerializeField] Renderer model;
     [SerializeField] NavMeshAgent agent;
+    [SerializeField] Animator anim; //added for animation syncing.
     [SerializeField] LayerMask ignoreLayer;
     [SerializeField] Transform armPivot1;
     [SerializeField] Transform armPivot2;
@@ -21,14 +22,20 @@ public class enemyAI_1 : MonoBehaviour, IDamage
     [SerializeField] int sprintSpeed;
     [SerializeField] int roamPauseTime;
     [SerializeField] int roamDistance;
-    [SerializeField] float flashlightSlowMultiplier = 0.2f; // How much the enemy's speed is reduced when in the player's flashlight
-    [SerializeField] float flashlightCheckDistance = 20f; // The distance at which the enemy checks if it's in the player's flashlight
+    [SerializeField] float flashlightSlowMultiplier = 0.2f;
+    [SerializeField] float flashlightCheckDistance = 20f;
     [SerializeField] int cameraFOV;
+
+    [Header("---- Attack Settings ----")]
+    [SerializeField] int attackDamage = 10;
+    [SerializeField] float attackRate = 1.5f;
+    [SerializeField] float attackRange = 1.5f;
+
+    float attackTimer;
 
     Color OGcolor;
 
-    bool playerInRange;
-    bool isSlowed = false;
+    public bool playerInRange; //Change to public for zombie sounds script.
     bool isDead = false;
 
     float roamTimer;
@@ -39,14 +46,19 @@ public class enemyAI_1 : MonoBehaviour, IDamage
     Vector3 playerDir;
     Vector3 startingPos;
 
+    bool canTakeDamage = true;
+    float damageCooldown = 0.05f;
 
     void Start()
     {
         if (agent == null)
-            agent = GetComponent<NavMeshAgent>(); // Try to get the NavMeshAgent component if not assigned in the inspector
+            agent = GetComponent<NavMeshAgent>();
 
-        if(model == null)
-            model = GetComponentInChildren<Renderer>(); // Try to get the Renderer component from children if not assigned in the inspector
+        if (model == null)
+            model = GetComponentInChildren<Renderer>();
+
+        if (anim == null) //added for animation syncing.
+            anim = GetComponent<Animator>();
 
         OGcolor = model.material.color;
         OGSpeed = agent.speed;
@@ -54,38 +66,61 @@ public class enemyAI_1 : MonoBehaviour, IDamage
         stoppingDistanceOG = agent.stoppingDistance;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (HitByFlashlight()) // Check if the enemy is currently being hit by the player's flashlight
+        attackTimer += Time.deltaTime;
+
+        if (agent == null)
+            return;
+
+        // Update the speed parameter in the animator based on the agent's velocity.
+        float speed = agent.velocity.magnitude;
+        anim.SetFloat("Speed", speed / agent.speed);
+
+        if (HitByFlashlight())
         {
-            agent.speed = OGSpeed * flashlightSlowMultiplier; // Reduce speed when hit by flashlight
+            agent.speed = OGSpeed * flashlightSlowMultiplier;
         }
         else
         {
-            agent.speed = OGSpeed; // Reset to normal speed when not hit by flashlight
+            agent.speed = OGSpeed;
         }
-
-        if (agent == null) 
-            return; // If agent is still null, exit the Update method to avoid errors
 
         if (agent.remainingDistance < 0.01f)
         {
             roamTimer += Time.deltaTime;
         }
-        if(playerInRange && !CanSeePlayer())
+
+        if (!playerInRange)
         {
             CheckRoam();
         }
-        else if(!playerInRange)
+
+        float distanceToPlayer = Vector3.Distance(transform.position, gamemanager.instance.player.transform.position);
+
+        if (distanceToPlayer <= attackRange)
         {
-            CheckRoam();
+            TryAttack();
+        }
+
+        if (playerInRange)
+        {
+            CanSeePlayer();
+        }
+    }
+
+    void TryAttack()
+    {
+        if (attackTimer >= attackRate)
+        {
+            gamemanager.instance.playerScript.TakeDamage(attackDamage);
+            attackTimer = 0f;
         }
     }
 
     void CheckRoam()
     {
-        if(agent.remainingDistance < 0.01f && roamTimer >= roamPauseTime)
+        if (agent.remainingDistance < 0.01f && roamTimer >= roamPauseTime)
         {
             Roam();
         }
@@ -112,24 +147,28 @@ public class enemyAI_1 : MonoBehaviour, IDamage
         Debug.DrawRay(transform.position, playerDir);
 
         RaycastHit hit;
-        if(Physics.Raycast(transform.position,playerDir, out hit))
+        if (Physics.Raycast(transform.position, playerDir, out hit))
         {
             if (hit.collider.CompareTag("Player") && angleToPlayer <= FOV)
             {
                 agent.SetDestination(gamemanager.instance.player.transform.position);
+
                 if (!HitByFlashlight())
                 {
-                    agent.speed = sprintSpeed; 
+                    agent.speed = sprintSpeed;
                 }
-                if(agent.remainingDistance <= agent.stoppingDistance)
+
+                if (agent.remainingDistance <= agent.stoppingDistance)
                 {
                     FaceTarget();
                 }
+
                 ArmRotate();
                 agent.stoppingDistance = stoppingDistanceOG;
                 return true;
             }
         }
+
         agent.stoppingDistance = 0;
         return false;
     }
@@ -157,60 +196,56 @@ public class enemyAI_1 : MonoBehaviour, IDamage
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             playerInRange = false;
         }
     }
+
     public void TakeDamage(int damage)
     {
-        //if (isDead) return;
+        if (!canTakeDamage)
+            return;
+
+        canTakeDamage = false;
 
         HP -= damage;
 
         if (HP <= 0)
         {
-            //isDead = true;
-            gamemanager.instance.EnemyKilled();
+            waveManager.instance.EnemyKilled();
             Destroy(gameObject);
         }
         else
         {
             StartCoroutine(FlashRed());
         }
+
+        StartCoroutine(DamageCooldown());
     }
 
-    bool HitByFlashlight() // This method checks if the enemy is currently being hit by the player's flashlight
+    IEnumerator DamageCooldown()
+    {
+        yield return new WaitForSeconds(damageCooldown);
+        canTakeDamage = true;
+    }
+
+    bool HitByFlashlight()
     {
         RaycastHit hit;
-        //Vector3 center = transform.position;
 
-        //Collider[] hitCollider = Physics.OverlapSphere(center, flashlightCheckDistance);
-        //playerDir = gamemanager.instance.player.transform.position;
-        //angleToPlayer = Vector3.Angle(playerDir, transform.forward);
-        //Debug.DrawRay(playerDir, gamemanager.instance.player.transform.position, Color.purple);
-
-        //for (int i = 0; i < hitCollider.Length; i++)
-        //{
-        //    if (hitCollider[i].CompareTag("Player"))
-        //    {
-        //        isSlowed = true;
-        //    }
-        //    else
-        //    {
-        //        isSlowed = false;
-        //    }
-        //}
-
-        if (Physics.Raycast(gamemanager.instance.player.transform.position, gamemanager.instance.player.transform.forward, out hit,
+        if (Physics.Raycast(
+            gamemanager.instance.player.transform.position,
+            gamemanager.instance.player.transform.forward,
+            out hit,
             flashlightCheckDistance))
         {
-            //return true;
             if (hit.collider.GetComponentInParent<enemyAI_1>() == this)
             {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -220,5 +255,4 @@ public class enemyAI_1 : MonoBehaviour, IDamage
         yield return new WaitForSeconds(0.1f);
         model.material.color = OGcolor;
     }
-
 }
