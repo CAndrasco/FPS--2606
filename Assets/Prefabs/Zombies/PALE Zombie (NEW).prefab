@@ -1003,12 +1003,12 @@ MonoBehaviour:
   armPivot1: {fileID: 1248594831212116005}
   armPivot2: {fileID: 965802954187256970}
   anim: {fileID: 2135367350639742177}
-  HP: 20
-  FOV: 60
+  HP: 2
+  FOV: 360
   faceTargetSpeed: 4
   armRotateSpeed: 4
-  sprintSpeed: 5
-  attackDamage: 20
+  sprintSpeed: 3
+  attackDamage: 5
   attackRate: 1
   attackRange: 2
 --- !u!195 &5846817989004882298

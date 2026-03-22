@@ -104,7 +104,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5583660484260449086}
-  - component: {fileID: 8694667056876696252}
   - component: {fileID: 1268116874962570146}
   m_Layer: 0
   m_Name: FatZombie
@@ -130,28 +129,6 @@ Transform:
   - {fileID: 6740535013681000364}
   m_Father: {fileID: 2049544753767501436}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &8694667056876696252
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 779554357999064507}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 4b11d0901d1e3f04da6b00a4ff5d74dd, type: 3}
-  m_Controller: {fileID: 9100000, guid: 9ed64ec5bef6fac4ab43828e5bd6d942, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!205 &1268116874962570146
 LODGroup:
   m_ObjectHideFlags: 0
@@ -1056,7 +1033,7 @@ MonoBehaviour:
   FOV: 180
   faceTargetSpeed: 5
   chargeDelay: 2
-  chargeSpeed: 15
+  chargeSpeed: 4
 --- !u!195 &5850829074532492355
 NavMeshAgent:
   m_ObjectHideFlags: 0
