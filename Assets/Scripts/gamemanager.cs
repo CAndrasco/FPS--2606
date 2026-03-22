@@ -47,9 +47,6 @@ public class gamemanager : MonoBehaviour
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-
-        // Start wave system
-        waveManager.instance.startFirstWave();
     }
 
     void Update()
@@ -84,8 +81,8 @@ public class gamemanager : MonoBehaviour
 
     public void updateGameGoal(int wave, int enemies)
     {
-        waveCounter.text = "WAVE " + wave;
-        zombieCounter.text = "ZOMBIES ALIVE " + enemies;
+        waveCounter.text = wave.ToString();
+        zombieCounter.text = enemies.ToString();
     }
 
     public void showExitDistance()
