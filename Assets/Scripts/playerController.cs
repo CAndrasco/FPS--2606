@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using System.Collections;
 using System.Xml.Serialization;
+using UnityEngine.AI;
 
 public class playerController : MonoBehaviour, IDamage
 {
@@ -14,7 +15,7 @@ public class playerController : MonoBehaviour, IDamage
     [Range(1,10)] [SerializeField] int speed;
     [Range(2, 6)] [SerializeField] int sprintMod;
     [SerializeField] int gravity;
-    [SerializeField] int sprintSpeed = 10;
+    //[SerializeField] int sprintSpeed = 10;
     [SerializeField] int jumpForce = 8;
 
     [Header("---- Flashlight ----")]
@@ -71,18 +72,20 @@ public class playerController : MonoBehaviour, IDamage
     {
         shootTimer += Time.deltaTime;
 
-        if (controller.isGrounded)
-        {
-            if (playerVel.y < 0)
-            {
-                playerVel.y = -2f;
-            }
+        //OLD JUMP CODE. CHANGED TO ITS OWN FUNCTION - ERIC
+        //if (controller.isGrounded)
+        //{
+        //    if (playerVel.y < 0)
+        //    {
+        //        playerVel.y = -2f;
+        //    }
 
-            if (Input.GetButtonDown("Jump"))
-            {
-                playerVel.y = jumpForce;
-            }
-        }
+        //    if (Input.GetButtonDown("Jump"))
+        //    {
+        //        playerVel.y = jumpForce;
+        //    }
+        //}
+        jump();
 
         moveDir = Input.GetAxis("Horizontal") * transform.right +
                   Input.GetAxis("Vertical") * transform.forward;
@@ -134,7 +137,23 @@ public class playerController : MonoBehaviour, IDamage
             isSprinting = false;
         }
     }
-    
+    void jump()
+    {
+        if (controller.isGrounded)
+        {
+            if (playerVel.y < 0)
+            {
+                playerVel.y = -2f;
+            }
+
+            if (Input.GetButtonDown("Jump"))
+            {
+                playerVel.y = jumpForce;
+                aud.PlayOneShot(audJump[Random.Range(0, audJump.Length)], audJumpVol);
+            }
+        }
+    }
+
     void flashlightToggle()
     {
         if (Input.GetKeyDown(KeyCode.F))

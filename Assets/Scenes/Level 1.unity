@@ -15538,7 +15538,6 @@ MonoBehaviour:
   speed: 5
   sprintMod: 3
   gravity: 20
-  sprintSpeed: 10
   jumpForce: 8
   flashlight: {fileID: 648593067132964542}
   shootDamage: 1
@@ -15564,7 +15563,7 @@ MonoBehaviour:
   audJumpVol: 0.5
   audStep:
   - {fileID: 8300000, guid: 6b14ad944d7d3ea4f9af69e80c37bb69, type: 3}
-  audStepVol: 0.5
+  audStepVol: 0.2
 --- !u!114 &1812522168979506800
 MonoBehaviour:
   m_ObjectHideFlags: 0
