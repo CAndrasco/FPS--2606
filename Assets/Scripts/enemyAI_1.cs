@@ -7,9 +7,9 @@ public class enemyAI_1 : MonoBehaviour, IDamage
     [Header("---- Unity Components ----")]
     [SerializeField] Renderer model;
     [SerializeField] NavMeshAgent agent;
-    [SerializeField] Animator anim;
     [SerializeField] Transform armPivot1;
     [SerializeField] Transform armPivot2;
+    [SerializeField] Animator anim;
 
     [Header("---- Enemy Settings ----")]
     [SerializeField] int HP = 50;

@@ -59,13 +59,24 @@ public class waveManager : MonoBehaviour
 
     void Spawn(GameObject enemy)
     {
-        Vector3 ranPos = Random.insideUnitSphere * spawnDist;
-        ranPos += transform.position;
+        for (int i = 0; i < 10; i++) // try multiple times to find valid spot
+        {
+            Vector3 ranPos = Random.insideUnitSphere * spawnDist;
+            ranPos += transform.position;
 
-        NavMeshHit hit;
-        NavMesh.SamplePosition(ranPos, out hit, spawnDist, 1);
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(ranPos, out hit, spawnDist, NavMesh.AllAreas))
+            {
+                // prevent roof spawns..
+                if (hit.position.y > transform.position.y + 2f)
+                    continue;
 
-        Instantiate(enemy, hit.position, Quaternion.Euler(0, Random.Range(0, 360), 0));
+                Instantiate(enemy, hit.position, Quaternion.Euler(0, Random.Range(0, 360), 0));
+                return;
+            }
+        }
+
+        Debug.LogWarning("Failed to find valid spawn position");
     }
 
     // ---------------- ENEMY KILLED ----------------

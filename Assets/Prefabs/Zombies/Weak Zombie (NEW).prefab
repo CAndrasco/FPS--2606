@@ -2088,9 +2088,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::enemyAI_1
   model: {fileID: 7157446525708811311}
   agent: {fileID: 2090799716534877661}
-  anim: {fileID: 0}
   armPivot1: {fileID: 7458279599942026110}
   armPivot2: {fileID: 2953018118356217124}
+  anim: {fileID: 1363336257900746774}
   HP: 10
   FOV: 50
   faceTargetSpeed: 3

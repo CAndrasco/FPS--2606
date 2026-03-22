@@ -1000,8 +1000,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::enemyAI_2
   model: {fileID: 5095416154829842098}
   agent: {fileID: 5846817989004882298}
-  armPivot1: {fileID: 0}
-  armPivot2: {fileID: 0}
+  armPivot1: {fileID: 1248594831212116005}
+  armPivot2: {fileID: 965802954187256970}
   HP: 30
   FOV: 60
   faceTargetSpeed: 4

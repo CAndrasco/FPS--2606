@@ -1050,9 +1050,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ec76c5344f47a14d80b4243a4432c82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::enemyAI_3
-  model: {fileID: 0}
-  agent: {fileID: 0}
-  HP: 300
+  model: {fileID: 8420598452716942193}
+  agent: {fileID: 5850829074532492355}
+  HP: 9000
   FOV: 180
   faceTargetSpeed: 5
   chargeDelay: 2
