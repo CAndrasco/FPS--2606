@@ -15536,6 +15536,7 @@ MonoBehaviour:
     m_Bits: 0
   HP: 50
   speed: 5
+  sprintMod: 3
   gravity: 20
   sprintSpeed: 10
   jumpForce: 8

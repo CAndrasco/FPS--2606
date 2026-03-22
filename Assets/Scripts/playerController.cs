@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using System.Xml.Serialization;
 
 public class playerController : MonoBehaviour, IDamage
 {
@@ -10,7 +11,8 @@ public class playerController : MonoBehaviour, IDamage
 
     [Header("---- Player Stats ----")]
     [SerializeField] int HP;
-    [SerializeField] int speed;
+    [Range(1,10)] [SerializeField] int speed;
+    [Range(2, 6)] [SerializeField] int sprintMod;
     [SerializeField] int gravity;
     [SerializeField] int sprintSpeed = 10;
     [SerializeField] int jumpForce = 8;
@@ -61,6 +63,7 @@ public class playerController : MonoBehaviour, IDamage
         }
 
         movement();
+        sprint();
         flashlightToggle();
     }
 
@@ -84,37 +87,53 @@ public class playerController : MonoBehaviour, IDamage
         moveDir = Input.GetAxis("Horizontal") * transform.right +
                   Input.GetAxis("Vertical") * transform.forward;
 
+       
         int currentSpeed = speed;
 
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            currentSpeed = sprintSpeed;
-            
-        }
-        
+        //OLD SPRINT CODE. CHANGED TO ITS OWN FUNCTION - ERIC
+        //if (Input.GetKey(KeyCode.LeftShift))
+        //{
+        //    currentSpeed = sprintSpeed;
 
-            controller.Move(moveDir * currentSpeed * Time.deltaTime);
+        //}
+
+
+        controller.Move(moveDir * currentSpeed * Time.deltaTime);
 
         playerVel.y -= gravity * Time.deltaTime;
         controller.Move(playerVel * Time.deltaTime);
 
-        //StartCoroutine(playStep());
+        if(moveDir.normalized.magnitude > 0.3f && !isPlayingStep)
+        StartCoroutine(playStep());
     }
-    //IEnumerator playStep()
-    //{
-    //    isPlayingStep = true;
-    //    aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
-    //    if(isSprinting)
-    //    {
-    //        yield return new WaitForSeconds(0.3f);
-    //    }
-    //    else
-    //    {
-    //        yield return new WaitForSeconds(0.5f);
-    //    }
-    //    isPlayingStep = false;
-    //}
+    IEnumerator playStep()
+    {
+        isPlayingStep = true;
+        aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
+        if (isSprinting)
+        {
+            yield return new WaitForSeconds(0.3f);
+        }
+        else
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
+        isPlayingStep = false;
+    }
 
+    void sprint()
+    {
+        if(Input.GetButtonDown ("Sprint"))
+        {
+            speed *= sprintMod;
+            isSprinting = true;
+        }
+        else if(Input.GetButtonUp("Sprint"))
+        {
+            speed /= sprintMod;
+            isSprinting = false;
+        }
+    }
     
     void flashlightToggle()
     {
