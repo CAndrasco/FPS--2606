@@ -15536,7 +15536,7 @@ MonoBehaviour:
     m_Bits: 0
   HP: 50
   speed: 5
-  sprintMod: 3
+  sprintMod: 2
   gravity: 20
   jumpForce: 8
   flashlight: {fileID: 648593067132964542}
@@ -15563,7 +15563,15 @@ MonoBehaviour:
   audJumpVol: 0.5
   audStep:
   - {fileID: 8300000, guid: 6b14ad944d7d3ea4f9af69e80c37bb69, type: 3}
-  audStepVol: 0.2
+  - {fileID: 8300000, guid: 6a88c24efc647dc4aae681b542ecea4f, type: 3}
+  - {fileID: 8300000, guid: 5cc0788a80548b24986cb7d249590c49, type: 3}
+  - {fileID: 8300000, guid: c961f6d4cd6a3574f9b0219a8604a6d8, type: 3}
+  - {fileID: 8300000, guid: 99061a4c00f20314b9ad1ff99d55e0e9, type: 3}
+  - {fileID: 8300000, guid: ebe1107cbbf2f0c42bd3832fc0f6c91a, type: 3}
+  - {fileID: 8300000, guid: c795bc7e75ce9034889ebe4b5d3e2fbe, type: 3}
+  - {fileID: 8300000, guid: 7a26133eee9eb864891dca7856080717, type: 3}
+  - {fileID: 8300000, guid: 15ed9727180078743b0f0a69c82b3924, type: 3}
+  audStepVol: 0.05
 --- !u!114 &1812522168979506800
 MonoBehaviour:
   m_ObjectHideFlags: 0
