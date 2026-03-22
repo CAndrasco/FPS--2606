@@ -1,21 +1,22 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using Unity.VisualScripting.Antlr3.Runtime;
 
 public class gamemanager : MonoBehaviour
 {
     public static gamemanager instance;
 
+    [Header("---- Menus ----")]
     [SerializeField] GameObject menuActive;
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
     [SerializeField] GameObject exitDistance;
 
+    [Header("---- UI ----")]
     [SerializeField] TMP_Text waveCounter;
     [SerializeField] TMP_Text zombieCounter;
-    [SerializeField] TMP_Text exitDistanceText;    
+    [SerializeField] TMP_Text exitDistanceText;
 
     public Image playerHPBar;
     public GameObject player;
@@ -27,8 +28,6 @@ public class gamemanager : MonoBehaviour
 
     float timeScaleOrig;
 
-    float gameExitDistance;
-    
     void Awake()
     {
         instance = this;
@@ -38,11 +37,10 @@ public class gamemanager : MonoBehaviour
 
         player = GameObject.FindWithTag("Player");
 
-        if(player != null)
+        if (player != null)
         {
             playerScript = player.GetComponent<playerController>();
         }
-        
     }
 
     void Start()
@@ -50,10 +48,9 @@ public class gamemanager : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        //now starts waves through different manager
+        // Start wave system
         waveManager.instance.startFirstWave();
     }
-
 
     void Update()
     {
@@ -71,19 +68,32 @@ public class gamemanager : MonoBehaviour
             }
         }
 
-        // Real time distance tracking
-        // Only runs if exit door exists (wave 3)
-        if (waveManager.instance != null && waveManager.instance.exitDoor != null && waveManager.instance.exitDoor.activeInHierarchy)
+        // Exit distance tracking
+        if (waveManager.instance != null && waveManager.instance.exitDoor != null)
         {
-            //You can replace Camera.main with player.transform as an alternate way. I was just trying to get it to work... - T
-            float actualDistance = Vector3.Distance(Camera.main.transform.position, waveManager.instance.exitDoor.transform.position);
+            float dist = Vector3.Distance(
+                player.transform.position,
+                waveManager.instance.exitDoor.transform.position
+            );
 
-            exitDistanceText.text = actualDistance.ToString("F0") + "m";
-
-            //The trigger script on exit door handles the win. - T
-
+            exitDistanceText.text = dist.ToString("F0") + "m";
         }
     }
+
+    // ---------------- UI UPDATE ----------------
+
+    public void updateGameGoal(int wave, int enemies)
+    {
+        waveCounter.text = "WAVE " + wave;
+        zombieCounter.text = "ZOMBIES ALIVE " + enemies;
+    }
+
+    public void showExitDistance()
+    {
+        exitDistance.SetActive(true);
+    }
+
+    // ---------------- PAUSE ----------------
 
     public void statePause()
     {
@@ -97,7 +107,6 @@ public class gamemanager : MonoBehaviour
     public void stateUnpause()
     {
         isPaused = false;
-
         Time.timeScale = timeScaleOrig;
 
         Cursor.visible = false;
@@ -107,30 +116,19 @@ public class gamemanager : MonoBehaviour
         menuActive = null;
     }
 
-    public void updateGameGoal(int wave, int enemies)
-    {
-        waveCounter.text = wave.ToString();
-        zombieCounter.text = enemies.ToString();
-    }
-
-    public void showExitDistance()
-    {
-        exitDistance.SetActive(true);
-    }
+    // ---------------- GAME STATES ----------------
 
     public void youLose()
     {
         statePause();
-
         menuActive = menuLose;
         menuActive.SetActive(true);
     }
 
-    public void youWin() // Called by exitDoor trigger when player enters the exit door
+    public void youWin()
     {
         statePause();
         menuActive = menuWin;
         menuActive.SetActive(true);
     }
-
 }
