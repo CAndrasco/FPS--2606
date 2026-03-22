@@ -23,18 +23,18 @@ public class waveManager : MonoBehaviour
         instance = this;
     }
 
-    public void StartFirstWave()
+    public void startFirstWave()
     {
-        StartWave1();
+        startWave1();
     }
 
-    void StartWave1()
+    void startWave1()
     {
 
         currentWave = 1;
         enemiesAlive = wave1Enemies.Length;
 
-        ActivateEnemies(wave1Enemies);
+        activateEnemies(wave1Enemies);
 
         gamemanager.instance.updateGameGoal(currentWave, enemiesAlive);
     }
@@ -44,7 +44,7 @@ public class waveManager : MonoBehaviour
         currentWave = 2;
         enemiesAlive = wave2Enemies.Length;
 
-        ActivateEnemies(wave2Enemies);
+        activateEnemies(wave2Enemies);
 
         gamemanager.instance.updateGameGoal(currentWave, enemiesAlive);
     }
@@ -54,12 +54,14 @@ public class waveManager : MonoBehaviour
         currentWave = 3;
         enemiesAlive = bossEnemies.Length;
 
-        ActivateEnemies(bossEnemies);
+        activateEnemies(bossEnemies);
+
+        spawnExitDoor();
 
         gamemanager.instance.updateGameGoal(currentWave, enemiesAlive);
     }
 
-    void ActivateEnemies(GameObject[] enemies)
+    void activateEnemies(GameObject[] enemies)
     {
         for (int i = 0;
             i < enemies.Length;
@@ -82,7 +84,7 @@ public class waveManager : MonoBehaviour
         gamemanager.instance.showExitDistance();
     }
 
-    public void EnemyKilled()
+    public void enemyKilled()
     {
         enemiesAlive--;
 

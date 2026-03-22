@@ -51,7 +51,7 @@ public class gamemanager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         //now starts waves through different manager
-        waveManager.instance.StartFirstWave();
+        waveManager.instance.startFirstWave();
     }
 
 
