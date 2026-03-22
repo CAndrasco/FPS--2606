@@ -4,75 +4,46 @@ using UnityEngine.AI;
 
 public class enemyAI_2 : MonoBehaviour, IDamage
 {
-    [Header("---- Unity Components ----")]
     [SerializeField] Renderer model;
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Transform armPivot1;
     [SerializeField] Transform armPivot2;
 
-    [Header("---- Enemy Settings ----")]
-    [SerializeField] int HP;
-    [SerializeField] int FOV;
-    [SerializeField] int faceTargetSpeed;
-    [SerializeField] int armRotateSpeed;
-    [SerializeField] int sprintSpeed;
-    [SerializeField] float flashlightSlowMultiplier = 0.2f;
-    [SerializeField] float flashlightCheckDistance = 20f;
+    [SerializeField] int HP = 100;
+    [SerializeField] int FOV = 120;
+    [SerializeField] int faceTargetSpeed = 6;
+    [SerializeField] int armRotateSpeed = 6;
+    [SerializeField] int sprintSpeed = 8;
 
-    [Header("---- Attack Settings ----")]
     [SerializeField] int attackDamage = 20;
-    [SerializeField] float attackRate = 1.0f;
+    [SerializeField] float attackRate = 1f;
     [SerializeField] float attackRange = 2f;
 
     float attackTimer;
-
     Color OGcolor;
-
-    bool isDead = false;
-
-    float angleToPlayer;
     float OGSpeed;
 
     Vector3 playerDir;
 
     void Start()
     {
-        if (agent == null)
-            agent = GetComponent<NavMeshAgent>();
-
-        if (model == null)
-            model = GetComponentInChildren<Renderer>();
-
         OGcolor = model.material.color;
         OGSpeed = agent.speed;
     }
 
     void Update()
     {
-        if (agent == null) return;
-
         attackTimer += Time.deltaTime;
 
-        if (HitByFlashlight())
-        {
-            agent.speed = OGSpeed * flashlightSlowMultiplier;
-        }
-        else
-        {
-            agent.speed = sprintSpeed;
-        }
+        agent.speed = sprintSpeed;
 
         if (CanSeePlayer())
-        {
             agent.SetDestination(gamemanager.instance.player.transform.position);
-        }
 
-        float distanceToPlayer = Vector3.Distance(transform.position, gamemanager.instance.player.transform.position);
+        float dist = Vector3.Distance(transform.position, gamemanager.instance.player.transform.position);
 
-        if (distanceToPlayer <= attackRange)
-        {
+        if (dist <= attackRange)
             TryAttack();
-        }
     }
 
     void TryAttack()
@@ -80,41 +51,18 @@ public class enemyAI_2 : MonoBehaviour, IDamage
         if (attackTimer >= attackRate)
         {
             gamemanager.instance.playerScript.TakeDamage(attackDamage);
-            attackTimer = 0f;
+            attackTimer = 0;
         }
-    }
-
-    bool HitByFlashlight()
-    {
-        RaycastHit hit;
-
-        if (Physics.Raycast(
-            gamemanager.instance.player.transform.position,
-            gamemanager.instance.player.transform.forward,
-            out hit,
-            flashlightCheckDistance))
-        {
-            if (hit.collider.GetComponentInParent<enemyAI_2>() == this)
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     bool CanSeePlayer()
     {
         playerDir = gamemanager.instance.player.transform.position - transform.position;
-        angleToPlayer = Vector3.Angle(playerDir, transform.forward);
-
-        Debug.DrawRay(transform.position, playerDir);
 
         RaycastHit hit;
-
         if (Physics.Raycast(transform.position, playerDir, out hit))
         {
-            if (hit.collider.CompareTag("Player") && angleToPlayer <= FOV)
+            if (hit.collider.CompareTag("Player"))
             {
                 FaceTarget();
                 ArmRotate();
@@ -127,8 +75,10 @@ public class enemyAI_2 : MonoBehaviour, IDamage
 
     void FaceTarget()
     {
-        Quaternion rot = Quaternion.LookRotation(playerDir);
-        transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * faceTargetSpeed);
+        transform.rotation = Quaternion.Lerp(
+            transform.rotation,
+            Quaternion.LookRotation(playerDir),
+            Time.deltaTime * faceTargetSpeed);
     }
 
     void ArmRotate()
@@ -140,13 +90,10 @@ public class enemyAI_2 : MonoBehaviour, IDamage
 
     public void TakeDamage(int damage)
     {
-        if (isDead) return;
-
         HP -= damage;
 
         if (HP <= 0)
         {
-            isDead = true;
             waveManager.instance.enemyKilled();
             Destroy(gameObject);
         }
