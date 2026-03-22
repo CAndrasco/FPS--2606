@@ -1,102 +1,108 @@
-using JetBrains.Annotations;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class waveManager : MonoBehaviour
 {
     public static waveManager instance;
 
-    [SerializeField] GameObject[] wave1Enemies;
-    [SerializeField] GameObject[] wave2Enemies;
-    [SerializeField] GameObject[] bossEnemies;
+    [Header("---- Enemy Prefabs ----")]
+    [SerializeField] GameObject weakEnemyPrefab;
+    [SerializeField] GameObject strongEnemyPrefab;
+    [SerializeField] GameObject bossEnemyPrefab;
 
+    [Header("---- Spawn Settings ----")]
+    [SerializeField] int spawnRate = 2;
+    [SerializeField] int spawnDist = 25;
+
+    [Header("---- Exit ----")]
     [SerializeField] GameObject exitDoorPrefab;
     [SerializeField] Transform[] exitSpawnPoints;
 
     public GameObject exitDoor;
 
-    public int enemiesAlive;
     int currentWave;
-
+    public int enemiesAlive;
 
     void Awake()
     {
         instance = this;
     }
 
+    void Start()
+    {
+        startFirstWave();
+    }
+
+    // ---------------- WAVE START ----------------
+
     public void startFirstWave()
     {
-        startWave1();
-    }
-
-    void startWave1()
-    {
-
         currentWave = 1;
-        enemiesAlive = wave1Enemies.Length;
-
-        activateEnemies(wave1Enemies);
-
-        gamemanager.instance.updateGameGoal(currentWave, enemiesAlive);
+        StartCoroutine(SpawnWave(weakEnemyPrefab, 8));
     }
 
-    void startWave2()
+    IEnumerator SpawnWave(GameObject enemyPrefab, int amount)
     {
-        currentWave = 2;
-        enemiesAlive = wave2Enemies.Length;
-
-        activateEnemies(wave2Enemies);
+        enemiesAlive = amount;
 
         gamemanager.instance.updateGameGoal(currentWave, enemiesAlive);
-    }
 
-    void startFinalWave()
-    {
-        currentWave = 3;
-        enemiesAlive = bossEnemies.Length;
-
-        activateEnemies(bossEnemies);
-
-        spawnExitDoor();
-
-        gamemanager.instance.updateGameGoal(currentWave, enemiesAlive);
-    }
-
-    void activateEnemies(GameObject[] enemies)
-    {
-        for (int i = 0;
-            i < enemies.Length;
-            i++)
+        for (int i = 0; i < amount; i++)
         {
-            enemies[i].SetActive(true);
+            Spawn(enemyPrefab);
+            yield return new WaitForSeconds(spawnRate);
         }
     }
-    
-    void spawnExitDoor()
+
+    // ---------------- SPAWN ----------------
+
+    void Spawn(GameObject enemy)
     {
-        int randomIndex = Random.Range(0, exitSpawnPoints.Length);
+        Vector3 ranPos = Random.insideUnitSphere * spawnDist;
+        ranPos += transform.position;
 
-        Transform spawnPoint = exitSpawnPoints[randomIndex];
+        NavMeshHit hit;
+        NavMesh.SamplePosition(ranPos, out hit, spawnDist, 1);
 
-        spawnPoint.parent.gameObject.SetActive(false);
-
-        exitDoor = Instantiate(exitDoorPrefab, spawnPoint.position, spawnPoint.rotation);
-
-        gamemanager.instance.showExitDistance();
+        Instantiate(enemy, hit.position, Quaternion.Euler(0, Random.Range(0, 360), 0));
     }
+
+    // ---------------- ENEMY KILLED ----------------
 
     public void enemyKilled()
     {
         enemiesAlive--;
 
+        gamemanager.instance.updateGameGoal(currentWave, enemiesAlive);
+
         if (enemiesAlive <= 0)
         {
             if (currentWave == 1)
-                startWave2();
+            {
+                currentWave = 2;
+                StartCoroutine(SpawnWave(strongEnemyPrefab, 8));
+            }
             else if (currentWave == 2)
-                startFinalWave();
+            {
+                currentWave = 3;
+                StartCoroutine(SpawnWave(bossEnemyPrefab, 1));
+                spawnExitDoor();
+            }
         }
-        gamemanager.instance.updateGameGoal(currentWave, enemiesAlive);
     }
 
+    // ---------------- EXIT ----------------
 
+    void spawnExitDoor()
+    {
+        if (exitSpawnPoints.Length == 0) return;
+
+        int randomIndex = Random.Range(0, exitSpawnPoints.Length);
+        Transform spawnPoint = exitSpawnPoints[randomIndex];
+
+        exitDoor = Instantiate(exitDoorPrefab, spawnPoint.position, spawnPoint.rotation);
+
+        gamemanager.instance.showExitDistance();
+    }
 }
