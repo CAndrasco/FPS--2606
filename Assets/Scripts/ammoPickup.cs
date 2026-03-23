@@ -2,14 +2,19 @@ using UnityEngine;
 
 public class ammoPickup : MonoBehaviour
 {
+    [SerializeField] AudioClip pickupSound;
+    [SerializeField] float volume = 1f;
+
     bool pickedUp = false;
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Ammo pickup triggered");
+
         if (pickedUp) return;
         if (!other.CompareTag("Player")) return;
 
-        playerController player = other.GetComponent<playerController>();
+        playerController player = other.GetComponentInParent<playerController>();
 
         if (player == null)
         {
@@ -19,8 +24,11 @@ public class ammoPickup : MonoBehaviour
 
         pickedUp = true;
 
-        // added full ammo refills.L
+        // refill ammo
         player.RefillAllAmmo();
+
+        //play pickup sound.
+        AudioSource.PlayClipAtPoint(pickupSound, transform.position, volume);
 
         if (ammoSpawner.instance != null)
         {

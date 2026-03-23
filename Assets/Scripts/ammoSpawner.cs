@@ -34,7 +34,9 @@ public class ammoSpawner : MonoBehaviour
 
     void SpawnAmmo()
     {
-        for (int i = 0; i < 10; i++)
+        int groundMask = LayerMask.GetMask("Environment");
+
+        for (int i = 0; i < 20; i++)
         {
             Vector3 randomPos = Random.insideUnitSphere * spawnRadius;
             randomPos += transform.position;
@@ -42,17 +44,31 @@ public class ammoSpawner : MonoBehaviour
             NavMeshHit hit;
             if (NavMesh.SamplePosition(randomPos, out hit, spawnRadius, NavMesh.AllAreas))
             {
-                // prevent roof spawns
-                if (hit.position.y > transform.position.y + 2f)
-                    continue;
+                RaycastHit groundHit;
 
-                // prevent indoor spawns
-                if (Physics.Raycast(hit.position + Vector3.up, Vector3.up, 10f))
-                    continue;
+                // raycast down only hitting Environment layer
+                if (Physics.Raycast(hit.position + Vector3.up * 2f, Vector3.down, out groundHit, 10f, groundMask))
+                {
+                    // tag is floor
+                    if (!groundHit.collider.CompareTag("Floor"))
+                        continue;
 
-                Instantiate(ammoPrefab, hit.position, Quaternion.identity);
-                currentAmmo++;
-                return;
+                    // get correct height from collider
+                    float heightOffset = 0.5f;
+                    Collider col = ammoPrefab.GetComponentInChildren<Collider>();
+
+                    if (col != null)
+                    {
+                        heightOffset = col.bounds.extents.y;
+                    }
+
+                    // final spawn position heightoffset is important....
+                    Vector3 spawnPos = groundHit.point + Vector3.up * (heightOffset + 0.5f);
+
+                    Instantiate(ammoPrefab, spawnPos, Quaternion.identity);
+                    currentAmmo++;
+                    return;
+                }
             }
         }
 
