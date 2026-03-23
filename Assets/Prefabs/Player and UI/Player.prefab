@@ -853,8 +853,8 @@ MonoBehaviour:
   shootDamage: 1
   shootDist: 15
   shootRate: 0.5
-  ammo: 100
-  ammoMax: 15
+  ammo: 0
+  ammoMax: 8
   ammoCountText: {fileID: 0}
   ammoMaxText: {fileID: 0}
   healAmount: 15

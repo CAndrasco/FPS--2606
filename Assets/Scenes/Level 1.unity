@@ -606,10 +606,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Minimap Camera
       objectReference: {fileID: 0}
-    - target: {fileID: 4185819316982862111, guid: da036b9ffa1b44f458710fe1ce162ab6, type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 28673
-      objectReference: {fileID: 0}
     - target: {fileID: 5315313992836802442, guid: da036b9ffa1b44f458710fe1ce162ab6, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -776,10 +772,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 28133277627870244, guid: f4ab7ad12f03e6a4aa2324213c59313d, type: 3}
-      propertyPath: m_NavMeshData
-      value: 
-      objectReference: {fileID: 23800000, guid: acea032f78163bd4391dd70fc4d47e32, type: 2}
     - target: {fileID: 1298522817525489430, guid: f4ab7ad12f03e6a4aa2324213c59313d, type: 3}
       propertyPath: m_Name
       value: NavMesh Surface
@@ -1282,10 +1274,6 @@ PrefabInstance:
     - target: {fileID: 4316400104262123815, guid: c5c251c4f6ea3694285b311cea75f2a2, type: 3}
       propertyPath: m_Name
       value: Wall_03
-      objectReference: {fileID: 0}
-    - target: {fileID: 4316400104262123815, guid: c5c251c4f6ea3694285b311cea75f2a2, type: 3}
-      propertyPath: m_Layer
-      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1866,14 +1854,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 861933008049698288, guid: 2800f46c88146944a88f034c6cb8956c, type: 3}
-      propertyPath: ammoPrefab
-      value: 
-      objectReference: {fileID: 394534383269148248, guid: 58bccc31408baa549a63f612077d6c31, type: 3}
-    - target: {fileID: 861933008049698288, guid: 2800f46c88146944a88f034c6cb8956c, type: 3}
-      propertyPath: maxAmmoOnMap
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 3743934216218047189, guid: 2800f46c88146944a88f034c6cb8956c, type: 3}
       propertyPath: m_Name
       value: AmmoSpawner
@@ -1921,37 +1901,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3743934216218047189, guid: 2800f46c88146944a88f034c6cb8956c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 369630364}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2800f46c88146944a88f034c6cb8956c, type: 3}
---- !u!1 &369630363 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3743934216218047189, guid: 2800f46c88146944a88f034c6cb8956c, type: 3}
-  m_PrefabInstance: {fileID: 369630362}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &369630364
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 369630363}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 55, y: 5, z: 58}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &371530093
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2038,7 +1989,7 @@ Transform:
   m_GameObject: {fileID: 376673880}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -27.07413, y: 1.14476, z: -5.90534}
+  m_LocalPosition: {x: -27.07413, y: 0.64476, z: -5.90534}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4876,10 +4827,6 @@ PrefabInstance:
     - target: {fileID: 7916202241214363750, guid: f7cfd4c5a64ae1c44916dba2a8e1373d, type: 3}
       propertyPath: m_Name
       value: Ground
-      objectReference: {fileID: 0}
-    - target: {fileID: 7916202241214363750, guid: f7cfd4c5a64ae1c44916dba2a8e1373d, type: 3}
-      propertyPath: m_TagString
-      value: Floor
       objectReference: {fileID: 0}
     - target: {fileID: 8707653646559875189, guid: f7cfd4c5a64ae1c44916dba2a8e1373d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9977,14 +9924,6 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 4726940616849160767, guid: bdd9afcf979b7b84c9f5b643c2436d5e, type: 3}
-      propertyPath: ammo
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4726940616849160767, guid: bdd9afcf979b7b84c9f5b643c2436d5e, type: 3}
-      propertyPath: ammoMax
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4726940616849160767, guid: bdd9afcf979b7b84c9f5b643c2436d5e, type: 3}
       propertyPath: ammoMaxText
       value: 
       objectReference: {fileID: 47017638}
@@ -10219,10 +10158,6 @@ PrefabInstance:
     - target: {fileID: 709654084594451173, guid: 08bf9731cbfb5ce41bc9ae8b103815cc, type: 3}
       propertyPath: m_Name
       value: Wave Manager
-      objectReference: {fileID: 0}
-    - target: {fileID: 709654084594451173, guid: 08bf9731cbfb5ce41bc9ae8b103815cc, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2942129768596318814, guid: 08bf9731cbfb5ce41bc9ae8b103815cc, type: 3}
       propertyPath: m_LocalPosition.x

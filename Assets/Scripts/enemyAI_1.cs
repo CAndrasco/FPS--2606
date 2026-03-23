@@ -152,25 +152,20 @@ public class enemyAI_1 : MonoBehaviour, IDamage
             playerInRange = false;
     }
 
+    //Replaced old takedmg with new one that works better..
     public void TakeDamage(int damage)
     {
-        if (!canTakeDamage) return;
-
-        canTakeDamage = false;
-
         HP -= damage;
 
         if (HP <= 0)
         {
-            waveManager.instance.enemyKilled(); // 🔥 REQUIRED
+            waveManager.instance.enemyKilled();
             Destroy(gameObject);
         }
         else
         {
             StartCoroutine(FlashRed());
         }
-
-        StartCoroutine(DamageCooldown());
     }
 
     IEnumerator DamageCooldown()

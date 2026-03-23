@@ -1040,6 +1040,13 @@ MonoBehaviour:
   - {fileID: 8599493841591727309, guid: 44514719075e005409a0551b43df97ee, type: 3}
   - {fileID: 3129097547532459968, guid: d37437492829e494eb997625d587e2d9, type: 3}
   spawnAmount: 3
+  spawnCoolDownTime: 0
+  shockwave: {fileID: 0}
+  shockwaveRate: 0
+  shockwavePos: {fileID: 0}
+  attackDamage: 30
+  attackRate: 1
+  attackRange: 2.5
 --- !u!195 &5850829074532492355
 NavMeshAgent:
   m_ObjectHideFlags: 0
