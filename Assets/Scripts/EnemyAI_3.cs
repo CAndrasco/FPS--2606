@@ -2,11 +2,18 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.AI;
 
-public class enemyAI_3 : MonoBehaviour //IDamage
+public class enemyAI_3 : MonoBehaviour
 {
     [Header("---- Components ----")]
     [SerializeField] Renderer model;
     [SerializeField] NavMeshAgent agent;
+
+    [Header("---- Audio ----")]
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip[] bossSounds;
+    [SerializeField] float soundRate = 2f;
+
+    float soundTimer;
 
     [Header("---- Stats ----")]
     [SerializeField] int HP = 300;
@@ -16,8 +23,8 @@ public class enemyAI_3 : MonoBehaviour //IDamage
     [Header("---- Attack Stats ----")]
     [SerializeField] float chargeDelay = 2f;
     [SerializeField] float chargeSpeed = 15f;
-    [SerializeField] int chargeDistance; // if player is farther then this distance then the boss will charge
-    [SerializeField] int spawnDistance; // if player is within this distance then will spawn zombies around boss
+    [SerializeField] int chargeDistance;
+    [SerializeField] int spawnDistance;
     [SerializeField] GameObject[] spawns;
     [SerializeField] int spawnAmount;
     [SerializeField] float spawnCoolDownTime;
@@ -48,6 +55,9 @@ public class enemyAI_3 : MonoBehaviour //IDamage
     {
         OGcolor = model.material.color;
         OGSpeed = agent.speed;
+
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -57,6 +67,7 @@ public class enemyAI_3 : MonoBehaviour //IDamage
 
         attackTimer += Time.deltaTime;
         playerDir = playerPos - transform.position;
+
         if (playerDis <= attackRange)
             TryAttack();
 
@@ -69,8 +80,7 @@ public class enemyAI_3 : MonoBehaviour //IDamage
             agent.SetDestination(playerPos);
         }
 
-
-        if (playerDis <= spawnDistance && spawnCount < spawnAmount && !hasSpawned) // player is close to boss
+        if (playerDis <= spawnDistance && spawnCount < spawnAmount && !hasSpawned)
         {
             Spawning();
         }
@@ -79,18 +89,17 @@ public class enemyAI_3 : MonoBehaviour //IDamage
             spawnCoolDownTimer += Time.deltaTime;
         }
 
-        if (spawnCoolDownTimer >= spawnCoolDownTime) // resets spawning so boss can spawn more
+        if (spawnCoolDownTimer >= spawnCoolDownTime)
         {
             hasSpawned = false;
         }
 
-        if (playerDis > spawnDistance && playerDis < chargeDistance && shockwaveTimer >= shockwaveRate) // player is in the middle ground
+        if (playerDis > spawnDistance && playerDis < chargeDistance && shockwaveTimer >= shockwaveRate)
         {
             ShockWave();
         }
-        
 
-        if (!isCharging && playerDis >= chargeDistance) // player is far from the boss
+        if (!isCharging && playerDis >= chargeDistance)
         {
             chargeTimer += Time.deltaTime;
 
@@ -99,11 +108,32 @@ public class enemyAI_3 : MonoBehaviour //IDamage
                 Charge();
             }
         }
-        if(!isCharging)
+
+        if (!isCharging)
         {
             agent.speed = OGSpeed;
         }
-   
+
+        HandleSound();
+    }
+
+    void HandleSound()
+    {
+        soundTimer += Time.deltaTime;
+
+        if (soundTimer >= soundRate && playerDis < 25f)
+        {
+            PlayRandomSound();
+            soundTimer = 0;
+        }
+    }
+
+    void PlayRandomSound()
+    {
+        if (bossSounds.Length == 0 || audioSource == null) return;
+
+        int rand = Random.Range(0, bossSounds.Length);
+        audioSource.PlayOneShot(bossSounds[rand]);
     }
 
     void Charge()
@@ -120,6 +150,7 @@ public class enemyAI_3 : MonoBehaviour //IDamage
         yield return new WaitForSeconds(chargeDelay);
         isCharging = false;
     }
+
     void Spawning()
     {
         for (int i = 0; i < spawnAmount; i++)
@@ -168,29 +199,4 @@ public class enemyAI_3 : MonoBehaviour //IDamage
             attackTimer = 0;
         }
     }
-
-    //public void TakeDamage(int damage)
-    //{
-    //    if (isDead) return;
-
-    //    HP -= damage;
-
-    //    if (HP <= 0)
-    //    {
-    //        isDead = true;
-    //        waveManager.instance.enemyKilled();
-    //        Destroy(gameObject);
-    //    }
-    //    else
-    //    {
-    //        StartCoroutine(FlashRed());
-    //    }
-    //}
-
-    //IEnumerator FlashRed()
-    //{
-    //    model.material.color = Color.red;
-    //    yield return new WaitForSeconds(0.1f);
-    //    model.material.color = OGcolor;
-    //}
 }
