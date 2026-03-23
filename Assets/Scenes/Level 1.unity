@@ -4297,6 +4297,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1048633923}
     m_Modifications:
+    - target: {fileID: 1417705393788627783, guid: 6a6b9026ef3dc8740b5e3e38f62c3cee, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2501108228807860565, guid: 6a6b9026ef3dc8740b5e3e38f62c3cee, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.3077908
@@ -10109,6 +10113,10 @@ PrefabInstance:
     - target: {fileID: 709654084594451173, guid: 08bf9731cbfb5ce41bc9ae8b103815cc, type: 3}
       propertyPath: m_Name
       value: Wave Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 709654084594451173, guid: 08bf9731cbfb5ce41bc9ae8b103815cc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2942129768596318814, guid: 08bf9731cbfb5ce41bc9ae8b103815cc, type: 3}
       propertyPath: m_LocalPosition.x

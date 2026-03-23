@@ -1029,11 +1029,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::enemyAI_3
   model: {fileID: 8420598452716942193}
   agent: {fileID: 5850829074532492355}
-  HP: 9000
+  HP: 500
   FOV: 180
   faceTargetSpeed: 5
   chargeDelay: 2
-  chargeSpeed: 4
+  chargeSpeed: 15
+  chargeDistance: 15
+  spawnDistance: 9
+  spawns:
+  - {fileID: 8599493841591727309, guid: 44514719075e005409a0551b43df97ee, type: 3}
+  - {fileID: 3129097547532459968, guid: d37437492829e494eb997625d587e2d9, type: 3}
+  spawnAmount: 3
 --- !u!195 &5850829074532492355
 NavMeshAgent:
   m_ObjectHideFlags: 0

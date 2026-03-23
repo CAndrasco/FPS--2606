@@ -57,7 +57,7 @@ public class waveManager : MonoBehaviour
 
     // ---------------- SPAWN ----------------
 
-    void Spawn(GameObject enemy)
+    public void Spawn(GameObject enemy)
     {
         for (int i = 0; i < 10; i++) // try multiple positions
         {
@@ -76,6 +76,7 @@ public class waveManager : MonoBehaviour
                     continue;
 
                 Instantiate(enemy, hit.position, Quaternion.Euler(0, Random.Range(0, 360), 0));
+                //enemiesAlive++; <- I don't think this goes here but I do ned something Like this added in this method where it would work properly
                 return;
             }
         }
