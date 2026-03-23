@@ -7,6 +7,7 @@ public class enemyAI_3 : MonoBehaviour
     [Header("---- Components ----")]
     [SerializeField] Renderer model;
     [SerializeField] NavMeshAgent agent;
+    [SerializeField] Animator anim;
 
     [Header("---- Audio ----")]
     [SerializeField] AudioSource audioSource;
@@ -17,7 +18,6 @@ public class enemyAI_3 : MonoBehaviour
 
     [Header("---- Stats ----")]
     [SerializeField] int HP = 300;
-    [SerializeField] int FOV = 180;
     [SerializeField] int faceTargetSpeed = 5;
 
     [Header("---- Attack Stats ----")]
@@ -47,39 +47,49 @@ public class enemyAI_3 : MonoBehaviour
     Vector3 playerDir;
     Color OGcolor;
 
-    bool isDead;
-    bool hasSpawned;
     bool isCharging;
+    bool hasSpawned;
 
     void Start()
     {
         OGcolor = model.material.color;
         OGSpeed = agent.speed;
 
+        // make sure audio source exists
         if (audioSource == null)
             audioSource = GetComponent<AudioSource>();
+
+        // grab animator (handles child models too)
+        if (anim == null)
+            anim = GetComponentInChildren<Animator>();
     }
 
     void Update()
     {
+        Debug.Log("Animator object: " + anim.gameObject.name);
+        Debug.Log("Current state: " + anim.GetCurrentAnimatorStateInfo(0).shortNameHash);
+        Debug.Log("Speed param: " + anim.GetFloat("Speed"));
+
         Vector3 playerPos = gamemanager.instance.player.transform.position;
+        playerDir = playerPos - transform.position;
         playerDis = Vector3.Distance(transform.position, playerPos);
 
         attackTimer += Time.deltaTime;
-        playerDir = playerPos - transform.position;
 
-        if (playerDis <= attackRange)
-            TryAttack();
-
-        FaceTarget();
-
-        shockwaveTimer += Time.deltaTime;
-
-        if (!CanSeePlayer() && playerDis <= chargeDistance)
+        // always move toward player unless charging
+        if (!isCharging)
         {
+            agent.speed = OGSpeed;
             agent.SetDestination(playerPos);
         }
 
+        FaceTarget();
+
+        // attack if close
+        if (playerDis <= attackRange)
+            TryAttack();
+
+        // spawn enemies if player is close
         if (playerDis <= spawnDistance && spawnCount < spawnAmount && !hasSpawned)
         {
             Spawning();
@@ -90,15 +100,16 @@ public class enemyAI_3 : MonoBehaviour
         }
 
         if (spawnCoolDownTimer >= spawnCoolDownTime)
-        {
             hasSpawned = false;
-        }
 
+        // shockwave if mid distance
+        shockwaveTimer += Time.deltaTime;
         if (playerDis > spawnDistance && playerDis < chargeDistance && shockwaveTimer >= shockwaveRate)
         {
             ShockWave();
         }
 
+        // charge if far away
         if (!isCharging && playerDis >= chargeDistance)
         {
             chargeTimer += Time.deltaTime;
@@ -109,9 +120,11 @@ public class enemyAI_3 : MonoBehaviour
             }
         }
 
-        if (!isCharging)
+        // animate try number 5?
+        if (agent != null && anim != null)
         {
-            agent.speed = OGSpeed;
+            float speed = agent.velocity.magnitude;
+            anim.SetFloat("Speed", speed);
         }
 
         HandleSound();
@@ -130,10 +143,12 @@ public class enemyAI_3 : MonoBehaviour
 
     void PlayRandomSound()
     {
-        if (bossSounds.Length == 0 || audioSource == null) return;
+        if (bossSounds == null || bossSounds.Length == 0 || audioSource == null) return;
 
         int rand = Random.Range(0, bossSounds.Length);
-        audioSource.PlayOneShot(bossSounds[rand]);
+
+        if (bossSounds[rand] != null)
+            audioSource.PlayOneShot(bossSounds[rand], 5f);
     }
 
     void Charge()
@@ -141,8 +156,9 @@ public class enemyAI_3 : MonoBehaviour
         isCharging = true;
         agent.speed = chargeSpeed;
         agent.SetDestination(gamemanager.instance.player.transform.position);
-        StartCoroutine(chargeTiming());
+
         chargeTimer = 0;
+        StartCoroutine(chargeTiming());
     }
 
     IEnumerator chargeTiming()
@@ -159,6 +175,7 @@ public class enemyAI_3 : MonoBehaviour
             spawnCount++;
             waveManager.instance.enemiesAlive++;
         }
+
         hasSpawned = true;
         spawnCoolDownTimer = 0;
     }
@@ -169,28 +186,6 @@ public class enemyAI_3 : MonoBehaviour
         Instantiate(shockwave, shockwavePos.position, transform.rotation);
     }
 
-    bool CanSeePlayer()
-    {
-        playerDir = gamemanager.instance.player.transform.position - transform.position;
-
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, playerDir, out hit))
-        {
-            if (hit.collider.CompareTag("Player"))
-            {
-                FaceTarget();
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    void FaceTarget()
-    {
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(playerDir), Time.deltaTime * faceTargetSpeed);
-    }
-
     void TryAttack()
     {
         if (attackTimer >= attackRate)
@@ -198,5 +193,13 @@ public class enemyAI_3 : MonoBehaviour
             gamemanager.instance.playerScript.TakeDamage(attackDamage);
             attackTimer = 0;
         }
+    }
+
+    void FaceTarget()
+    {
+        transform.rotation = Quaternion.Lerp(
+            transform.rotation,
+            Quaternion.LookRotation(playerDir),
+            Time.deltaTime * faceTargetSpeed);
     }
 }
