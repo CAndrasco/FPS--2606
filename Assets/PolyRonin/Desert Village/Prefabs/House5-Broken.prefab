@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8821003209468499849}
   - component: {fileID: 4568170856818712221}
   - component: {fileID: 7345138397224172069}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: House5-Broken
   m_TagString: Untagged
   m_Icon: {fileID: 0}

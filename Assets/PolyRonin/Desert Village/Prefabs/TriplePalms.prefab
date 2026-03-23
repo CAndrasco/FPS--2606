@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 937345945751663215}
   - component: {fileID: 7400093986728610425}
   - component: {fileID: 2259907341893110658}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: TriplePalms
   m_TagString: Untagged
   m_Icon: {fileID: 0}
