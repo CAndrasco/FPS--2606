@@ -10,9 +10,9 @@ public class playerController : MonoBehaviour, IDamage
 
     [Header("---- Player Stats ----")]
     [SerializeField] int HP;
-    [SerializeField] int speed;
+    [Range(1, 10)][SerializeField] int speed;
+    [Range(2, 6)][SerializeField] int sprintMod;
     [SerializeField] int gravity;
-    [SerializeField] int sprintSpeed = 10;
     [SerializeField] int jumpForce = 8;
 
     [Header("---- Flashlight ----")]
@@ -38,7 +38,6 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] AudioClip[] audStep;
     [SerializeField] float audStepVol;
 
-
     int HPOriginal;
     float shootTimer;
     bool isPlayingStep;
@@ -56,11 +55,10 @@ public class playerController : MonoBehaviour, IDamage
     void Update()
     {
         if (gamemanager.instance != null && gamemanager.instance.isPaused)
-        {
             return;
-        }
 
         movement();
+        sprint();
         flashlightToggle();
     }
 
@@ -68,54 +66,60 @@ public class playerController : MonoBehaviour, IDamage
     {
         shootTimer += Time.deltaTime;
 
-        if (controller.isGrounded)
-        {
-            if (playerVel.y < 0)
-            {
-                playerVel.y = -2f;
-            }
-
-            if (Input.GetButtonDown("Jump"))
-            {
-                playerVel.y = jumpForce;
-            }
-        }
+        jump();
 
         moveDir = Input.GetAxis("Horizontal") * transform.right +
                   Input.GetAxis("Vertical") * transform.forward;
 
-        int currentSpeed = speed;
+        int currentSpeed = isSprinting ? speed * sprintMod : speed;
 
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            currentSpeed = sprintSpeed;
-            
-        }
-        
-
-            controller.Move(moveDir * currentSpeed * Time.deltaTime);
+        controller.Move(moveDir * currentSpeed * Time.deltaTime);
 
         playerVel.y -= gravity * Time.deltaTime;
         controller.Move(playerVel * Time.deltaTime);
 
-        //StartCoroutine(playStep());
+        if (moveDir.normalized.magnitude > 0.3f && !isPlayingStep)
+            StartCoroutine(playStep());
     }
-    //IEnumerator playStep()
-    //{
-    //    isPlayingStep = true;
-    //    aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
-    //    if(isSprinting)
-    //    {
-    //        yield return new WaitForSeconds(0.3f);
-    //    }
-    //    else
-    //    {
-    //        yield return new WaitForSeconds(0.5f);
-    //    }
-    //    isPlayingStep = false;
-    //}
 
-    
+    IEnumerator playStep()
+    {
+        isPlayingStep = true;
+
+        if (audStep.Length > 0 && aud != null)
+        {
+            aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
+        }
+
+        yield return new WaitForSeconds(isSprinting ? 0.3f : 0.5f);
+
+        isPlayingStep = false;
+    }
+
+    void sprint()
+    {
+        isSprinting = Input.GetButton("Sprint");
+    }
+
+    void jump()
+    {
+        if (controller.isGrounded)
+        {
+            if (playerVel.y < 0)
+                playerVel.y = -2f;
+
+            if (Input.GetButtonDown("Jump"))
+            {
+                playerVel.y = jumpForce;
+
+                if (audJump.Length > 0 && aud != null)
+                {
+                    aud.PlayOneShot(audJump[Random.Range(0, audJump.Length)], audJumpVol);
+                }
+            }
+        }
+    }
+
     void flashlightToggle()
     {
         if (Input.GetKeyDown(KeyCode.F))
@@ -129,9 +133,7 @@ public class playerController : MonoBehaviour, IDamage
         ammo += amount;
 
         if (ammo > ammoMax)
-        {
             ammo = ammoMax;
-        }
 
         updatePlayerUI();
     }
@@ -139,13 +141,20 @@ public class playerController : MonoBehaviour, IDamage
     public void TakeDamage(int amount)
     {
         HP -= amount;
-        //wake up blood overlay
-        if (gamemanager.instance.bloodOverlay != null & !gamemanager.instance.bloodOverlay.gameObject.activeSelf)
+
+        if (gamemanager.instance.bloodOverlay != null &&
+            !gamemanager.instance.bloodOverlay.gameObject.activeSelf)
         {
             gamemanager.instance.bloodOverlay.gameObject.SetActive(true);
         }
+
         updatePlayerUI();
-        aud.PlayOneShot(audHurt[Random.Range(0, audHurt.Length)], audHurtVol);
+
+        if (audHurt.Length > 0 && aud != null)
+        {
+            aud.PlayOneShot(audHurt[Random.Range(0, audHurt.Length)], audHurtVol);
+        }
+
         StartCoroutine(flashDamage());
 
         if (HP <= 0)
@@ -153,6 +162,7 @@ public class playerController : MonoBehaviour, IDamage
             gamemanager.instance.youLose();
         }
     }
+
     IEnumerator flashDamage()
     {
         gamemanager.instance.damagePlayerFlash.SetActive(true);
@@ -167,17 +177,12 @@ public class playerController : MonoBehaviour, IDamage
             float hpRatio = (float)HP / HPOriginal;
             gamemanager.instance.playerHPBar.fillAmount = hpRatio;
 
-            //handle blood overlay
-            if(gamemanager.instance.bloodOverlay != null)
+            if (gamemanager.instance.bloodOverlay != null)
             {
-                //get current color
                 Color c = gamemanager.instance.bloodOverlay.color;
-                //flip ratio
                 c.a = 1f - hpRatio;
-                //apply it back
                 gamemanager.instance.bloodOverlay.color = c;
             }
-
 
             ammoCountText.text = ammo.ToString("F0");
             ammoMaxText.text = ammoMax.ToString("F0");
@@ -199,9 +204,7 @@ public class playerController : MonoBehaviour, IDamage
         ammo -= amount;
 
         if (ammo < 0)
-        {
             ammo = 0;
-        }
 
         updatePlayerUI();
     }

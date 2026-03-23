@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3329980403854562575}
   - component: {fileID: 5133246444486236490}
   - component: {fileID: 1417705393788627783}
+  - component: {fileID: 7228075323437063693}
   m_Layer: 0
   m_Name: WaterCircle
   m_TagString: Untagged
@@ -114,3 +115,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -6321087074664061082, guid: 589efb82e39695d4c8c9d3069a07fb5c, type: 3}
+--- !u!208 &7228075323437063693
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3705313449500253301}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 4.0220003, y: 0.546, z: 4.0220003}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.53800005, z: 0}
+  m_TimeToStationary: 0.5

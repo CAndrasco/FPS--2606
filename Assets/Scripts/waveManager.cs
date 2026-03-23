@@ -1,100 +1,123 @@
-using JetBrains.Annotations;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class waveManager : MonoBehaviour
 {
     public static waveManager instance;
 
-    [SerializeField] GameObject[] wave1Enemies;
-    [SerializeField] GameObject[] wave2Enemies;
-    [SerializeField] GameObject[] bossEnemies;
+    [Header("---- Enemy Prefabs ----")]
+    [SerializeField] GameObject weakEnemyPrefab;
+    [SerializeField] GameObject strongEnemyPrefab;
+    [SerializeField] GameObject bossEnemyPrefab;
 
+    [Header("---- Spawn Settings ----")]
+    [SerializeField] int spawnRate = 2;
+    [SerializeField] int spawnDist = 25;
+
+    [Header("---- Exit ----")]
     [SerializeField] GameObject exitDoorPrefab;
     [SerializeField] Transform[] exitSpawnPoints;
 
     public GameObject exitDoor;
 
-    public int enemiesAlive;
     int currentWave;
-
+    public int enemiesAlive;
 
     void Awake()
     {
         instance = this;
     }
 
-    public void StartFirstWave()
+    void Start()
     {
-        StartWave1();
+        startFirstWave();
     }
 
-    void StartWave1()
-    {
+    // ---------------- WAVE START ----------------
 
+    public void startFirstWave()
+    {
         currentWave = 1;
-        enemiesAlive = wave1Enemies.Length;
-
-        ActivateEnemies(wave1Enemies);
-
-        gamemanager.instance.updateGameGoal(currentWave, enemiesAlive);
+        StartCoroutine(SpawnWave(weakEnemyPrefab, 8));
     }
 
-    void startWave2()
+    IEnumerator SpawnWave(GameObject enemyPrefab, int amount)
     {
-        currentWave = 2;
-        enemiesAlive = wave2Enemies.Length;
-
-        ActivateEnemies(wave2Enemies);
+        enemiesAlive = amount;
 
         gamemanager.instance.updateGameGoal(currentWave, enemiesAlive);
-    }
 
-    void startFinalWave()
-    {
-        currentWave = 3;
-        enemiesAlive = bossEnemies.Length;
-
-        ActivateEnemies(bossEnemies);
-
-        gamemanager.instance.updateGameGoal(currentWave, enemiesAlive);
-    }
-
-    void ActivateEnemies(GameObject[] enemies)
-    {
-        for (int i = 0;
-            i < enemies.Length;
-            i++)
+        for (int i = 0; i < amount; i++)
         {
-            enemies[i].SetActive(true);
+            Spawn(enemyPrefab);
+            yield return new WaitForSeconds(spawnRate);
         }
     }
-    
+
+    // ---------------- SPAWN ----------------
+
+    void Spawn(GameObject enemy)
+    {
+        for (int i = 0; i < 10; i++) // try multiple positions
+        {
+            Vector3 ranPos = Random.insideUnitSphere * spawnDist;
+            ranPos += transform.position;
+
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(ranPos, out hit, spawnDist, NavMesh.AllAreas))
+            {
+                // this will prevent roof spawns
+                if (hit.position.y > transform.position.y + 2f)
+                    continue;
+
+                // prevents indoor spawns (ceiling check)
+                if (Physics.Raycast(hit.position + Vector3.up * 1f, Vector3.up, 10f))
+                    continue;
+
+                Instantiate(enemy, hit.position, Quaternion.Euler(0, Random.Range(0, 360), 0));
+                return;
+            }
+        }
+
+        Debug.LogWarning("Failed to find valid spawn position");
+    }
+
+    // ---------------- ENEMY KILLED ----------------
+
+    public void enemyKilled()
+    {
+        enemiesAlive--;
+
+        gamemanager.instance.updateGameGoal(currentWave, enemiesAlive);
+
+        if (enemiesAlive <= 0)
+        {
+            if (currentWave == 1)
+            {
+                currentWave = 2;
+                StartCoroutine(SpawnWave(strongEnemyPrefab, 8));
+            }
+            else if (currentWave == 2)
+            {
+                currentWave = 3;
+                StartCoroutine(SpawnWave(bossEnemyPrefab, 1));
+                spawnExitDoor();
+            }
+        }
+    }
+
+    // ---------------- EXIT ----------------
+
     void spawnExitDoor()
     {
+        if (exitSpawnPoints.Length == 0) return;
+
         int randomIndex = Random.Range(0, exitSpawnPoints.Length);
-
         Transform spawnPoint = exitSpawnPoints[randomIndex];
-
-        spawnPoint.parent.gameObject.SetActive(false);
 
         exitDoor = Instantiate(exitDoorPrefab, spawnPoint.position, spawnPoint.rotation);
 
         gamemanager.instance.showExitDistance();
     }
-
-    public void EnemyKilled()
-    {
-        enemiesAlive--;
-
-        if (enemiesAlive <= 0)
-        {
-            if (currentWave == 1)
-                startWave2();
-            else if (currentWave == 2)
-                startFinalWave();
-        }
-        gamemanager.instance.updateGameGoal(currentWave, enemiesAlive);
-    }
-
-
 }
