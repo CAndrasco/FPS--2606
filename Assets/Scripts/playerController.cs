@@ -46,7 +46,7 @@ public class playerController : MonoBehaviour, IDamage
     int currentHeals;
 
     float shootTimer;
-    
+
     bool isPlayingStep;
     bool isSprinting;
 
@@ -150,6 +150,13 @@ public class playerController : MonoBehaviour, IDamage
         updatePlayerUI();
     }
 
+    // new method for ammo, (ammo pickup uses this)
+    public void RefillAllAmmo()
+    {
+        ammo = ammoMax;
+        updatePlayerUI();
+    }
+
     public void TakeDamage(int amount)
     {
         HP -= amount;
@@ -229,7 +236,7 @@ public class playerController : MonoBehaviour, IDamage
         currentHeals--;
         HP += healAmount;
 
-        if(HP > HPOriginal)
+        if (HP > HPOriginal)
         {
             HP = HPOriginal;
         }
