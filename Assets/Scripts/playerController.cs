@@ -239,6 +239,9 @@ public class playerController : MonoBehaviour, IDamage
 
     public void addHeal(int amount)
     {
+        if (currentHeals >= maxHeals)
+            return;
+
         currentHeals += amount;
 
         if (currentHeals > maxHeals)
