@@ -83,7 +83,7 @@ public class enemyAI_1 : MonoBehaviour, IDamage
 
     void CheckRoam()
     {
-        if (agent.remainingDistance < 0.1f)
+        if (agent.remainingDistance < 1f)
         {
             roamTimer += Time.deltaTime;
             if (roamTimer >= roamPauseTime)
