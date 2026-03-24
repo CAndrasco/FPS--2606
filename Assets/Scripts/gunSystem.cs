@@ -2,53 +2,46 @@ using UnityEngine;
 
 public class gunSystem : MonoBehaviour
 {
-    //Gun stats
-    public float timeBetweenShooting, spread, range, reloadTime, timeBetweenShots;
-    public int magazineSize, bulletsPerTap;
-    public bool allowButtonHold;
-    int bulletsShot;
-    public GameObject bulletPrefab;
+    [Header("Gun Data")]
+    [SerializeField] gunStats stats;
 
-    //bools 
-    bool shooting, readyToShoot, reloading;
+    [Header("Projectile Settings")]
+    [SerializeField] GameObject bulletPrefab;
+    [SerializeField] Transform attackPoint;
+    [SerializeField] Camera fpsCam;
+    [SerializeField] GameObject muzzleFlash;
+
+    [Header("Spread")]
+    [SerializeField] float spread = 0.02f;
+
+    bool readyToShoot = true;
+    bool reloading = false;
     bool triggerReleased = true;
 
-    //Reference
-    public Camera fpsCam;
-    public Transform attackPoint;
-    public RaycastHit rayHit;
-    public LayerMask whatIsEnemy;
-
-    //Graphics
-    public GameObject muzzleFlash, bulletHoleGraphic;
-
-    public float camShakeMagnitude, camShakeDuration;
-
-    //Sound
-    public AudioSource gunAudio;
-    public AudioClip gunShotSound;
-
-    //Recoil
-    [SerializeField] weaponRecoil recoil;
+    int currentAmmo;
 
     playerController player;
+    AudioSource audioSource;
+    RaycastHit rayHit;
 
     private void Awake()
     {
         player = GetComponentInParent<playerController>();
+        audioSource = GetComponent<AudioSource>();
+
+        if (fpsCam == null)
+            fpsCam = GetComponentInParent<Camera>();
 
         if (fpsCam == null)
             fpsCam = Camera.main;
 
-        readyToShoot = true;
+        if (stats != null)
+            currentAmmo = stats.ammoMax;
     }
 
     private void Update()
     {
-        if (!gamemanager.instance.isPaused)
-        {
-            MyInput();
-        }
+        MyInput();
     }
 
     private void MyInput()
@@ -56,82 +49,103 @@ public class gunSystem : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
             triggerReleased = true;
 
-        if (triggerReleased && Input.GetMouseButtonDown(0) && readyToShoot && player.GetCurrentAmmo() > 0)
+        if (triggerReleased && Input.GetMouseButtonDown(0) && readyToShoot && !reloading && currentAmmo > 0)
         {
             triggerReleased = false;
             Shoot();
+        }
+
+        if (Input.GetKeyDown(KeyCode.R) && currentAmmo < stats.ammoMax && !reloading)
+        {
+            Reload();
         }
     }
 
     private void Shoot()
     {
-        Debug.Log("Shoot called on: " + gameObject.name + " frame: " + Time.frameCount);
+        if (stats == null || bulletPrefab == null || attackPoint == null || fpsCam == null)
+        {
+            Debug.LogError("gunSystem missing references on " + gameObject.name);
+            return;
+        }
 
         readyToShoot = false;
 
         Vector3 targetPoint;
 
-        // Aim from center of camera
-        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out rayHit, range))
+        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out rayHit, stats.shootDist))
         {
             targetPoint = rayHit.point;
         }
         else
         {
-            targetPoint = fpsCam.transform.position + fpsCam.transform.forward * range;
+            targetPoint = fpsCam.transform.position + fpsCam.transform.forward * stats.shootDist;
         }
 
-        // Direction from gun to target
         Vector3 directionWithoutSpread = targetPoint - attackPoint.position;
 
-        // Spread
         float x = Random.Range(-spread, spread);
         float y = Random.Range(-spread, spread);
 
-        Vector3 directionWithSpread = directionWithoutSpread + new Vector3(x, y, 0);
+        Vector3 directionWithSpread = directionWithoutSpread + new Vector3(x, y, 0f);
 
-        // Spawn bullet
         GameObject currentBullet = Instantiate(bulletPrefab, attackPoint.position, Quaternion.identity);
         currentBullet.transform.forward = directionWithSpread.normalized;
 
-        // Spawn muzzle flash
         if (muzzleFlash != null)
         {
-            Instantiate(muzzleFlash, attackPoint.position, attackPoint.rotation);
+            GameObject flash = Instantiate(muzzleFlash, attackPoint.position, attackPoint.rotation);
+            Destroy(flash, 2f);
         }
 
-        //added gunshot sound.
-        if (gunAudio != null && gunShotSound != null)
-        {
-            gunAudio.pitch = Random.Range(0.9f, 1.1f);
-            gunAudio.PlayOneShot(gunShotSound);
-        }
+        PlayShootSound();
 
-        //Added recoil trigger.
-        if (recoil != null)
-        {
-            recoil.Fire();
-        }
+        currentAmmo--;
 
-        // Use ammo
-        player.UseAmmo(1);
-
-        Invoke("ResetShot", timeBetweenShooting);
+        Invoke(nameof(ResetShot), stats.shootRate);
     }
 
-    private void ResetShot()
+    void PlayShootSound()
+    {
+        if (audioSource != null && stats.shootSound != null && stats.shootSound.Length > 0)
+        {
+            int rand = Random.Range(0, stats.shootSound.Length);
+            audioSource.PlayOneShot(stats.shootSound[rand], stats.shootSoundVol);
+        }
+    }
+
+    void ResetShot()
     {
         readyToShoot = true;
     }
 
-    private void Reload()
+    void Reload()
     {
         reloading = true;
-        Invoke("ReloadFinished", reloadTime);
+        Invoke(nameof(ReloadFinished), 1f);
     }
 
-    private void ReloadFinished()
+    void ReloadFinished()
     {
+        currentAmmo = stats.ammoMax;
         reloading = false;
+    }
+
+    public void AddAmmo(int amount)
+    {
+        currentAmmo += amount;
+
+        if (currentAmmo > stats.ammoMax)
+            currentAmmo = stats.ammoMax;
+    }
+
+    public int GetCurrentAmmo()
+    {
+        return currentAmmo;
+    }
+
+    public int GetMaxAmmo()
+    {
+        return stats != null ? stats.ammoMax : 0;
     }
 }
