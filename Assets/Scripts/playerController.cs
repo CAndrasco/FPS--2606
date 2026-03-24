@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using System.Collections;
 
-public class playerController : MonoBehaviour, IDamage
+public class playerController : MonoBehaviour, IDamage, IPickup
 {
     [Header("---- Player Components ----")]
     [SerializeField] CharacterController controller;
@@ -19,6 +19,7 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] Light flashlight;
 
     [Header("---- Gun ----")]
+    [SerializeField] GameObject gunModel;
     [SerializeField] int shootDamage;
     [SerializeField] int shootDist;
     [SerializeField] float shootRate;
@@ -255,5 +256,15 @@ public class playerController : MonoBehaviour, IDamage
         {
             currentHeals = maxHeals;
         }
+    }
+
+    public void getGunStats(gunStats gun)
+    {
+        shootDamage = gun.shootDamage;
+        shootDist = gun.shootDist;
+        shootRate = gun.shootRate;
+
+        gunModel.GetComponent<MeshFilter>().sharedMesh = gun.gunModel.GetComponent<MeshFilter>().sharedMesh;    
+        gunModel.GetComponent<MeshRenderer>().sharedMaterial = gun.gunModel.GetComponent<MeshRenderer>().sharedMaterial;
     }
 }
