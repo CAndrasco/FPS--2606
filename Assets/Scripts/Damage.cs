@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Damage : MonoBehaviour
 {
-    enum damageType { bullet, stationary, DOT }
+    enum damageType { bullet, stationary, DOT, shockwave }
 
     [SerializeField] damageType Type;
     [SerializeField] Rigidbody rb;
@@ -29,6 +29,14 @@ public class Damage : MonoBehaviour
             // Destroy bullet after time
             Destroy(gameObject, destroyTime);
         }
+        if(Type == damageType.shockwave)
+        {
+            // shoots forward
+            rb.linearVelocity = transform.forward * speed;
+
+            //I want it to tunnel through object so no collision detection
+            Destroy(gameObject, destroyTime);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -44,6 +52,15 @@ public class Damage : MonoBehaviour
         }
 
         if (Type == damageType.bullet)
+        {
+            if (hitEffect != null)
+            {
+                Instantiate(hitEffect, transform.position, Quaternion.identity);
+            }
+
+            Destroy(gameObject);
+        }
+        if (Type == damageType.shockwave)
         {
             if (hitEffect != null)
             {

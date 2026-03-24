@@ -9,12 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 72971292229979472}
+  - component: {fileID: 3730031662626414920}
   - component: {fileID: 987225591016634702}
   - component: {fileID: 5898418392996569824}
   - component: {fileID: 7797755344331577130}
   - component: {fileID: 7654472508940349044}
   - component: {fileID: 4866768296278885478}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Door Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,6 +37,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6599516893289610111}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3730031662626414920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7166303184071582522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8b875c6e97fba74db7d89075b39b4fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::exitDoor
 --- !u!108 &987225591016634702
 Light:
   m_ObjectHideFlags: 0
@@ -217,11 +230,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6599516893289610111}
-  - component: {fileID: -5482357460585910435}
   - component: {fileID: 7979960065398805531}
   - component: {fileID: 3573331154139474958}
   - component: {fileID: 103276789677384523}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Exit Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -244,18 +256,6 @@ Transform:
   - {fileID: 72971292229979472}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 89.917, z: 0}
---- !u!114 &-5482357460585910435
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7193256460016885597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8b875c6e97fba74db7d89075b39b4fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::exitDoor
 --- !u!33 &7979960065398805531
 MeshFilter:
   m_ObjectHideFlags: 0

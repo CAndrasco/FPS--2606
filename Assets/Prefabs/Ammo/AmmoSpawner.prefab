@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4902180411714264703}
   - component: {fileID: 861933008049698288}
+  - component: {fileID: 5312600342808047966}
   m_Layer: 0
   m_Name: AmmoSpawner
   m_TagString: Untagged
@@ -25,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3743934216218047189}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5.99992, y: -2.77155, z: 17.80834}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -44,16 +45,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a91af91b08ca614993a62aa008ac181, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ammoSpawner
-  ammoPrefab: {fileID: 0}
-  spawnPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  maxAmmoOnMap: 10
+  ammoPrefab: {fileID: 394534383269148248, guid: 58bccc31408baa549a63f612077d6c31, type: 3}
+  maxAmmoOnMap: 5
+  spawnRadius: 25
+  spawnDelayMin: 3
+  spawnDelayMax: 7
+--- !u!65 &5312600342808047966
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3743934216218047189}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 55, y: 5, z: 58}
+  m_Center: {x: 0, y: 0, z: 0}

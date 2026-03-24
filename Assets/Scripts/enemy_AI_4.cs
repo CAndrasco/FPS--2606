@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.AI;
+using Unity.Burst.CompilerServices;
 
 public class enemyAI_4 : MonoBehaviour, IDamage
 {
@@ -22,17 +23,37 @@ public class enemyAI_4 : MonoBehaviour, IDamage
     [SerializeField] float attackRate = 1f;
     [SerializeField] float attackRange = 2.5f;
 
+    [Header("---- Attack Stats ----")]
+    [SerializeField] int chargeDistance; // if player is farther then this distance then the boss will charge
+    [SerializeField] int spawnDistance; // if player is within this distance then will spawn zombies around boss
+    [SerializeField] GameObject[] spawns;
+    [SerializeField] int spawnAmount;
+    [SerializeField] float spawnCoolDownTime;
+    [SerializeField] GameObject shockwave;
+    [SerializeField] float shockwaveRate;
+    [SerializeField] Transform shockwavePos;
+
+    float OGSpeed;
     float attackTimer;
     float chargeTimer;
+    float playerDis;
+    float shockwaveTimer;
+    float spawnCoolDownTimer;
+
+    int spawnCount;
 
     Vector3 playerDir;
     Color OGcolor;
 
     bool isDead;
+    bool hasSpawned;
+    bool isCharging;
 
     void Start()
     {
         OGcolor = model.material.color;
+
+        OGSpeed = agent.speed;
 
         if (agent != null)
             agent.speed = normalSpeed;
@@ -47,32 +68,106 @@ public class enemyAI_4 : MonoBehaviour, IDamage
 
         Vector3 playerPos = gamemanager.instance.player.transform.position;
 
-        // Always chase player
-        agent.SetDestination(playerPos);
 
         playerDir = playerPos - transform.position;
         FaceTarget();
 
-        float dist = Vector3.Distance(transform.position, playerPos);
+        playerDis = Vector3.Distance(transform.position, playerPos);
 
-        if (dist <= attackRange)
+        if (playerDis <= attackRange)
             TryAttack();
 
-        // Charge burst
-        if (chargeTimer >= chargeDelay)
+        shockwaveTimer += Time.deltaTime;
+
+        if (!CanSeePlayer() && playerDis <= chargeDistance)
         {
-            StartCoroutine(Charge());
-            chargeTimer = 0;
+            agent.SetDestination(playerPos);
         }
+
+
+        if (playerDis <= spawnDistance && spawnCount < spawnAmount && !hasSpawned) // player is close to boss
+        {
+            Spawning();
+        }
+        else
+        {
+            spawnCoolDownTimer += Time.deltaTime;
+        }
+
+        if (spawnCoolDownTimer >= spawnCoolDownTime) // resets spawning so boss can spawn more
+        {
+            hasSpawned = false;
+        }
+
+        if (playerDis > spawnDistance && playerDis < chargeDistance && shockwaveTimer >= shockwaveRate) // player is in the middle ground
+        {
+            ShockWave();
+        }
+
+
+        if (!isCharging && playerDis >= chargeDistance) // player is far from the boss
+        {
+            chargeTimer += Time.deltaTime;
+
+            if (chargeTimer >= chargeDelay)
+            {
+                Charge();
+            }
+        }
+        if (!isCharging)
+        {
+            agent.speed = OGSpeed;
+        }
+
     }
 
-    IEnumerator Charge()
+    void Charge()
     {
+        isCharging = true;
         agent.speed = chargeSpeed;
+        agent.SetDestination(gamemanager.instance.player.transform.position);
+        StartCoroutine(chargeTiming());
+        chargeTimer = 0;
+    }
 
-        yield return new WaitForSeconds(1.5f);
+    IEnumerator chargeTiming()
+    {
+        yield return new WaitForSeconds(chargeDelay);
+        isCharging = false;
+    }
+    void Spawning()
+    {
+        for (int i = 0; i < spawnAmount; i++)
+        {
+            waveManager.instance.Spawn(spawns[Random.Range(0, spawns.Length)]);
+            spawnCount++;
+            waveManager.instance.enemiesAlive++;
+        }
+        hasSpawned = true;
+        spawnCoolDownTimer = 0;
+    }
 
-        agent.speed = normalSpeed;
+    void ShockWave()
+    {
+        shockwaveTimer = 0;
+        Instantiate(shockwave, shockwavePos.position, transform.rotation);
+    }
+
+    bool CanSeePlayer()
+    {
+        playerDir = gamemanager.instance.player.transform.position - transform.position;
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, playerDir, out hit))
+        {
+            if (hit.collider.CompareTag("Player"))
+            {
+                FaceTarget();
+                return true;
+            }
+        }
+
+        return false;
     }
 
     void TryAttack()

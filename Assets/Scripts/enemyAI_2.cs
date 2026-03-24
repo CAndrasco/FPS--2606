@@ -11,9 +11,15 @@ public class enemyAI_2 : MonoBehaviour, IDamage
     [SerializeField] Transform armPivot2;
     [SerializeField] Animator anim;
 
+    [Header("---- Audio ----")]
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip[] zombieSounds;
+    [SerializeField] float soundRate = 3f;
+
+    float soundTimer;
+
     [Header("---- Stats ----")]
     [SerializeField] int HP = 100;
-    [SerializeField] int FOV = 120;
     [SerializeField] int faceTargetSpeed = 6;
     [SerializeField] int armRotateSpeed = 6;
     [SerializeField] int sprintSpeed = 8;
@@ -25,41 +31,73 @@ public class enemyAI_2 : MonoBehaviour, IDamage
 
     float attackTimer;
     Color OGcolor;
-    float OGSpeed;
 
     Vector3 playerDir;
 
     void Start()
     {
         OGcolor = model.material.color;
-        OGSpeed = agent.speed;
 
-        // Auto assign animator if not set
         if (anim == null)
             anim = GetComponent<Animator>();
+
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
     {
-        Debug.Log("Animator: " + anim);
-
         attackTimer += Time.deltaTime;
 
+        Vector3 playerPos = gamemanager.instance.player.transform.position;
+        playerDir = playerPos - transform.position;
+
+        // Always chase player
         agent.speed = sprintSpeed;
+        agent.SetDestination(playerPos);
 
-        if (CanSeePlayer())
-            agent.SetDestination(gamemanager.instance.player.transform.position);
+        // face player
+        FaceTarget();
+        ArmRotate();
 
-        float dist = Vector3.Distance(transform.position, gamemanager.instance.player.transform.position);
-
+        // attack
+        float dist = Vector3.Distance(transform.position, playerPos);
         if (dist <= attackRange)
             TryAttack();
 
-        // should fix animation..(matches enemyAI_1 behavior)
-        if (agent != null && anim != null && agent.speed > 0)
+        // animation based on movement
+        if (agent != null && anim != null)
         {
             float speed = agent.velocity.magnitude;
-            anim.SetFloat("Speed", speed / agent.speed);
+            anim.SetFloat("Speed", speed);
+        }
+
+        HandleSound();
+    }
+
+    void HandleSound()
+    {
+        soundTimer += Time.deltaTime;
+
+        float dist = Vector3.Distance(transform.position, gamemanager.instance.player.transform.position);
+
+        if (soundTimer >= soundRate && dist < 25f)
+        {
+            PlayRandomSound();
+            soundTimer = 0;
+        }
+    }
+
+    void PlayRandomSound()
+    {
+        if (zombieSounds == null || zombieSounds.Length == 0 || audioSource == null) return;
+
+        int rand = Random.Range(0, zombieSounds.Length);
+
+        if (zombieSounds[rand] != null)
+        {
+            // loudness =5
+            audioSource.PlayOneShot(zombieSounds[rand], 9f);
         }
     }
 
@@ -70,24 +108,6 @@ public class enemyAI_2 : MonoBehaviour, IDamage
             gamemanager.instance.playerScript.TakeDamage(attackDamage);
             attackTimer = 0;
         }
-    }
-
-    bool CanSeePlayer()
-    {
-        playerDir = gamemanager.instance.player.transform.position - transform.position;
-
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, playerDir, out hit))
-        {
-            if (hit.collider.CompareTag("Player"))
-            {
-                FaceTarget();
-                ArmRotate();
-                return true;
-            }
-        }
-
-        return false;
     }
 
     void FaceTarget()

@@ -2093,10 +2093,10 @@ MonoBehaviour:
   anim: {fileID: 1363336257900746774}
   HP: 1
   FOV: 360
-  faceTargetSpeed: 3
+  faceTargetSpeed: 4
   armRotateSpeed: 3
-  sprintSpeed: 3
-  roamPauseTime: 3
+  sprintSpeed: 4
+  roamPauseTime: 1
   roamDistance: 18
   flashlightSlowMultiplier: 0.3
   flashlightCheckDistance: 200

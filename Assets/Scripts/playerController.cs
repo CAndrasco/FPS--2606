@@ -29,6 +29,10 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] TMP_Text ammoCountText;
     [SerializeField] TMP_Text ammoMaxText;
 
+    [Header("---- Healing ----")]
+    [SerializeField] int healAmount;
+    [SerializeField] int maxHeals;
+
     [Header("----Audio----")]
     [SerializeField] AudioSource aud;
     [SerializeField] AudioClip[] audHurt;
@@ -39,7 +43,10 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] float audStepVol;
 
     int HPOriginal;
+    int currentHeals;
+
     float shootTimer;
+
     bool isPlayingStep;
     bool isSprinting;
 
@@ -56,6 +63,11 @@ public class playerController : MonoBehaviour, IDamage
     {
         if (gamemanager.instance != null && gamemanager.instance.isPaused)
             return;
+
+        if (Input.GetButtonDown("Heal"))
+        {
+            useHeal();
+        }
 
         movement();
         sprint();
@@ -138,6 +150,13 @@ public class playerController : MonoBehaviour, IDamage
         updatePlayerUI();
     }
 
+    // new method for ammo, (ammo pickup uses this)
+    public void RefillAllAmmo()
+    {
+        ammo = ammoMax;
+        updatePlayerUI();
+    }
+
     public void TakeDamage(int amount)
     {
         HP -= amount;
@@ -207,5 +226,34 @@ public class playerController : MonoBehaviour, IDamage
             ammo = 0;
 
         updatePlayerUI();
+    }
+
+    void useHeal()
+    {
+        if (currentHeals <= 0 || HP >= HPOriginal)
+            return;
+
+        currentHeals--;
+        HP += healAmount;
+
+        if (HP > HPOriginal)
+        {
+            HP = HPOriginal;
+        }
+
+        updatePlayerUI();
+    }
+
+    public void addHeal(int amount)
+    {
+        if (currentHeals >= maxHeals)
+            return;
+
+        currentHeals += amount;
+
+        if (currentHeals > maxHeals)
+        {
+            currentHeals = maxHeals;
+        }
     }
 }

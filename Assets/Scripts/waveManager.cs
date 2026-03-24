@@ -34,8 +34,7 @@ public class waveManager : MonoBehaviour
         startFirstWave();
     }
 
-    // ---------------- WAVE START ----------------
-
+    // start wave 1
     public void startFirstWave()
     {
         currentWave = 1;
@@ -44,22 +43,32 @@ public class waveManager : MonoBehaviour
 
     IEnumerator SpawnWave(GameObject enemyPrefab, int amount)
     {
-        enemiesAlive = amount;
+        // start at 0 instead of amount because spawns can fail
+        enemiesAlive = 0;
+        int spawned = 0;
 
         gamemanager.instance.updateGameGoal(currentWave, enemiesAlive);
 
-        for (int i = 0; i < amount; i++)
+        // keep trying until we actually spawn all enemies
+        while (spawned < amount)
         {
-            Spawn(enemyPrefab);
+            if (Spawn(enemyPrefab))
+            {
+                spawned++;
+                enemiesAlive++;
+
+                gamemanager.instance.updateGameGoal(currentWave, enemiesAlive);
+            }
+
             yield return new WaitForSeconds(spawnRate);
         }
     }
 
-    // ---------------- SPAWN ----------------
-
-    void Spawn(GameObject enemy)
+    // tries to spawn enemy, returns true if it worked
+    public bool Spawn(GameObject enemy)
     {
-        for (int i = 0; i < 10; i++) // try multiple positions
+        // try multiple positions
+        for (int i = 0; i < 15; i++)
         {
             Vector3 ranPos = Random.insideUnitSphere * spawnDist;
             ranPos += transform.position;
@@ -67,23 +76,22 @@ public class waveManager : MonoBehaviour
             NavMeshHit hit;
             if (NavMesh.SamplePosition(ranPos, out hit, spawnDist, NavMesh.AllAreas))
             {
-                // this will prevent roof spawns
+                // skip rooftops
                 if (hit.position.y > transform.position.y + 2f)
                     continue;
 
-                // prevents indoor spawns (ceiling check)
+                // skip indoor ceilings
                 if (Physics.Raycast(hit.position + Vector3.up * 1f, Vector3.up, 10f))
                     continue;
 
                 Instantiate(enemy, hit.position, Quaternion.Euler(0, Random.Range(0, 360), 0));
-                return;
+                return true;
             }
         }
 
         Debug.LogWarning("Failed to find valid spawn position");
+        return false;
     }
-
-    // ---------------- ENEMY KILLED ----------------
 
     public void enemyKilled()
     {
@@ -106,8 +114,6 @@ public class waveManager : MonoBehaviour
             }
         }
     }
-
-    // ---------------- EXIT ----------------
 
     void spawnExitDoor()
     {

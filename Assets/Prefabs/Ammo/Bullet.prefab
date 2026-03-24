@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1253235375401824797}
-  - component: {fileID: 5842223497463955319}
-  - component: {fileID: 8828778867334372685}
   - component: {fileID: 1681259198737477903}
+  - component: {fileID: 8828778867334372685}
+  - component: {fileID: 5842223497463955319}
   - component: {fileID: 3326551375704089316}
   m_Layer: 10
   m_Name: Bullet
@@ -35,27 +35,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &5842223497463955319
-SphereCollider:
+--- !u!114 &1681259198737477903
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4959019289503928211}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cbd6f4272cdeb8438f695171220a8dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Damage
+  Type: 0
+  rb: {fileID: 8828778867334372685}
+  damageAmount: 10
+  damageRate: 0
+  speed: 200
+  destroyTime: 5
+  hitEffect: {fileID: 0}
 --- !u!54 &8828778867334372685
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -83,25 +81,27 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &1681259198737477903
-MonoBehaviour:
+--- !u!135 &5842223497463955319
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4959019289503928211}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cbd6f4272cdeb8438f695171220a8dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Damage
-  Type: 0
-  rb: {fileID: 8828778867334372685}
-  damageAmount: 10
-  damageRate: 0
-  speed: 200
-  destroyTime: 5
-  hitEffect: {fileID: 0}
+  serializedVersion: 3
+  m_Radius: 0.1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!96 &3326551375704089316
 TrailRenderer:
   serializedVersion: 4

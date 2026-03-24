@@ -1,15 +1,27 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ammoSpawner : MonoBehaviour
 {
+    public static ammoSpawner instance;
+
+    [Header("---- Ammo ----")]
     [SerializeField] GameObject ammoPrefab;
-    [SerializeField] Transform[] spawnPoints;
-    [SerializeField] int maxAmmoOnMap = 15;
+
+    [Header("---- Spawn Settings ----")]
+    [SerializeField] int maxAmmoOnMap = 10;
+    [SerializeField] float spawnRadius = 25f;
+    [SerializeField] float spawnDelayMin = 3f;
+    [SerializeField] float spawnDelayMax = 7f;
 
     int currentAmmo;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Awake()
+    {
+        instance = this;
+    }
+
     void Start()
     {
         for (int i = 0; i < maxAmmoOnMap; i++)
@@ -18,41 +30,66 @@ public class ammoSpawner : MonoBehaviour
         }
     }
 
-    public void SpawnAmmo()
+    // ---------------- SPAWN ----------------
+
+    void SpawnAmmo()
     {
-        for (int i = 0; i < spawnPoints.Length; i++)
+        int groundMask = LayerMask.GetMask("Environment");
+
+        for (int i = 0; i < 20; i++)
         {
-            int rand = Random.Range(0,spawnPoints.Length);
+            Vector3 randomPos = Random.insideUnitSphere * spawnRadius;
+            randomPos += transform.position;
 
-            Transform spawn = spawnPoints[rand];
-
-            if(spawn.childCount == 0)
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomPos, out hit, spawnRadius, NavMesh.AllAreas))
             {
-                Instantiate(ammoPrefab, spawn.position, Quaternion.identity, spawn);
-                currentAmmo++;
-                return;
+                RaycastHit groundHit;
+
+                // raycast down only hitting Environment layer
+                if (Physics.Raycast(hit.position + Vector3.up * 2f, Vector3.down, out groundHit, 10f, groundMask))
+                {
+                    // tag is floor
+                    if (!groundHit.collider.CompareTag("Floor"))
+                        continue;
+
+                    // get correct height from collider
+                    float heightOffset = 0.5f;
+                    Collider col = ammoPrefab.GetComponentInChildren<Collider>();
+
+                    if (col != null)
+                    {
+                        heightOffset = col.bounds.extents.y;
+                    }
+
+                    // final spawn position heightoffset is important....
+                    Vector3 spawnPos = groundHit.point + Vector3.up * (heightOffset + 0.5f);
+
+                    Instantiate(ammoPrefab, spawnPos, Quaternion.identity);
+                    currentAmmo++;
+                    return;
+                }
             }
         }
+
+        Debug.LogWarning("Failed to find valid ammo spawn");
     }
+
+    // ---------------- PICKUP ----------------
 
     public void AmmoPickedUp()
     {
         currentAmmo--;
 
-        if(currentAmmo < maxAmmoOnMap)
+        if (currentAmmo < maxAmmoOnMap)
         {
             StartCoroutine(DelayedSpawn());
         }
     }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     IEnumerator DelayedSpawn()
     {
-        yield return new WaitForSeconds(Random.Range(3f,7f)); //Spawner waits 3-7 seconds.
+        yield return new WaitForSeconds(Random.Range(spawnDelayMin, spawnDelayMax));
         SpawnAmmo();
     }
 }
