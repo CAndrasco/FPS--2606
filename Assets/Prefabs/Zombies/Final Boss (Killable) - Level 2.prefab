@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &70127027663153608
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7645102957920876314}
+  m_Layer: 7
+  m_Name: ShockWave Pos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7645102957920876314
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70127027663153608}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.031, y: -0.123, z: 0.54}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3369358176035930234}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &368240854765237313
 GameObject:
   m_ObjectHideFlags: 0
@@ -865,6 +896,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8440520841294884307}
+  - {fileID: 7645102957920876314}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &711132053774829298
@@ -911,14 +943,16 @@ MonoBehaviour:
   attackDamage: 30
   attackRate: 1
   attackRange: 2.5
-  chargeDistance: 0
-  spawnDistance: 0
-  spawns: []
-  spawnAmount: 0
-  spawnCoolDownTime: 0
-  shockwave: {fileID: 0}
-  shockwaveRate: 0
-  shockwavePos: {fileID: 0}
+  chargeDistance: 15
+  spawnDistance: 6
+  spawns:
+  - {fileID: 3129097547532459968, guid: d37437492829e494eb997625d587e2d9, type: 3}
+  - {fileID: 8599493841591727309, guid: 44514719075e005409a0551b43df97ee, type: 3}
+  spawnAmount: 6
+  spawnCoolDownTime: 15
+  shockwave: {fileID: 5212015786647210118, guid: 300caded94c715b48a44928c00df9a18, type: 3}
+  shockwaveRate: 5
+  shockwavePos: {fileID: 7645102957920876314}
 --- !u!195 &2886051959099867154
 NavMeshAgent:
   m_ObjectHideFlags: 0
