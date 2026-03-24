@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be5c79421ce11264c87ff98035a58597, type: 3}
-  m_Name: AK47
+  m_Name: Pistol
   m_EditorClassIdentifier: Assembly-CSharp::gunStats
-  gunModel: {fileID: 499944259693247635, guid: 7bc1f16a18265494ead60fad2aa11574, type: 3}
-  shootDamage: 4
-  shootDist: 1000
-  shootRate: 0.19
-  ammoCur: 50
-  ammoMax: 50
+  gunModel: {fileID: 3591475393319324963, guid: 4bc3465c9f6d2714aabbf58cc586060f, type: 3}
+  shootDamage: 3
+  shootDist: 764
+  shootRate: 1.4
+  ammoCur: 30
+  ammoMax: 30
   hitEffect: {fileID: 0}
   shootSound: []
   shootSoundVol: 0

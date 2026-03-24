@@ -34,14 +34,33 @@ public class gunSystem : MonoBehaviour
 
         if (fpsCam == null)
             fpsCam = Camera.main;
-
-        if (stats != null)
-            currentAmmo = stats.ammoMax;
     }
 
     private void Update()
     {
+        if (stats == null) return;
+
         MyInput();
+    }
+
+    public void SetStats(gunStats newStats)
+    {
+        stats = newStats;
+
+        if (stats != null)
+        {
+            currentAmmo = stats.ammoMax;
+            Debug.Log(gameObject.name + " received stats: " + stats.name);
+        }
+        else
+        {
+            Debug.LogError(gameObject.name + " received NULL stats.");
+        }
+    }
+
+    public gunStats GetStats()
+    {
+        return stats;
     }
 
     private void MyInput()
@@ -74,19 +93,14 @@ public class gunSystem : MonoBehaviour
         Vector3 targetPoint;
 
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out rayHit, stats.shootDist))
-        {
             targetPoint = rayHit.point;
-        }
         else
-        {
             targetPoint = fpsCam.transform.position + fpsCam.transform.forward * stats.shootDist;
-        }
 
         Vector3 directionWithoutSpread = targetPoint - attackPoint.position;
 
         float x = Random.Range(-spread, spread);
         float y = Random.Range(-spread, spread);
-
         Vector3 directionWithSpread = directionWithoutSpread + new Vector3(x, y, 0f);
 
         GameObject currentBullet = Instantiate(bulletPrefab, attackPoint.position, Quaternion.identity);
