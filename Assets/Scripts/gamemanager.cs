@@ -41,6 +41,14 @@ public class gamemanager : MonoBehaviour
         {
             playerScript = player.GetComponent<playerController>();
         }
+
+        //find the menus and turn them off
+        menuPause = GameObject.Find("Pause Menu");
+        if (menuPause) menuPause.SetActive(false);
+        menuLose = GameObject.Find("Lose Menu");
+        if (menuLose) menuLose.SetActive(false);
+        menuWin = GameObject.Find("Win Menu");
+        if (menuWin) menuWin.SetActive(false);
     }
 
     void Start()
