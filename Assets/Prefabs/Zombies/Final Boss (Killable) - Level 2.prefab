@@ -876,7 +876,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3332244364773614535}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 3ea946212e7416c4f8a3e7a404166265, type: 3}
+  m_Avatar: {fileID: 9000000, guid: 4b11d0901d1e3f04da6b00a4ff5d74dd, type: 3}
   m_Controller: {fileID: 9100000, guid: 9ed64ec5bef6fac4ab43828e5bd6d942, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
@@ -911,6 +911,14 @@ MonoBehaviour:
   attackDamage: 30
   attackRate: 1
   attackRange: 2.5
+  chargeDistance: 0
+  spawnDistance: 0
+  spawns: []
+  spawnAmount: 0
+  spawnCoolDownTime: 0
+  shockwave: {fileID: 0}
+  shockwaveRate: 0
+  shockwavePos: {fileID: 0}
 --- !u!195 &2886051959099867154
 NavMeshAgent:
   m_ObjectHideFlags: 0
