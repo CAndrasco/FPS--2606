@@ -11,19 +11,22 @@ public class gamemanager : MonoBehaviour
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
-    [SerializeField] GameObject exitDistance;
+    
 
     [Header("---- UI ----")]
     [SerializeField] TMP_Text waveCounter;
     [SerializeField] TMP_Text zombieCounter;
+    [SerializeField] GameObject exitDistance;
     [SerializeField] TMP_Text exitDistanceText;
 
-    [Header("---- Gun UI ----")]
+    [Header("---- Weapon HUD ----")]
     [SerializeField] GameObject weaponHUD;
     [SerializeField] Image currentGunIcon;
     [SerializeField] TMP_Text ammoText;
+    [SerializeField] Image medIcon;
+    [SerializeField] TMP_Text medText;
 
-    [Header("---- Player Stuff ----")]
+    [Header("---- Player UI ----")]
     public Image playerHPBar;
     public GameObject player;
     public playerController playerScript;
@@ -83,7 +86,11 @@ public class gamemanager : MonoBehaviour
             if(gunIcon != null) currentGunIcon = gunIcon.GetComponent<Image>();
             GameObject gText = GameObject.Find("Ammo Text");
             if (gText != null) ammoText = gText.GetComponent<TMP_Text>();
-            //start gun ui hidden
+            GameObject medKit = GameObject.Find("MedKit Icon");
+            if (medKit != null) medIcon = medKit.GetComponent<Image>();
+            GameObject medCount = GameObject.Find("MedKit Text");
+            if (medCount != null) medText = medCount.GetComponent<TMP_Text>();
+            //start weapon HUD hidden
             weaponHUD.SetActive(false);
         }
 
