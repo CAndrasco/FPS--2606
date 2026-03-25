@@ -1039,7 +1039,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a00b1ba9e80dee14cbc8651252bf9b10, type: 3}
   - {fileID: 8300000, guid: 39038920f16c66345896376ff14cff31, type: 3}
   soundRate: 2
-  HP: 500
+  HP: 1000
   faceTargetSpeed: 5
   chargeDelay: 2
   chargeSpeed: 15
