@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be5c79421ce11264c87ff98035a58597, type: 3}
   m_Name: AK74
   m_EditorClassIdentifier: Assembly-CSharp::gunStats
-  gunModel: {fileID: 499944259693247635, guid: 7bc1f16a18265494ead60fad2aa11574, type: 3}
+  gunModel: {fileID: 964330591455605165, guid: fd3530acb3de9844abe31de7dfb24848, type: 3}
   gunIcon: {fileID: 21300000, guid: 909c834e66762d048b943daf57bef9ca, type: 3}
   shootDamage: 4
   shootDist: 1000
@@ -26,3 +26,6 @@ MonoBehaviour:
   shootSound:
   - {fileID: 8300000, guid: 25d89049e254f674ea43d5ca138456dd, type: 3}
   shootSoundVol: 0.377
+  holdPosition: {x: 0, y: 0, z: 0}
+  holdRotation: {x: 0, y: 180, z: 0}
+  shootPositionOffset: {x: 0, y: 0, z: 0}

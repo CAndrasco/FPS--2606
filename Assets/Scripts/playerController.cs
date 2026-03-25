@@ -3,13 +3,11 @@ using TMPro;
 using System.Collections.Generic;
 using System.Collections;
 
-public class playerController : MonoBehaviour, IDamage, IPickup
+public class playerController : MonoBehaviour, IDamage , IPickup
 {
     [Header("---- Player Components ----")]
     [SerializeField] CharacterController controller;
     [SerializeField] LayerMask ignoreLayer;
-
-
 
     [Header("---- Player Stats ----")]
     [SerializeField] int HP;
@@ -23,9 +21,10 @@ public class playerController : MonoBehaviour, IDamage, IPickup
 
     [Header("---- Gun ----")]
     List<int> gunAmmo = new List<int>();
-    [SerializeField] List<gunStats> gunList = new List<gunStats>();
+    [SerializeField] List<gunStats> gunList = new List<gunStats>(); // shows inventory in inspector
     [SerializeField] GameObject gunModel;
     [SerializeField] gunSystem2 gunSystem;
+
     [SerializeField] int shootDamage;
     [SerializeField] int shootDist;
     [SerializeField] float shootRate;
@@ -40,7 +39,7 @@ public class playerController : MonoBehaviour, IDamage, IPickup
     [SerializeField] int healAmount;
     [SerializeField] int maxHeals;
 
-    [Header("----Audio----")]
+    [Header("---- Audio ----")]
     [SerializeField] AudioSource aud;
     [SerializeField] AudioClip[] audHurt;
     [SerializeField] float audHurtVol;
@@ -74,9 +73,7 @@ public class playerController : MonoBehaviour, IDamage, IPickup
             return;
 
         if (Input.GetButtonDown("Heal"))
-        {
             useHeal();
-        }
 
         movement();
         sprint();
@@ -110,9 +107,7 @@ public class playerController : MonoBehaviour, IDamage, IPickup
         isPlayingStep = true;
 
         if (audStep.Length > 0 && aud != null)
-        {
             aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
-        }
 
         yield return new WaitForSeconds(isSprinting ? 0.3f : 0.5f);
 
@@ -136,9 +131,7 @@ public class playerController : MonoBehaviour, IDamage, IPickup
                 playerVel.y = jumpForce;
 
                 if (audJump.Length > 0 && aud != null)
-                {
                     aud.PlayOneShot(audJump[Random.Range(0, audJump.Length)], audJumpVol);
-                }
             }
         }
     }
@@ -146,9 +139,7 @@ public class playerController : MonoBehaviour, IDamage, IPickup
     void flashlightToggle()
     {
         if (Input.GetKeyDown(KeyCode.F))
-        {
             flashlight.enabled = !flashlight.enabled;
-        }
     }
 
     public void AddAmmo(int amount)
@@ -161,7 +152,6 @@ public class playerController : MonoBehaviour, IDamage, IPickup
         updatePlayerUI();
     }
 
-    // new method for ammo, (ammo pickup uses this)
     public void RefillAllAmmo()
     {
         ammo = ammoMax;
@@ -181,16 +171,12 @@ public class playerController : MonoBehaviour, IDamage, IPickup
         updatePlayerUI();
 
         if (audHurt.Length > 0 && aud != null)
-        {
             aud.PlayOneShot(audHurt[Random.Range(0, audHurt.Length)], audHurtVol);
-        }
 
         StartCoroutine(flashDamage());
 
         if (HP <= 0)
-        {
             gamemanager.instance.youLose();
-        }
     }
 
     IEnumerator flashDamage()
@@ -212,31 +198,17 @@ public class playerController : MonoBehaviour, IDamage, IPickup
                 Color c = gamemanager.instance.bloodOverlay.color;
                 c.a = 1f - hpRatio;
                 gamemanager.instance.bloodOverlay.color = c;
-            }           
+            }
         }
-       
     }
 
-    public bool IsAmmoFull()
-    {
-        return ammo >= ammoMax;
-    }
+    public int GetCurrentAmmo() => ammo;
+    public int GetAmmoMax() => ammoMax;
 
-    public int GetCurrentAmmo()
-    {
-        return ammo;
-    }
-    public int GetAmmoMax()
-    {
-        return ammoMax;
-    }
-   
     public void UseAmmo(int amount)
     {
         ammo -= amount;
-
-        if (ammo < 0)
-            ammo = 0;
+        if (ammo < 0) ammo = 0;
 
         gunAmmo[gunListPos] = ammo;
 
@@ -253,25 +225,9 @@ public class playerController : MonoBehaviour, IDamage, IPickup
         HP += healAmount;
 
         if (HP > HPOriginal)
-        {
             HP = HPOriginal;
-        }
 
         updatePlayerUI();
-        gamemanager.instance.updateMedUI(currentHeals, maxHeals);
-    }
-
-    public void addHeal(int amount)
-    {
-        if (currentHeals >= maxHeals)
-            return;
-
-        currentHeals += amount;
-
-        if (currentHeals > maxHeals)
-        {
-            currentHeals = maxHeals;
-        }
         gamemanager.instance.updateMedUI(currentHeals, maxHeals);
     }
 
@@ -282,7 +238,6 @@ public class playerController : MonoBehaviour, IDamage, IPickup
 
         gunListPos = gunList.Count - 1;
         changeGun();
-      
     }
 
     void changeGun()
@@ -295,33 +250,64 @@ public class playerController : MonoBehaviour, IDamage, IPickup
         ammo = gunAmmo[gunListPos];
 
         if (ammo > ammoMax)
-        {
             ammo = ammoMax;
+
+        // get mesh from prefab
+        MeshFilter newMesh = gunList[gunListPos].gunModel.GetComponentInChildren<MeshFilter>();
+        MeshRenderer newRenderer = gunList[gunListPos].gunModel.GetComponentInChildren<MeshRenderer>();
+
+        if (newMesh != null && newRenderer != null)
+        {
+            // apply mesh and material
+            gunModel.GetComponent<MeshFilter>().sharedMesh = newMesh.sharedMesh;
+            gunModel.GetComponent<MeshRenderer>().sharedMaterial = newRenderer.sharedMaterial;
+        }
+        else
+        {
+            Debug.LogWarning("Gun model missing MeshFilter or MeshRenderer");
         }
 
-        gunModel.GetComponent<MeshFilter>().sharedMesh =
-            gunList[gunListPos].gunModel.GetComponent<MeshFilter>().sharedMesh;
+        // apply position + rotation
+        gunModel.transform.localPosition = gunList[gunListPos].holdPosition;
+        gunModel.transform.localRotation = Quaternion.Euler(gunList[gunListPos].holdRotation);
 
-        gunModel.GetComponent<MeshRenderer>().sharedMaterial =
-            gunList[gunListPos].gunModel.GetComponent<MeshRenderer>().sharedMaterial;
+        // actually apply scale so gun is not massive...take 10.
+        gunModel.transform.localScale = gunList[gunListPos].gunModel.transform.localScale;
 
+        // sync shooting system
         gunSystem.SetGunStats(gunList[gunListPos]);
+
         updatePlayerUI();
         gamemanager.instance.updateGunUI(gunList[gunListPos]);
+
+        Debug.Log("Current Gun: " + gunList[gunListPos].name);
     }
 
     void selectGun()
-    { 
-        if(Input.GetAxis("Mouse ScrollWheel") > 0 && gunListPos < gunList.Count -1)
+    {
+        if (Input.GetAxis("Mouse ScrollWheel") > 0 && gunListPos < gunList.Count - 1)
         {
             gunListPos++;
             changeGun();
-           
         }
-        else if(Input.GetAxis("Mouse ScrollWheel") < 0 && gunListPos > 0)
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0 && gunListPos > 0)
         {
             gunListPos--;
             changeGun();
         }
+    }
+
+    //add heal.
+    public void addHeal(int amount)
+    {
+        if (currentHeals >= maxHeals)
+            return;
+
+        currentHeals += amount;
+
+        if (currentHeals > maxHeals)
+            currentHeals = maxHeals;
+
+        gamemanager.instance.updateMedUI(currentHeals, maxHeals);
     }
 }

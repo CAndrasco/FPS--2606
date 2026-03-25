@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be5c79421ce11264c87ff98035a58597, type: 3}
   m_Name: Pistol
   m_EditorClassIdentifier: Assembly-CSharp::gunStats
-  gunModel: {fileID: 0}
+  gunModel: {fileID: 7636599367085182550, guid: 8f85c0463a72f494c9489508c7c836ef, type: 3}
   gunIcon: {fileID: 0}
   shootDamage: 3
   shootDist: 764
@@ -25,3 +25,6 @@ MonoBehaviour:
   hitEffect: {fileID: 0}
   shootSound: []
   shootSoundVol: 0
+  holdPosition: {x: 0.2, y: -0.2, z: 0.5}
+  holdRotation: {x: 0, y: 0, z: 0}
+  shootPositionOffset: {x: 0, y: 0, z: 0.6}

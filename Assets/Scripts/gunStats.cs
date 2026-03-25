@@ -11,7 +11,6 @@ public class gunStats : ScriptableObject
     [Range(1, 1000)] public int shootDist;
     [Range(0.1f, 2f)] public float shootRate;
 
-
     public int ammoCur;
     [Range(1, 50)] public int ammoMax;
 
@@ -24,5 +23,13 @@ public class gunStats : ScriptableObject
     public AudioClip[] shootSound;
     [Range(0, 1)] public float shootSoundVol;
 
-}
+    // fixes all guns using same position
+    
+    [Header("Gun Positioning")]
+    public Vector3 holdPosition;
+    public Vector3 holdRotation;
 
+    
+    // allows bullets to come from correct barrel
+    public Vector3 shootPositionOffset;
+}
