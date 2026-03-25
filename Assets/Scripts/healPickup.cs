@@ -8,11 +8,11 @@ public class healPickup : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            playerController player = other.GetComponent<playerController>();
+            IPickup pickup = other.GetComponent<IPickup>();
 
-            if (player != null )
+            if (pickup != null )
             {
-                player.addHeal(healCount);
+                pickup.addHeal(healCount);
                 Destroy(gameObject);
             }
         }
