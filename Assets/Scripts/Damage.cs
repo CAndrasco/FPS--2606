@@ -1,93 +1,82 @@
 using UnityEngine;
-using System.Collections;
 
 public class Damage : MonoBehaviour
 {
-    enum damageType { bullet, stationary, DOT, shockwave }
+    enum damageType { bullet, stationary, shockwave }
 
     [SerializeField] damageType Type;
     [SerializeField] Rigidbody rb;
-    [SerializeField] int damageAmount;
-    [SerializeField] float damageRate;
-    [SerializeField] int speed;
-    [SerializeField] int destroyTime;
+    [SerializeField] int damageAmount = 10;
+    [SerializeField] int speed = 200;
+    [SerializeField] int destroyTime = 5;
     [SerializeField] ParticleSystem hitEffect;
-
-    bool isDamaging;
-    bool hasHit = false;
 
     void Start()
     {
+        // Safety check
+        if (rb == null)
+            rb = GetComponent<Rigidbody>();
+
         if (Type == damageType.bullet)
         {
-            // Shoot bullet forward
+            // Moves bullet forward
             rb.linearVelocity = transform.forward * speed;
 
-            // Prevent tunneling through objects
+            // Makes bullet face direction it's moving
+            transform.forward = rb.linearVelocity.normalized;
+
+            // Prevent missed collision.
             rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 
-            // Destroy bullet after time
+            // No gravity for bullets
+            rb.useGravity = false;
+
+            // slight randomness for more natural feel. Not sure if I want to use or not.
+            // rb.linearVelocity += Random.insideUnitSphere * 0.5f;
+
+            // Destroy after time (failsafe)
             Destroy(gameObject, destroyTime);
         }
-        if(Type == damageType.shockwave)
-        {
-            // shoots forward
-            rb.linearVelocity = transform.forward * speed;
 
-            //I want it to tunnel through object so no collision detection
-            Destroy(gameObject, destroyTime);
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.isTrigger) return;
-
-        IDamage dmg = other.GetComponentInParent<IDamage>();
-
-        if (dmg != null && Type != damageType.DOT && !hasHit)
-        {
-            hasHit = true;
-            dmg.TakeDamage(damageAmount);
-        }
-
-        if (Type == damageType.bullet)
-        {
-            if (hitEffect != null)
-            {
-                Instantiate(hitEffect, transform.position, Quaternion.identity);
-            }
-
-            Destroy(gameObject);
-        }
         if (Type == damageType.shockwave)
         {
-            if (hitEffect != null)
-            {
-                Instantiate(hitEffect, transform.position, Quaternion.identity);
-            }
+            // Moves forward like a wave
+            rb.linearVelocity = transform.forward * speed;
 
-            Destroy(gameObject);
+            // Destroy after time
+            Destroy(gameObject, destroyTime);
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    // Uses collision for reliable hits, not trigger like before.
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.isTrigger) return;
+        Collider other = collision.collider;
 
+        // Looks for anything that can take damage
         IDamage dmg = other.GetComponentInParent<IDamage>();
 
-        if (dmg != null && Type == damageType.DOT && !isDamaging)
+        if (dmg != null)
         {
-            StartCoroutine(DamageOther(dmg));
-        }
-    }
+            // Apply damage
+            dmg.TakeDamage(damageAmount);
 
-    IEnumerator DamageOther(IDamage dmg)
-    {
-        isDamaging = true;
-        dmg.TakeDamage(damageAmount);
-        yield return new WaitForSeconds(damageRate);
-        isDamaging = false;
+            // Only spawn blood on enemies.
+            if (other.CompareTag("Enemy") && hitEffect != null && collision.contacts.Length > 0)
+            {
+                ContactPoint contact = collision.contacts[0];
+
+                // Rotates effect so it sprays outward from hit surface
+                Quaternion rot = Quaternion.LookRotation(contact.normal);
+
+                Instantiate(hitEffect, contact.point, rot);
+            }
+        }
+
+        // Destroy bullet/shockwave on impact.
+        if (Type == damageType.bullet || Type == damageType.shockwave)
+        {
+            Destroy(gameObject);
+        }
     }
 }
