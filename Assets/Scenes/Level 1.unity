@@ -5213,6 +5213,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4371652291264544982, guid: df9fa19c814b213459250be14ceccf7f, type: 3}
+      propertyPath: bloodOverlay
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4371652291264544982, guid: df9fa19c814b213459250be14ceccf7f, type: 3}
       propertyPath: exitDistance
       value: 
       objectReference: {fileID: 0}
@@ -5222,6 +5226,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4371652291264544982, guid: df9fa19c814b213459250be14ceccf7f, type: 3}
       propertyPath: exitDistanceText
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4371652291264544982, guid: df9fa19c814b213459250be14ceccf7f, type: 3}
+      propertyPath: damagePlayerFlash
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7668909333595060214, guid: df9fa19c814b213459250be14ceccf7f, type: 3}
