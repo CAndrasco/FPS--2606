@@ -1,11 +1,12 @@
 using UnityEngine;
+using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 
 public class gunSystem2 : MonoBehaviour
 {
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] Transform shootPosition;
     [SerializeField] playerController player; // drag player into Inspector
-
+    [SerializeField] weaponRecoil recoil;
     gunStats myGunStats;
 
     public void SetGunStats(gunStats gun)
@@ -43,14 +44,14 @@ public class gunSystem2 : MonoBehaviour
             Debug.LogError("playerController reference is missing on " + gameObject.name);
             return;
         }
-
+        recoil.Fire();
         // Ask playerController if there's ammo
         if (player.GetCurrentAmmo() <= 0)
         {
             Debug.Log("Out of ammo!");
             return;
         }
-
+       
         // Deduct ammo through playerController so UI stays in sync
         player.UseAmmo(1);
 
