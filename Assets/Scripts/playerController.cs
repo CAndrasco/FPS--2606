@@ -213,6 +213,7 @@ public class playerController : MonoBehaviour, IDamage, IPickup
                 gamemanager.instance.bloodOverlay.color = c;
             }           
         }
+       
     }
 
     public bool IsAmmoFull()
@@ -228,14 +229,14 @@ public class playerController : MonoBehaviour, IDamage, IPickup
     {
         return ammoMax;
     }
-
+   
     public void UseAmmo(int amount)
     {
         ammo -= amount;
 
         if (ammo < 0)
             ammo = 0;
-
+        gamemanager.instance.UpdateAmmoOnly();
         updatePlayerUI();
     }
 
@@ -280,19 +281,22 @@ public class playerController : MonoBehaviour, IDamage, IPickup
 
     void changeGun()
     {
-
         shootDamage = gunList[gunListPos].shootDamage;
         shootDist = gunList[gunListPos].shootDist;
         shootRate = gunList[gunListPos].shootRate;
-        //ammo = gunList[gunListPos].ammoCur;
-        //ammoMax = gunList[gunListPos].ammoMax;
 
-        gunModel.GetComponent<MeshFilter>().sharedMesh = gunList[gunListPos].gunModel.GetComponent<MeshFilter>().sharedMesh;
-        gunModel.GetComponent<MeshRenderer>().sharedMaterial = gunList[gunListPos].gunModel.GetComponent<MeshRenderer>().sharedMaterial;
+        ammoMax = gunList[gunListPos].ammoMax;
+        ammo = ammoMax;
+
+        gunModel.GetComponent<MeshFilter>().sharedMesh =
+            gunList[gunListPos].gunModel.GetComponent<MeshFilter>().sharedMesh;
+
+        gunModel.GetComponent<MeshRenderer>().sharedMaterial =
+            gunList[gunListPos].gunModel.GetComponent<MeshRenderer>().sharedMaterial;
 
         gunSystem.SetGunStats(gunList[gunListPos]);
+        updatePlayerUI();
         gamemanager.instance.updateGunUI(gunList[gunListPos]);
-
     }
 
     void selectGun()

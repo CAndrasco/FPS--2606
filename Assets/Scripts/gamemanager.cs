@@ -191,11 +191,12 @@ public class gamemanager : MonoBehaviour
     {
         if (stats != null && weaponHUD != null)
         {
-            //turn on gun ui
             weaponHUD.SetActive(true);
-            //set sprite and text
             currentGunIcon.sprite = stats.gunIcon;
-            ammoText.text = stats.ammoCur + " / " + stats.ammoMax;            
+
+            // Pull ammo from playerController, not the ScriptableObject
+            if (playerScript != null)
+                ammoText.text = playerScript.GetCurrentAmmo() + " / " + playerScript.GetAmmoMax();
         }
     }
     public void updateMedUI(int current, int max)
@@ -203,6 +204,13 @@ public class gamemanager : MonoBehaviour
         if(medText != null)
         {
             medText.text = current.ToString() + " / " + max.ToString();
+        }
+    }
+    public void UpdateAmmoOnly()
+    {
+        if (playerScript != null && ammoText != null)
+        {
+            ammoText.text = playerScript.GetCurrentAmmo() + " / " + playerScript.GetAmmoMax();
         }
     }
 }
