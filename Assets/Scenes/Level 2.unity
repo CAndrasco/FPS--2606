@@ -483,37 +483,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 28133277627870244, guid: f4ab7ad12f03e6a4aa2324213c59313d, type: 3}
-      propertyPath: m_Size.x
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 28133277627870244, guid: f4ab7ad12f03e6a4aa2324213c59313d, type: 3}
-      propertyPath: m_Size.y
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 28133277627870244, guid: f4ab7ad12f03e6a4aa2324213c59313d, type: 3}
-      propertyPath: m_Size.z
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 28133277627870244, guid: f4ab7ad12f03e6a4aa2324213c59313d, type: 3}
-      propertyPath: m_NavMeshData
-      value: 
-      objectReference: {fileID: 23800000, guid: 1074ba6261c27a440a6a528a3b918c52, type: 2}
-    - target: {fileID: 28133277627870244, guid: f4ab7ad12f03e6a4aa2324213c59313d, type: 3}
-      propertyPath: m_CollectObjects
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 28133277627870244, guid: f4ab7ad12f03e6a4aa2324213c59313d, type: 3}
-      propertyPath: m_LayerMask.m_Bits
-      value: 16384
-      objectReference: {fileID: 0}
     - target: {fileID: 1298522817525489430, guid: f4ab7ad12f03e6a4aa2324213c59313d, type: 3}
       propertyPath: m_Name
       value: NavMesh Surface
-      objectReference: {fileID: 0}
-    - target: {fileID: 1298522817525489430, guid: f4ab7ad12f03e6a4aa2324213c59313d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7404024754511966765, guid: f4ab7ad12f03e6a4aa2324213c59313d, type: 3}
       propertyPath: m_LocalPosition.x
