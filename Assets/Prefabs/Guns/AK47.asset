@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: AK47
   m_EditorClassIdentifier: Assembly-CSharp::gunStats
   gunModel: {fileID: 499944259693247635, guid: 7bc1f16a18265494ead60fad2aa11574, type: 3}
+  gunIcon: {fileID: 21300000, guid: 909c834e66762d048b943daf57bef9ca, type: 3}
   shootDamage: 4
   shootDist: 1000
   shootRate: 0.19

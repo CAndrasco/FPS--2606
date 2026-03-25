@@ -18,6 +18,11 @@ public class gamemanager : MonoBehaviour
     [SerializeField] TMP_Text zombieCounter;
     [SerializeField] TMP_Text exitDistanceText;
 
+    [Header("---- Gun UI ----")]
+    [SerializeField] Image currentGunIcon;
+    [SerializeField] TMP_Text ammoText;
+    
+
     public Image playerHPBar;
     public GameObject player;
     public playerController playerScript;
@@ -155,5 +160,13 @@ public class gamemanager : MonoBehaviour
         statePause();
         menuActive = menuWin;
         menuActive.SetActive(true);
+    }
+    public void updateGunUI(gunStats stats)
+    {
+        if (stats != null)
+        {
+            currentGunIcon.sprite = stats.gunIcon;
+            ammoText.text = stats.ammoCur + " / " + stats.ammoMax;
+        }
     }
 }

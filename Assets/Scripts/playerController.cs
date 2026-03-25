@@ -202,10 +202,7 @@ public class playerController : MonoBehaviour, IDamage, IPickup
                 Color c = gamemanager.instance.bloodOverlay.color;
                 c.a = 1f - hpRatio;
                 gamemanager.instance.bloodOverlay.color = c;
-            }
-
-            ammoCountText.text = ammo.ToString("F0");
-            ammoMaxText.text = ammoMax.ToString("F0");
+            }           
         }
     }
 
@@ -263,8 +260,12 @@ public class playerController : MonoBehaviour, IDamage, IPickup
         shootDamage = gun.shootDamage;
         shootDist = gun.shootDist;
         shootRate = gun.shootRate;
+        ammo = gun.ammoCur;
+        ammoMax = gun.ammoMax;
 
         gunModel.GetComponent<MeshFilter>().sharedMesh = gun.gunModel.GetComponent<MeshFilter>().sharedMesh;    
         gunModel.GetComponent<MeshRenderer>().sharedMaterial = gun.gunModel.GetComponent<MeshRenderer>().sharedMaterial;
+
+        gamemanager.instance.updateGunUI(gun);
     }
 }
