@@ -3,6 +3,12 @@ using UnityEngine;
 public class healPickup : MonoBehaviour
 {
     [SerializeField] int healCount;
+    [SerializeField] float rotateSpeed;
+
+    private void Update()
+    {
+        transform.Rotate(Vector3.up * rotateSpeed * Time.deltaTime);
+    }
 
     private void OnTriggerEnter(Collider other)
     {
