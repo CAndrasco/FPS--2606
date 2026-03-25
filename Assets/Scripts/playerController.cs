@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.Collections.Generic;
 using System.Collections;
 
 public class playerController : MonoBehaviour, IDamage, IPickup
@@ -7,6 +8,8 @@ public class playerController : MonoBehaviour, IDamage, IPickup
     [Header("---- Player Components ----")]
     [SerializeField] CharacterController controller;
     [SerializeField] LayerMask ignoreLayer;
+
+
 
     [Header("---- Player Stats ----")]
     [SerializeField] int HP;
@@ -19,7 +22,9 @@ public class playerController : MonoBehaviour, IDamage, IPickup
     [SerializeField] Light flashlight;
 
     [Header("---- Gun ----")]
+    [SerializeField] List<gunStats> gunList = new List<gunStats>();
     [SerializeField] GameObject gunModel;
+    [SerializeField] gunSystem2 gunSystem;
     [SerializeField] int shootDamage;
     [SerializeField] int shootDist;
     [SerializeField] float shootRate;
@@ -45,6 +50,7 @@ public class playerController : MonoBehaviour, IDamage, IPickup
 
     int HPOriginal;
     int currentHeals;
+    int gunListPos;
 
     float shootTimer;
 
@@ -94,6 +100,8 @@ public class playerController : MonoBehaviour, IDamage, IPickup
 
         if (moveDir.normalized.magnitude > 0.3f && !isPlayingStep)
             StartCoroutine(playStep());
+
+        selectGun();
     }
 
     IEnumerator playStep()
@@ -216,6 +224,10 @@ public class playerController : MonoBehaviour, IDamage, IPickup
     {
         return ammo;
     }
+    public int GetAmmoMax()
+    {
+        return ammoMax;
+    }
 
     public void UseAmmo(int amount)
     {
@@ -260,15 +272,41 @@ public class playerController : MonoBehaviour, IDamage, IPickup
 
     public void getGunStats(gunStats gun)
     {
-        shootDamage = gun.shootDamage;
-        shootDist = gun.shootDist;
-        shootRate = gun.shootRate;
-        ammo = gun.ammoCur;
-        ammoMax = gun.ammoMax;
+        gunList.Add(gun);
+        gunListPos = gunList.Count - 1;
+        changeGun();
+      
+    }
 
-        gunModel.GetComponent<MeshFilter>().sharedMesh = gun.gunModel.GetComponent<MeshFilter>().sharedMesh;    
-        gunModel.GetComponent<MeshRenderer>().sharedMaterial = gun.gunModel.GetComponent<MeshRenderer>().sharedMaterial;
+    void changeGun()
+    {
 
-        gamemanager.instance.updateGunUI(gun);
+        shootDamage = gunList[gunListPos].shootDamage;
+        shootDist = gunList[gunListPos].shootDist;
+        shootRate = gunList[gunListPos].shootRate;
+        //ammo = gunList[gunListPos].ammoCur;
+        //ammoMax = gunList[gunListPos].ammoMax;
+
+        gunModel.GetComponent<MeshFilter>().sharedMesh = gunList[gunListPos].gunModel.GetComponent<MeshFilter>().sharedMesh;
+        gunModel.GetComponent<MeshRenderer>().sharedMaterial = gunList[gunListPos].gunModel.GetComponent<MeshRenderer>().sharedMaterial;
+
+        gunSystem.SetGunStats(gunList[gunListPos]);
+        gamemanager.instance.updateGunUI(gunList[gunListPos]);
+
+    }
+
+    void selectGun()
+    { 
+        if(Input.GetAxis("Mouse ScrollWheel") > 0 && gunListPos < gunList.Count -1)
+        {
+            gunListPos++;
+            changeGun();
+           
+        }
+        else if(Input.GetAxis("Mouse ScrollWheel") < 0 && gunListPos > 0)
+        {
+            gunListPos--;
+            changeGun();
+        }
     }
 }
