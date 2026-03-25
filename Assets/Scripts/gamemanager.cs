@@ -65,6 +65,9 @@ public class gamemanager : MonoBehaviour
         //find damager player
         damagePlayerFlash = GameObject.Find("Damage Player");
         if (damagePlayerFlash) damagePlayerFlash.SetActive(false);
+        //find blood damage overlay
+        GameObject blood = GameObject.Find("Blood Overlay");
+        if (blood != null) bloodOverlay = blood.GetComponent<Image>();
 
 
     }
