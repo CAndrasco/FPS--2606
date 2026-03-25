@@ -5192,6 +5192,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
+    - target: {fileID: 4060494448998922484, guid: df9fa19c814b213459250be14ceccf7f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4371652291264544982, guid: df9fa19c814b213459250be14ceccf7f, type: 3}
       propertyPath: menuWin
       value: 
