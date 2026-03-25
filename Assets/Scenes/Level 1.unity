@@ -10014,6 +10014,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4499160067175715173, guid: bdd9afcf979b7b84c9f5b643c2436d5e, type: 3}
       insertIndex: 1
       addedObject: {fileID: 8116038525159238722}
+    - targetCorrespondingSourceObject: {fileID: 4499160067175715173, guid: bdd9afcf979b7b84c9f5b643c2436d5e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8116038525159238727}
   m_SourcePrefab: {fileID: 100100000, guid: bdd9afcf979b7b84c9f5b643c2436d5e, type: 3}
 --- !u!1001 &6426971366753463417
 PrefabInstance:
@@ -10268,6 +10271,21 @@ MonoBehaviour:
   bulletPrefab: {fileID: 4959019289503928211, guid: 19608346e8ef5984fb1a5a04ab4b0069, type: 3}
   shootPosition: {fileID: 1254060728}
   player: {fileID: 934093057}
+--- !u!114 &8116038525159238727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8116038525159238718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d4cc44cc0700c543bb5ad043d5b538a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::weaponSway
+  swayAmount: 2
+  maxSway: 5
+  smoothSpeed: 8
 --- !u!1001 &8354825892201073942
 PrefabInstance:
   m_ObjectHideFlags: 0
