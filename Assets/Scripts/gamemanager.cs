@@ -49,6 +49,13 @@ public class gamemanager : MonoBehaviour
         if (menuLose) menuLose.SetActive(false);
         menuWin = GameObject.Find("Win Menu");
         if (menuWin) menuWin.SetActive(false);
+        //find exit distance UI and Text then turn off (have to find child first)
+        GameObject exitDist = GameObject.Find("Exit Distance Text");
+        if (exitDist != null) exitDistanceText = exitDist.GetComponent<TMP_Text>();
+        exitDistance = GameObject.Find("Exit Distance UI");
+        if (exitDistance) exitDistance.SetActive(false);
+        
+
     }
 
     void Start()

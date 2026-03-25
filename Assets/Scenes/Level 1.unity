@@ -5192,6 +5192,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
+    - target: {fileID: 4371652291264544982, guid: df9fa19c814b213459250be14ceccf7f, type: 3}
+      propertyPath: menuWin
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4371652291264544982, guid: df9fa19c814b213459250be14ceccf7f, type: 3}
+      propertyPath: menuLose
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4371652291264544982, guid: df9fa19c814b213459250be14ceccf7f, type: 3}
+      propertyPath: menuPause
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4371652291264544982, guid: df9fa19c814b213459250be14ceccf7f, type: 3}
+      propertyPath: exitDistance
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4371652291264544982, guid: df9fa19c814b213459250be14ceccf7f, type: 3}
+      propertyPath: exitDistanceText
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8700419654142493548, guid: df9fa19c814b213459250be14ceccf7f, type: 3}
+      propertyPath: m_Name
+      value: Exit Distance UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 8700419654142493548, guid: df9fa19c814b213459250be14ceccf7f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
