@@ -58,6 +58,7 @@ public class playerController : MonoBehaviour, IDamage, IPickup
     {
         HPOriginal = HP;
         updatePlayerUI();
+        gamemanager.instance.updateMedUI(currentHeals, maxHeals);
     }
 
     void Update()
@@ -240,6 +241,7 @@ public class playerController : MonoBehaviour, IDamage, IPickup
         }
 
         updatePlayerUI();
+        gamemanager.instance.updateMedUI(currentHeals, maxHeals);
     }
 
     public void addHeal(int amount)
@@ -253,6 +255,7 @@ public class playerController : MonoBehaviour, IDamage, IPickup
         {
             currentHeals = maxHeals;
         }
+        gamemanager.instance.updateMedUI(currentHeals, maxHeals);
     }
 
     public void getGunStats(gunStats gun)

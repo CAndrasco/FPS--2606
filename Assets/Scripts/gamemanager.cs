@@ -23,6 +23,9 @@ public class gamemanager : MonoBehaviour
     [SerializeField] GameObject weaponHUD;
     [SerializeField] Image currentGunIcon;
     [SerializeField] TMP_Text ammoText;
+
+    [Header("---- Med HUD ----")]
+    [SerializeField] GameObject medHUD;
     [SerializeField] Image medIcon;
     [SerializeField] TMP_Text medText;
 
@@ -86,13 +89,16 @@ public class gamemanager : MonoBehaviour
             if(gunIcon != null) currentGunIcon = gunIcon.GetComponent<Image>();
             GameObject gText = GameObject.Find("Ammo Text");
             if (gText != null) ammoText = gText.GetComponent<TMP_Text>();
-            GameObject medKit = GameObject.Find("MedKit Icon");
-            if (medKit != null) medIcon = medKit.GetComponent<Image>();
-            GameObject medCount = GameObject.Find("MedKit Text");
-            if (medCount != null) medText = medCount.GetComponent<TMP_Text>();
+            
             //start weapon HUD hidden
             weaponHUD.SetActive(false);
         }
+        //find med UI
+        medHUD = GameObject.Find("Med HUD");
+        GameObject medKit = GameObject.Find("MedKit Icon");
+        if (medKit != null) medIcon = medKit.GetComponent<Image>();
+        GameObject medCount = GameObject.Find("MedKit Text");
+        if (medCount != null) medText = medCount.GetComponent<TMP_Text>();
 
 
     }
@@ -189,7 +195,14 @@ public class gamemanager : MonoBehaviour
             weaponHUD.SetActive(true);
             //set sprite and text
             currentGunIcon.sprite = stats.gunIcon;
-            ammoText.text = stats.ammoCur + " / " + stats.ammoMax;
+            ammoText.text = stats.ammoCur + " / " + stats.ammoMax;            
+        }
+    }
+    public void updateMedUI(int current, int max)
+    {
+        if(medText != null)
+        {
+            medText.text = current.ToString() + " / " + max.ToString();
         }
     }
 }
