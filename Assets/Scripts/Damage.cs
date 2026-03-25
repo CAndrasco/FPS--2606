@@ -11,71 +11,50 @@ public class Damage : MonoBehaviour
     [SerializeField] int destroyTime = 5;
     [SerializeField] ParticleSystem hitEffect;
 
+    bool hasHit = false;
+
     void Start()
     {
-        // Safety check
         if (rb == null)
             rb = GetComponent<Rigidbody>();
 
         if (Type == damageType.bullet)
         {
-            // Moves bullet forward
             rb.linearVelocity = transform.forward * speed;
-
-            // Makes bullet face direction it's moving
             transform.forward = rb.linearVelocity.normalized;
 
-            // Prevent missed collision.
-            rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-
-            // No gravity for bullets
             rb.useGravity = false;
 
-            // slight randomness for more natural feel. Not sure if I want to use or not.
-            // rb.linearVelocity += Random.insideUnitSphere * 0.5f;
-
-            // Destroy after time (failsafe)
+            // destroy after time
             Destroy(gameObject, destroyTime);
         }
 
         if (Type == damageType.shockwave)
         {
-            // Moves forward like a wave
             rb.linearVelocity = transform.forward * speed;
-
-            // Destroy after time
             Destroy(gameObject, destroyTime);
         }
     }
 
-    // Uses collision for reliable hits, not trigger like before.
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        Collider other = collision.collider;
+        if (hasHit) return;
 
-        // Looks for anything that can take damage
         IDamage dmg = other.GetComponentInParent<IDamage>();
 
         if (dmg != null)
         {
-            // Apply damage
+            hasHit = true;
+
+            // apply damage
             dmg.TakeDamage(damageAmount);
 
-            // Only spawn blood on enemies.
-            if (other.CompareTag("Enemy") && hitEffect != null && collision.contacts.Length > 0)
+            // spawn hit effect on enemies
+            if (other.CompareTag("Enemy") && hitEffect != null)
             {
-                ContactPoint contact = collision.contacts[0];
-
-                // Rotates effect so it sprays outward from hit surface
-                Quaternion rot = Quaternion.LookRotation(contact.normal);
-
-                Instantiate(hitEffect, contact.point, rot);
+                Instantiate(hitEffect, transform.position, Quaternion.identity);
             }
-        }
 
-        // Destroy bullet/shockwave on impact.
-        if (Type == damageType.bullet || Type == damageType.shockwave)
-        {
             Destroy(gameObject);
         }
     }
