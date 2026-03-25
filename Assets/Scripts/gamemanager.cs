@@ -19,10 +19,11 @@ public class gamemanager : MonoBehaviour
     [SerializeField] TMP_Text exitDistanceText;
 
     [Header("---- Gun UI ----")]
+    [SerializeField] GameObject weaponHUD;
     [SerializeField] Image currentGunIcon;
     [SerializeField] TMP_Text ammoText;
-    
 
+    [Header("---- Player Stuff ----")]
     public Image playerHPBar;
     public GameObject player;
     public playerController playerScript;
@@ -73,6 +74,18 @@ public class gamemanager : MonoBehaviour
         //find blood damage overlay
         GameObject blood = GameObject.Find("Blood Overlay");
         if (blood != null) bloodOverlay = blood.GetComponent<Image>();
+        //find gun ui panel
+        weaponHUD = GameObject.Find("Weapon HUD");
+        if(weaponHUD != null)
+        {
+            //get image and text
+            GameObject gunIcon = GameObject.Find("Gun Icon");
+            if(gunIcon != null) currentGunIcon = gunIcon.GetComponent<Image>();
+            GameObject gText = GameObject.Find("Ammo Text");
+            if (gText != null) ammoText = gText.GetComponent<TMP_Text>();
+            //start gun ui hidden
+            weaponHUD.SetActive(false);
+        }
 
 
     }
@@ -163,8 +176,11 @@ public class gamemanager : MonoBehaviour
     }
     public void updateGunUI(gunStats stats)
     {
-        if (stats != null)
+        if (stats != null && weaponHUD != null)
         {
+            //turn on gun ui
+            weaponHUD.SetActive(true);
+            //set sprite and text
             currentGunIcon.sprite = stats.gunIcon;
             ammoText.text = stats.ammoCur + " / " + stats.ammoMax;
         }
