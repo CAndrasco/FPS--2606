@@ -62,6 +62,9 @@ public class gamemanager : MonoBehaviour
         //find player HP
         GameObject playerHealth = GameObject.Find("Player HP Bar");
         if (playerHealth != null) playerHPBar = playerHealth.GetComponent<Image>();
+        //find damager player
+        damagePlayerFlash = GameObject.Find("Damage Player");
+        if (damagePlayerFlash) damagePlayerFlash.SetActive(false);
 
 
     }
