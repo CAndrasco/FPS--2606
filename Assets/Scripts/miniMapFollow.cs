@@ -35,7 +35,7 @@ public class miniMapFollow : MonoBehaviour
     //Logic for minimap to follow player but not rotate
     void LateUpdate()
     {
-        
+                
         //calculate position using clamps
         float clampX = Mathf.Clamp(player.position.x, minX, maxX);
         float clampZ = Mathf.Clamp(player.position.z, minZ, maxZ);

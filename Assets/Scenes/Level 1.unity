@@ -2729,6 +2729,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Minimap Bounds
       objectReference: {fileID: 0}
+    - target: {fileID: 5165686970352712480, guid: 6c468a2c6d135374b8260de5ef4a30ac, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5165686970352712480, guid: 6c468a2c6d135374b8260de5ef4a30ac, type: 3}
+      propertyPath: m_TagString
+      value: Floor
+      objectReference: {fileID: 0}
     - target: {fileID: 7494194468110089302, guid: 6c468a2c6d135374b8260de5ef4a30ac, type: 3}
       propertyPath: m_LocalScale.x
       value: 61.513695
@@ -2777,8 +2785,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1701965199438191067, guid: 6c468a2c6d135374b8260de5ef4a30ac, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -4665,7 +4672,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7916202241214363750, guid: f7cfd4c5a64ae1c44916dba2a8e1373d, type: 3}
       propertyPath: m_TagString
-      value: Floor
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 8707653646559875189, guid: f7cfd4c5a64ae1c44916dba2a8e1373d, type: 3}
       propertyPath: m_LocalPosition.x

@@ -99,8 +99,7 @@ public class gamemanager : MonoBehaviour
         {
             float dist = Vector3.Distance(
                 player.transform.position,
-                waveManager.instance.exitDoor.transform.position
-            );
+                waveManager.instance.exitDoor.transform.position);
 
             exitDistanceText.text = dist.ToString("F0") + "m";
         }
