@@ -4244,29 +4244,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a6b9026ef3dc8740b5e3e38f62c3cee, type: 3}
---- !u!1 &934093045 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3764145070102667681, guid: bdd9afcf979b7b84c9f5b643c2436d5e, type: 3}
+--- !u!114 &934093057 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4726940616849160767, guid: bdd9afcf979b7b84c9f5b643c2436d5e, type: 3}
   m_PrefabInstance: {fileID: 5943834278321265826}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &934093052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 934093045}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fed10b89bacb0be4993d2e5208093361, type: 3}
+  m_Script: {fileID: 11500000, guid: 223b96cf566959b44837dc0381451dc2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::gunSystem
-  stats: {fileID: 11400000, guid: 0fabfed675aee4e40a2b977a3b4484d3, type: 2}
-  bulletPrefab: {fileID: 4959019289503928211, guid: 19608346e8ef5984fb1a5a04ab4b0069, type: 3}
-  attackPoint: {fileID: 1254060728}
-  fpsCam: {fileID: 0}
-  muzzleFlash: {fileID: 0}
-  spread: 0.02
+  m_EditorClassIdentifier: Assembly-CSharp::playerController
 --- !u!4 &957260030 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 340629419560121753, guid: 8d99185e17570a34980db737d1eb4cfd, type: 3}
@@ -10076,6 +10064,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8116038525159238718}
     - target: {fileID: 4726940616849160767, guid: bdd9afcf979b7b84c9f5b643c2436d5e, type: 3}
+      propertyPath: gunSystem
+      value: 
+      objectReference: {fileID: 8116038525159238722}
+    - target: {fileID: 4726940616849160767, guid: bdd9afcf979b7b84c9f5b643c2436d5e, type: 3}
       propertyPath: ammoMaxText
       value: 
       objectReference: {fileID: 0}
@@ -10137,9 +10129,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1254060728}
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3764145070102667681, guid: bdd9afcf979b7b84c9f5b643c2436d5e, type: 3}
-      insertIndex: 1
-      addedObject: {fileID: 934093052}
     - targetCorrespondingSourceObject: {fileID: 4499160067175715173, guid: bdd9afcf979b7b84c9f5b643c2436d5e, type: 3}
       insertIndex: 1
       addedObject: {fileID: 8116038525159238722}
@@ -10396,6 +10385,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::gunSystem2
   bulletPrefab: {fileID: 4959019289503928211, guid: 19608346e8ef5984fb1a5a04ab4b0069, type: 3}
   shootPosition: {fileID: 1254060728}
+  player: {fileID: 934093057}
 --- !u!1001 &8354825892201073942
 PrefabInstance:
   m_ObjectHideFlags: 0
