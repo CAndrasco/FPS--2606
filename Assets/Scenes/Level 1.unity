@@ -5205,12 +5205,28 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4371652291264544982, guid: df9fa19c814b213459250be14ceccf7f, type: 3}
+      propertyPath: playerHPBar
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4371652291264544982, guid: df9fa19c814b213459250be14ceccf7f, type: 3}
+      propertyPath: waveCounter
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4371652291264544982, guid: df9fa19c814b213459250be14ceccf7f, type: 3}
       propertyPath: exitDistance
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4371652291264544982, guid: df9fa19c814b213459250be14ceccf7f, type: 3}
+      propertyPath: zombieCounter
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4371652291264544982, guid: df9fa19c814b213459250be14ceccf7f, type: 3}
       propertyPath: exitDistanceText
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7668909333595060214, guid: df9fa19c814b213459250be14ceccf7f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8700419654142493548, guid: df9fa19c814b213459250be14ceccf7f, type: 3}
       propertyPath: m_Name

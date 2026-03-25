@@ -54,7 +54,15 @@ public class gamemanager : MonoBehaviour
         if (exitDist != null) exitDistanceText = exitDist.GetComponent<TMP_Text>();
         exitDistance = GameObject.Find("Exit Distance UI");
         if (exitDistance) exitDistance.SetActive(false);
-        
+        //wave and zombie counter find
+        GameObject wCount = GameObject.Find("Wave Count Text");
+        if (wCount != null) waveCounter = wCount.GetComponent<TMP_Text>();
+        GameObject zCount = GameObject.Find("Zombie Count Text");
+        if (zCount != null) zombieCounter = zCount.GetComponent<TMP_Text>();
+        //find player HP
+        GameObject playerHealth = GameObject.Find("Player HP Bar");
+        if (playerHealth != null) playerHPBar = playerHealth.GetComponent<Image>();
+
 
     }
 
