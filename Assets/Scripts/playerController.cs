@@ -22,6 +22,7 @@ public class playerController : MonoBehaviour, IDamage, IPickup
     [SerializeField] Light flashlight;
 
     [Header("---- Gun ----")]
+    List<int> gunAmmo = new List<int>();
     [SerializeField] List<gunStats> gunList = new List<gunStats>();
     [SerializeField] GameObject gunModel;
     [SerializeField] gunSystem2 gunSystem;
@@ -236,6 +237,9 @@ public class playerController : MonoBehaviour, IDamage, IPickup
 
         if (ammo < 0)
             ammo = 0;
+
+        gunAmmo[gunListPos] = ammo;
+
         gamemanager.instance.UpdateAmmoOnly();
         updatePlayerUI();
     }
@@ -274,6 +278,8 @@ public class playerController : MonoBehaviour, IDamage, IPickup
     public void getGunStats(gunStats gun)
     {
         gunList.Add(gun);
+        gunAmmo.Add(gun.ammoMax);
+
         gunListPos = gunList.Count - 1;
         changeGun();
       
@@ -286,7 +292,12 @@ public class playerController : MonoBehaviour, IDamage, IPickup
         shootRate = gunList[gunListPos].shootRate;
 
         ammoMax = gunList[gunListPos].ammoMax;
-        ammo = ammoMax;
+        ammo = gunAmmo[gunListPos];
+
+        if (ammo > ammoMax)
+        {
+            ammo = ammoMax;
+        }
 
         gunModel.GetComponent<MeshFilter>().sharedMesh =
             gunList[gunListPos].gunModel.GetComponent<MeshFilter>().sharedMesh;

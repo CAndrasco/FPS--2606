@@ -15,6 +15,11 @@ public class gunStats : ScriptableObject
     public int ammoCur;
     [Range(1, 50)] public int ammoMax;
 
+    [Header("Fire Mode")]
+    public bool automatic = false;
+    [Range(1, 20)] public int pelletsPerShot = 1;
+    [Range(0f, 10f)] public float spread = 0f;
+
     public ParticleSystem hitEffect;
     public AudioClip[] shootSound;
     [Range(0, 1)] public float shootSoundVol;

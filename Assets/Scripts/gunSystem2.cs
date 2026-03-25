@@ -4,9 +4,20 @@ public class gunSystem2 : MonoBehaviour
 {
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] Transform shootPosition;
-    [SerializeField] playerController player; // drag player into Inspector
+    [SerializeField] playerController player;
+    [SerializeField] weaponRecoil recoil;
 
     gunStats myGunStats;
+    float nextTimeToFire;
+
+    void Awake()
+    {
+        if (player == null)
+            player = FindFirstObjectByType<playerController>();
+
+        if (recoil == null)
+            recoil = GetComponentInChildren<weaponRecoil>();
+    }
 
     public void SetGunStats(gunStats gun)
     {
@@ -15,9 +26,22 @@ public class gunSystem2 : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (myGunStats == null)
+            return;
+
+        if (myGunStats.automatic)
         {
-            Shoot();
+            if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
+            {
+                Shoot();
+            }
+        }
+        else
+        {
+            if (Input.GetButtonDown("Fire1") && Time.time >= nextTimeToFire)
+            {
+                Shoot();
+            }
         }
     }
 
@@ -44,17 +68,34 @@ public class gunSystem2 : MonoBehaviour
             return;
         }
 
-        // Ask playerController if there's ammo
         if (player.GetCurrentAmmo() <= 0)
         {
             Debug.Log("Out of ammo!");
             return;
         }
 
-        // Deduct ammo through playerController so UI stays in sync
+        nextTimeToFire = Time.time + myGunStats.shootRate;
+
         player.UseAmmo(1);
 
-        GameObject bullet = Instantiate(bulletPrefab, shootPosition.position, shootPosition.rotation);
-        Debug.Log("Spawned bullet: " + bullet.name);
+        int pelletCount = Mathf.Max(1, myGunStats.pelletsPerShot);
+
+        for (int i = 0; i < pelletCount; i++)
+        {
+            Quaternion spreadRotation = shootPosition.rotation * Quaternion.Euler(
+                Random.Range(-myGunStats.spread, myGunStats.spread),
+                Random.Range(-myGunStats.spread, myGunStats.spread),
+                0f
+            );
+
+            GameObject bullet = Instantiate(bulletPrefab, shootPosition.position, spreadRotation);
+
+           
+        }
+
+        if (recoil != null)
+        {
+            recoil.Fire();
+        }
     }
 }

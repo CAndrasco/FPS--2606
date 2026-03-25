@@ -148,6 +148,7 @@ public class gunSystem : MonoBehaviour
     public void AddAmmo(int amount)
     {
         currentAmmo += amount;
+      
 
         if (currentAmmo > stats.ammoMax)
             currentAmmo = stats.ammoMax;

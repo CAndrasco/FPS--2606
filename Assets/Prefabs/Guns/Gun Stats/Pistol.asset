@@ -16,9 +16,12 @@ MonoBehaviour:
   gunIcon: {fileID: 0}
   shootDamage: 3
   shootDist: 764
-  shootRate: 1.4
+  shootRate: 0.1
   ammoCur: 30
   ammoMax: 30
+  automatic: 0
+  pelletsPerShot: 1
+  spread: 0
   hitEffect: {fileID: 0}
   shootSound: []
   shootSoundVol: 0
