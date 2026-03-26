@@ -503,13 +503,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 949731593504718278, guid: 6da5fab5ea9896341b2f1920411b0592, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3332244364773614535, guid: 6da5fab5ea9896341b2f1920411b0592, type: 3}
       propertyPath: m_Name
       value: Final Boss (Killable) - Level 2
       objectReference: {fileID: 0}
     - target: {fileID: 3369358176035930234, guid: 6da5fab5ea9896341b2f1920411b0592, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.779265
+      value: 3.21
       objectReference: {fileID: 0}
     - target: {fileID: 3369358176035930234, guid: 6da5fab5ea9896341b2f1920411b0592, type: 3}
       propertyPath: m_LocalPosition.y

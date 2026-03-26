@@ -349,7 +349,7 @@ Transform:
   m_GameObject: {fileID: 893517181710487288}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.011526382, y: -0.42878008, z: 0.07435459}
+  m_LocalPosition: {x: -0.012, y: -0.42878008, z: 0.043}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -437,7 +437,7 @@ Transform:
   m_GameObject: {fileID: 1501250274946979365}
   serializedVersion: 2
   m_LocalRotation: {x: -2.225659e-17, y: -5.551115e-17, z: -9.1544317e-17, w: 1}
-  m_LocalPosition: {x: -0.04083983, y: 1.4210854e-16, z: -3.5527136e-17}
+  m_LocalPosition: {x: -0.04083983, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -940,7 +940,7 @@ MonoBehaviour:
   normalSpeed: 5
   chargeSpeed: 12
   chargeDelay: 3
-  attackDamage: 35
+  attackDamage: 18
   attackRate: 1
   attackRange: 2.5
   chargeDistance: 15

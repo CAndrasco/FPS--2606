@@ -56,6 +56,8 @@ public class enemyAI_4 : MonoBehaviour, IDamage
 
         OGSpeed = agent.speed;
 
+        enemiesAlive++;
+
         if (agent != null)
             agent.speed = normalSpeed;
     }
@@ -69,6 +71,7 @@ public class enemyAI_4 : MonoBehaviour, IDamage
 
         Vector3 playerPos = gamemanager.instance.player.transform.position;
 
+        gamemanager.instance.updateGameGoal(1, enemiesAlive);
 
         playerDir = playerPos - transform.position;
         FaceTarget();
