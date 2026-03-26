@@ -14,18 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::gunStats
   gunModel: {fileID: 964330591455605165, guid: fd3530acb3de9844abe31de7dfb24848, type: 3}
   gunIcon: {fileID: 21300000, guid: 909c834e66762d048b943daf57bef9ca, type: 3}
-  shootDamage: 4
+  shootDamage: 6
   shootDist: 1000
   shootRate: 0.1
-  ammoCur: 50
-  ammoMax: 50
+  ammoCur: 30
+  ammoMax: 30
   automatic: 1
   pelletsPerShot: 1
-  spread: 4.54
+  spread: 2.5
   hitEffect: {fileID: 0}
   shootSound:
   - {fileID: 8300000, guid: 25d89049e254f674ea43d5ca138456dd, type: 3}
-  shootSoundVol: 0.377
+  shootSoundVol: 1
   holdPosition: {x: 0, y: 0, z: 0}
   holdRotation: {x: 0, y: 180, z: 0}
   shootPositionOffset: {x: 0, y: 0, z: 0}

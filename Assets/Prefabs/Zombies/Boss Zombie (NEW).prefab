@@ -1039,7 +1039,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a00b1ba9e80dee14cbc8651252bf9b10, type: 3}
   - {fileID: 8300000, guid: 39038920f16c66345896376ff14cff31, type: 3}
   soundRate: 2
-  HP: 1000
+  HP: 9999999
   faceTargetSpeed: 5
   chargeDelay: 2
   chargeSpeed: 15
@@ -1053,7 +1053,7 @@ MonoBehaviour:
   shockwave: {fileID: 5212015786647210118, guid: 300caded94c715b48a44928c00df9a18, type: 3}
   shockwaveRate: 5
   shockwavePos: {fileID: 6888248466761729762}
-  attackDamage: 30
+  attackDamage: 18
   attackRate: 1
   attackRange: 2.5
 --- !u!195 &5850829074532492355
