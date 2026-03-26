@@ -58,6 +58,8 @@ public class gunSystem2 : MonoBehaviour
 
     void Shoot()
     {
+        if (gamemanager.instance != null && gamemanager.instance.isPaused)
+            return;
         if (player.GetCurrentAmmo() <= 0)
         {
             Debug.Log("Out of ammo!");
