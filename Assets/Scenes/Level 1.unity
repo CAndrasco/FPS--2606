@@ -10244,13 +10244,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pickup - Gun - Pistol
       objectReference: {fileID: 0}
+    - target: {fileID: 4945147768625376429, guid: 4fead4b87b881e74d835194c2fe77446, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 5516934081175015146, guid: 4fead4b87b881e74d835194c2fe77446, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.9493399
       objectReference: {fileID: 0}
     - target: {fileID: 5516934081175015146, guid: 4fead4b87b881e74d835194c2fe77446, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.03378
+      value: 0.13
       objectReference: {fileID: 0}
     - target: {fileID: 5516934081175015146, guid: 4fead4b87b881e74d835194c2fe77446, type: 3}
       propertyPath: m_LocalPosition.z
