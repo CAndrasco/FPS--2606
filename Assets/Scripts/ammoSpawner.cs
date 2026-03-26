@@ -49,8 +49,8 @@ public class ammoSpawner : MonoBehaviour
                 // raycast down only hitting Environment layer
                 if (Physics.Raycast(hit.position + Vector3.up * 2f, Vector3.down, out groundHit, 10f, groundMask))
                 {
-                    // tag is floor
-                    if (!groundHit.collider.CompareTag("Floor"))
+                    // tag is ground
+                    if (!groundHit.collider.CompareTag("Ground"))
                         continue;
 
                     // get correct height from collider

@@ -7,6 +7,8 @@ public class gunSystem2 : MonoBehaviour
     [SerializeField] playerController player;
     [SerializeField] weaponRecoil recoil;
 
+    [SerializeField] AudioSource shootAudio; //for the gunshots.
+
     gunStats myGunStats;
     float nextTimeToFire;
 
@@ -23,15 +25,12 @@ public class gunSystem2 : MonoBehaviour
     {
         myGunStats = gun;
 
-        // reset transform so previous gun doesn't affect new one
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity;
 
-        // apply per gun position and rotation
         transform.localPosition = myGunStats.holdPosition;
         transform.localRotation = Quaternion.Euler(myGunStats.holdRotation);
 
-        // adjust shoot position so bullets comme from correct barrel
         if (shootPosition != null)
         {
             shootPosition.localPosition = myGunStats.shootPositionOffset;
@@ -66,6 +65,14 @@ public class gunSystem2 : MonoBehaviour
         nextTimeToFire = Time.time + myGunStats.shootRate;
 
         player.UseAmmo(1);
+
+        // plays audio
+        if (shootAudio != null && myGunStats.shootSound.Length > 0)
+        {
+            int index = Random.Range(0, myGunStats.shootSound.Length);
+            shootAudio.pitch = Random.Range(0.9f, 1.1f);
+            shootAudio.PlayOneShot(myGunStats.shootSound[index], myGunStats.shootSoundVol);
+        }
 
         int pelletCount = Mathf.Max(1, myGunStats.pelletsPerShot);
 
