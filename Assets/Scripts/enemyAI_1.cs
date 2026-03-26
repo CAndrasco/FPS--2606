@@ -40,6 +40,8 @@ public class enemyAI_1 : MonoBehaviour, IDamage
 
     Color OGcolor;
 
+    enemyAI_4 boss;
+
     void Start()
     {
         OGcolor = model.material.color;
@@ -159,13 +161,25 @@ public class enemyAI_1 : MonoBehaviour, IDamage
 
         if (HP <= 0)
         {
-            waveManager.instance.enemyKilled();
+            if (boss != null)
+            {
+                boss.OnEnemyKilled();
+            }
+            else if (waveManager.instance != null)
+            {
+                waveManager.instance.enemyKilled();
+            }
             Destroy(gameObject);
         }
         else
         {
             StartCoroutine(FlashRed());
         }
+    }
+
+    public void SetBoss(enemyAI_4 bossRef)
+    {
+        boss = bossRef;
     }
 
     IEnumerator DamageCooldown()

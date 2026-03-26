@@ -41,6 +41,7 @@ public class enemyAI_4 : MonoBehaviour, IDamage
     float spawnCoolDownTimer;
 
     int spawnCount;
+    int enemiesAlive;
 
     Vector3 playerDir;
     Color OGcolor;
@@ -139,10 +140,12 @@ public class enemyAI_4 : MonoBehaviour, IDamage
     {
         for (int i = 0; i < spawnAmount; i++)
         {
-            waveManager.instance.Spawn(spawns[Random.Range(0, spawns.Length)]);
-            spawnCount++;
-            waveManager.instance.enemiesAlive++;
+            if (SpawnEnemy(spawns[Random.Range(0, spawns.Length)]))
+            {
+                spawnCount++;
+            }
         }
+
         hasSpawned = true;
         spawnCoolDownTimer = 0;
     }
@@ -214,5 +217,36 @@ public class enemyAI_4 : MonoBehaviour, IDamage
         model.material.color = Color.red;
         yield return new WaitForSeconds(0.1f);
         model.material.color = OGcolor;
+    }
+
+    bool SpawnEnemy(GameObject enemy)
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            Vector3 ranPos = Random.insideUnitSphere * 10f;
+            ranPos += transform.position;
+
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(ranPos, out hit, 10f, NavMesh.AllAreas))
+            {
+                GameObject newEnemy = Instantiate(enemy, hit.position, Quaternion.identity);
+
+                enemyAI_1 ai = newEnemy.GetComponent<enemyAI_1>();
+                if (ai != null)
+                {
+                    ai.SetBoss(this);
+                }
+
+                enemiesAlive++;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void OnEnemyKilled()
+    {
+        enemiesAlive--;
     }
 }
