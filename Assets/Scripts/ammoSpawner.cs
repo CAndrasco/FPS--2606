@@ -24,10 +24,7 @@ public class ammoSpawner : MonoBehaviour
 
     void Start()
     {
-        for (int i = 0; i < maxAmmoOnMap; i++)
-        {
-            SpawnAmmo();
-        }
+
     }
 
     // ---------------- spawn ammo ----------------
