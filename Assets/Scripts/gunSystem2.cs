@@ -22,6 +22,20 @@ public class gunSystem2 : MonoBehaviour
     public void SetGunStats(gunStats gun)
     {
         myGunStats = gun;
+
+        // reset transform so previous gun doesn't affect new one
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
+
+        // apply per gun position and rotation
+        transform.localPosition = myGunStats.holdPosition;
+        transform.localRotation = Quaternion.Euler(myGunStats.holdRotation);
+
+        // adjust shoot position so bullets comme from correct barrel
+        if (shootPosition != null)
+        {
+            shootPosition.localPosition = myGunStats.shootPositionOffset;
+        }
     }
 
     void Update()
@@ -32,42 +46,17 @@ public class gunSystem2 : MonoBehaviour
         if (myGunStats.automatic)
         {
             if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
-            {
                 Shoot();
-            }
         }
         else
         {
             if (Input.GetButtonDown("Fire1") && Time.time >= nextTimeToFire)
-            {
                 Shoot();
-            }
         }
     }
 
     void Shoot()
     {
-        if (bulletPrefab == null)
-        {
-            Debug.LogError("Bullet prefab is missing on " + gameObject.name);
-            return;
-        }
-        if (shootPosition == null)
-        {
-            Debug.LogError("Shoot Position is missing on " + gameObject.name);
-            return;
-        }
-        if (myGunStats == null)
-        {
-            Debug.LogError("GunStats is missing on " + gameObject.name);
-            return;
-        }
-        if (player == null)
-        {
-            Debug.LogError("playerController reference is missing on " + gameObject.name);
-            return;
-        }
-
         if (player.GetCurrentAmmo() <= 0)
         {
             Debug.Log("Out of ammo!");
@@ -88,9 +77,7 @@ public class gunSystem2 : MonoBehaviour
                 0f
             );
 
-            GameObject bullet = Instantiate(bulletPrefab, shootPosition.position, spreadRotation);
-
-           
+            Instantiate(bulletPrefab, shootPosition.position, spreadRotation);
         }
 
         if (recoil != null)

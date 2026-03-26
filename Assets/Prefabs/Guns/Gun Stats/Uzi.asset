@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be5c79421ce11264c87ff98035a58597, type: 3}
   m_Name: Uzi
   m_EditorClassIdentifier: Assembly-CSharp::gunStats
-  gunModel: {fileID: 3591475393319324963, guid: 4bc3465c9f6d2714aabbf58cc586060f, type: 3}
+  gunModel: {fileID: 6167487190009821936, guid: 6d38a64bd5491f64cad9c0325d55559f, type: 3}
   gunIcon: {fileID: 21300000, guid: a08b57cdff41ada4eb36115a993052bd, type: 3}
   shootDamage: 3
   shootDist: 764
@@ -25,3 +25,6 @@ MonoBehaviour:
   hitEffect: {fileID: 0}
   shootSound: []
   shootSoundVol: 0
+  holdPosition: {x: 0, y: 0, z: 0}
+  holdRotation: {x: 0, y: 180, z: 0}
+  shootPositionOffset: {x: 0, y: 0, z: 0}

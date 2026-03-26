@@ -8,11 +8,16 @@ public class gunPickup : MonoBehaviour
     {
         IPickup pik = other.GetComponent<IPickup>();
 
-        if(pik != null)
+        if (pik != null)
         {
+            // reset ammo when picked up so player gets full ammo
             gun.ammoCur = gun.ammoMax;
+
+            // add gun to player's inventory
             pik.getGunStats(gun);
-             Destroy(gameObject);   
+
+            // remove pickup from world
+            Destroy(gameObject);
         }
     }
 }
