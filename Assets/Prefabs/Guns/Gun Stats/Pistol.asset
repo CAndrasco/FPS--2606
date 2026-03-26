@@ -12,16 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be5c79421ce11264c87ff98035a58597, type: 3}
   m_Name: Pistol
   m_EditorClassIdentifier: Assembly-CSharp::gunStats
-  gunModel: {fileID: 7368957618621933186, guid: 68981c41109100f439d95523df0a7235, type: 3}
-  gunIcon: {fileID: 21300000, guid: bd08e1a95c059014b8b3a721a787e4cd, type: 3}
-  shootDamage: 3
-  shootDist: 764
-  shootRate: 0.1
-  ammoCur: 30
-  ammoMax: 30
+  gunModel: {fileID: 7636599367085182550, guid: 8f85c0463a72f494c9489508c7c836ef, type: 3}
+  gunIcon: {fileID: 0}
+  shootDamage: 4
+  shootDist: 800
+  shootRate: 0.25
+  ammoCur: 0
+  ammoMax: 12
   automatic: 0
   pelletsPerShot: 1
-  spread: 0
+  spread: 0.5
   hitEffect: {fileID: 0}
-  shootSound: []
-  shootSoundVol: 0
+  shootSound:
+  - {fileID: 8300000, guid: 25d89049e254f674ea43d5ca138456dd, type: 3}
+  shootSoundVol: 1
+  holdPosition: {x: 0.2, y: -0.2, z: 0.5}
+  holdRotation: {x: 0, y: 0, z: 0}
+  shootPositionOffset: {x: 0, y: 0, z: 0.6}

@@ -15,13 +15,13 @@ MonoBehaviour:
   gunModel: {fileID: 6167487190009821936, guid: 6d38a64bd5491f64cad9c0325d55559f, type: 3}
   gunIcon: {fileID: 21300000, guid: a08b57cdff41ada4eb36115a993052bd, type: 3}
   shootDamage: 3
-  shootDist: 764
-  shootRate: 0.16
-  ammoCur: 32
+  shootDist: 700
+  shootRate: 0.1
+  ammoCur: 0
   ammoMax: 32
-  automatic: 0
+  automatic: 1
   pelletsPerShot: 1
-  spread: 0
+  spread: 3
   hitEffect: {fileID: 0}
   shootSound: []
   shootSoundVol: 0

@@ -10,7 +10,7 @@ public class ammoSpawner : MonoBehaviour
     [SerializeField] GameObject ammoPrefab;
 
     [Header("---- Spawn Settings ----")]
-    [SerializeField] int maxAmmoOnMap = 10;
+    [SerializeField] int maxAmmoOnMap = 5;
     [SerializeField] float spawnRadius = 25f;
     [SerializeField] float spawnDelayMin = 3f;
     [SerializeField] float spawnDelayMax = 7f;
@@ -30,7 +30,7 @@ public class ammoSpawner : MonoBehaviour
         }
     }
 
-    // ---------------- SPAWN ----------------
+    // ---------------- spawn ammo ----------------
 
     void SpawnAmmo()
     {
@@ -49,8 +49,8 @@ public class ammoSpawner : MonoBehaviour
                 // raycast down only hitting Environment layer
                 if (Physics.Raycast(hit.position + Vector3.up * 2f, Vector3.down, out groundHit, 10f, groundMask))
                 {
-                    // tag is floor
-                    if (!groundHit.collider.CompareTag("Floor"))
+                    // tag is ground.
+                    if (!groundHit.collider.CompareTag("Ground"))
                         continue;
 
                     // get correct height from collider
@@ -75,7 +75,7 @@ public class ammoSpawner : MonoBehaviour
         Debug.LogWarning("Failed to find valid ammo spawn");
     }
 
-    // ---------------- PICKUP ----------------
+    // ---------------- pickup ----------------
 
     public void AmmoPickedUp()
     {

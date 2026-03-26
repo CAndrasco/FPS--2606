@@ -6,6 +6,7 @@ public class gunSystem2 : MonoBehaviour
     [SerializeField] Transform shootPosition;
     [SerializeField] playerController player;
     [SerializeField] weaponRecoil recoil;
+    [SerializeField] AudioSource shootAudio;
 
     gunStats myGunStats;
     float nextTimeToFire;
@@ -66,6 +67,14 @@ public class gunSystem2 : MonoBehaviour
         nextTimeToFire = Time.time + myGunStats.shootRate;
 
         player.UseAmmo(1);
+
+        //should in theory play the gun sound..hopefully.
+        if (shootAudio != null && myGunStats.shootSound.Length > 0)
+        {
+            int index = Random.Range(0, myGunStats.shootSound.Length);
+            shootAudio.pitch = Random.Range(0.9f, 1.1f);
+            shootAudio.PlayOneShot(myGunStats.shootSound[index], myGunStats.shootSoundVol);
+        }
 
         int pelletCount = Mathf.Max(1, myGunStats.pelletsPerShot);
 

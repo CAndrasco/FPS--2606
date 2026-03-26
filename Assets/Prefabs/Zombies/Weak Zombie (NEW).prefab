@@ -2092,7 +2092,7 @@ MonoBehaviour:
   armPivot1: {fileID: 7458279599942026110}
   armPivot2: {fileID: 2953018118356217124}
   anim: {fileID: 1363336257900746774}
-  HP: 3
+  HP: 20
   FOV: 360
   faceTargetSpeed: 4
   armRotateSpeed: 3
@@ -2101,7 +2101,7 @@ MonoBehaviour:
   roamDistance: 18
   flashlightSlowMultiplier: 0.3
   flashlightCheckDistance: 200
-  attackDamage: 10
+  attackDamage: 8
   attackRate: 1
   attackRange: 2
 --- !u!195 &2090799716534877661
