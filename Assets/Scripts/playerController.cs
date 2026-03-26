@@ -267,14 +267,14 @@ public class playerController : MonoBehaviour, IDamage , IPickup
             Debug.LogWarning("Gun model missing MeshFilter or MeshRenderer");
         }
 
-        // apply position + rotation
-        gunModel.transform.localPosition = gunList[gunListPos].holdPosition;
-        gunModel.transform.localRotation = Quaternion.Euler(gunList[gunListPos].holdRotation);
+        //// apply position + rotation
+        //gunModel.transform.localPosition = gunList[gunListPos].holdPosition;
+        //gunModel.transform.localRotation = Quaternion.Euler(gunList[gunListPos].holdRotation);
 
-        // actually apply scale so gun is not massive...take 10.
-        gunModel.transform.localScale = gunList[gunListPos].gunModel.transform.localScale;
+        //// actually apply scale so gun is not massive...take 10.
+        //gunModel.transform.localScale = gunList[gunListPos].gunModel.transform.localScale;
 
-        // sync shooting system
+         //sync shooting system
         gunSystem.SetGunStats(gunList[gunListPos]);
 
         updatePlayerUI();

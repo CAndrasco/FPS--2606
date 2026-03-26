@@ -21,11 +21,8 @@ MonoBehaviour:
   ammoMax: 32
   automatic: 1
   pelletsPerShot: 1
-  spread: 3
+  spread: 5.5
   hitEffect: {fileID: 0}
   shootSound:
   - {fileID: 8300000, guid: 25d89049e254f674ea43d5ca138456dd, type: 3}
-  shootSoundVol: 1
-  holdPosition: {x: 0, y: 0, z: 0}
-  holdRotation: {x: 0, y: 180, z: 0}
-  shootPositionOffset: {x: 0, y: 0, z: 0}
+  shootSoundVol: 0.17

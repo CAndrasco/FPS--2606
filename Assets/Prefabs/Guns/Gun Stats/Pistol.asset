@@ -25,7 +25,4 @@ MonoBehaviour:
   hitEffect: {fileID: 0}
   shootSound:
   - {fileID: 8300000, guid: 25d89049e254f674ea43d5ca138456dd, type: 3}
-  shootSoundVol: 1
-  holdPosition: {x: 0.2, y: -0.2, z: 0.5}
-  holdRotation: {x: 0, y: 0, z: 0}
-  shootPositionOffset: {x: 0, y: 0, z: 0.6}
+  shootSoundVol: 0.4

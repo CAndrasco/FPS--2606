@@ -22,14 +22,4 @@ public class gunStats : ScriptableObject
     public ParticleSystem hitEffect;
     public AudioClip[] shootSound;
     [Range(0, 1)] public float shootSoundVol;
-
-    // fixes all guns using same position
-    
-    [Header("Gun Positioning")]
-    public Vector3 holdPosition;
-    public Vector3 holdRotation;
-
-    
-    // allows bullets to come from correct barrel
-    public Vector3 shootPositionOffset;
 }
