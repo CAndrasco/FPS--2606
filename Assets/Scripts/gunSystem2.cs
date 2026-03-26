@@ -30,6 +30,9 @@ public class gunSystem2 : MonoBehaviour
 
     void Update()
     {
+        if (gamemanager.instance != null && gamemanager.instance.isPaused)
+            return;
+
         if (myGunStats == null)
             return;
 
