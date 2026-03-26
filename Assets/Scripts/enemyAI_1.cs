@@ -1,106 +1,107 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.AI;
-using UnityEngine.SocialPlatforms.GameCenter;
 
 public class enemyAI_1 : MonoBehaviour, IDamage
 {
     [Header("---- Unity Components ----")]
     [SerializeField] Renderer model;
     [SerializeField] NavMeshAgent agent;
-    [SerializeField] LayerMask ignoreLayer;
     [SerializeField] Transform armPivot1;
     [SerializeField] Transform armPivot2;
-    [SerializeField] LayerMask flashlightCheckIgnore;
+    [SerializeField] Animator anim;
 
     [Header("---- Enemy Settings ----")]
-    [SerializeField] int HP;
-    [SerializeField] int FOV;
-    [SerializeField] int faceTargetSpeed;
-    [SerializeField] int armRotateSpeed;
-    [SerializeField] int sprintSpeed;
-    [SerializeField] int roamPauseTime;
-    [SerializeField] int roamDistance;
-    [SerializeField] float flashlightSlowMultiplier = 0.2f; // How much the enemy's speed is reduced when in the player's flashlight
-    [SerializeField] float flashlightCheckDistance = 20f; // The distance at which the enemy checks if it's in the player's flashlight
-    [SerializeField] int cameraFOV;
+    [SerializeField] int HP = 50;
+    [SerializeField] int FOV = 90;
+    [SerializeField] int faceTargetSpeed = 5;
+    [SerializeField] int armRotateSpeed = 5;
+    [SerializeField] int sprintSpeed = 6;
+    [SerializeField] int roamPauseTime = 2;
+    [SerializeField] int roamDistance = 10;
+    [SerializeField] float flashlightSlowMultiplier = 0.2f;
+    [SerializeField] float flashlightCheckDistance = 20f;
 
-    Color OGcolor;
+    [Header("---- Attack Settings ----")]
+    [SerializeField] int attackDamage = 10;
+    [SerializeField] float attackRate = 1.5f;
+    [SerializeField] float attackRange = 1.5f;
 
-    bool playerInRange;
-    bool isSlowed = false;
-    bool isDead = false;
-
+    float attackTimer;
     float roamTimer;
     float angleToPlayer;
-    float stoppingDistanceOG;
     float OGSpeed;
 
     Vector3 playerDir;
     Vector3 startingPos;
 
+    bool playerInRange;
+    bool canTakeDamage = true;
+
+    Color OGcolor;
+
+    enemyAI_4 boss;
 
     void Start()
     {
-        if (agent == null)
-            agent = GetComponent<NavMeshAgent>(); // Try to get the NavMeshAgent component if not assigned in the inspector
-
-        if(model == null)
-            model = GetComponentInChildren<Renderer>(); // Try to get the Renderer component from children if not assigned in the inspector
-
         OGcolor = model.material.color;
         OGSpeed = agent.speed;
         startingPos = transform.position;
-        stoppingDistanceOG = agent.stoppingDistance;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (HitByFlashlight()) // Check if the enemy is currently being hit by the player's flashlight
-        {
-            agent.speed = OGSpeed * flashlightSlowMultiplier; // Reduce speed when hit by flashlight
-        }
+        attackTimer += Time.deltaTime;
+
+        float speed = agent.velocity.magnitude;
+        if (anim != null)
+            anim.SetFloat("Speed", speed / agent.speed);
+
+        if (HitByFlashlight())
+            agent.speed = OGSpeed * flashlightSlowMultiplier;
         else
-        {
-            agent.speed = OGSpeed; // Reset to normal speed when not hit by flashlight
-        }
+            agent.speed = OGSpeed;
 
-        if (agent == null) 
-            return; // If agent is still null, exit the Update method to avoid errors
+        if (!playerInRange)
+            CheckRoam();
 
-        if (agent.remainingDistance < 0.01f)
+        float dist = Vector3.Distance(transform.position, gamemanager.instance.player.transform.position);
+
+        if (dist <= attackRange)
+            TryAttack();
+
+        if (playerInRange)
+            CanSeePlayer();
+    }
+
+    void TryAttack()
+    {
+        if (attackTimer >= attackRate)
         {
-            roamTimer += Time.deltaTime;
-        }
-        if(playerInRange && !CanSeePlayer())
-        {
-            CheckRoam();
-        }
-        else if(!playerInRange)
-        {
-            CheckRoam();
+            gamemanager.instance.playerScript.TakeDamage(attackDamage);
+            attackTimer = 0;
         }
     }
 
     void CheckRoam()
     {
-        if(agent.remainingDistance < 0.01f && roamTimer >= roamPauseTime)
+        if (agent.remainingDistance < 1f)
         {
-            Roam();
+            roamTimer += Time.deltaTime;
+            if (roamTimer >= roamPauseTime)
+                Roam();
         }
     }
 
     void Roam()
     {
         roamTimer = 0;
-        agent.stoppingDistance = 0;
 
-        Vector3 ranPos = Random.insideUnitSphere * roamDistance;
-        ranPos += startingPos;
+        Vector3 ranPos = Random.insideUnitSphere * roamDistance + startingPos;
 
         NavMeshHit hit;
         NavMesh.SamplePosition(ranPos, out hit, roamDistance, 1);
+
         agent.SetDestination(hit.position);
     }
 
@@ -109,28 +110,22 @@ public class enemyAI_1 : MonoBehaviour, IDamage
         playerDir = gamemanager.instance.player.transform.position - transform.position;
         angleToPlayer = Vector3.Angle(playerDir, transform.forward);
 
-        Debug.DrawRay(transform.position, playerDir);
-
         RaycastHit hit;
-        if(Physics.Raycast(transform.position,playerDir, out hit))
+        if (Physics.Raycast(transform.position, playerDir, out hit))
         {
             if (hit.collider.CompareTag("Player") && angleToPlayer <= FOV)
             {
                 agent.SetDestination(gamemanager.instance.player.transform.position);
+
                 if (!HitByFlashlight())
-                {
-                    agent.speed = sprintSpeed; 
-                }
-                if(agent.remainingDistance <= agent.stoppingDistance)
-                {
-                    FaceTarget();
-                }
+                    agent.speed = sprintSpeed;
+
+                FaceTarget();
                 ArmRotate();
-                agent.stoppingDistance = stoppingDistanceOG;
                 return true;
             }
         }
-        agent.stoppingDistance = 0;
+
         return false;
     }
 
@@ -150,28 +145,30 @@ public class enemyAI_1 : MonoBehaviour, IDamage
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
-        {
             playerInRange = true;
-        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.CompareTag("Player"))
-        {
+        if (other.CompareTag("Player"))
             playerInRange = false;
-        }
     }
+
+    //Replaced old takedmg with new one that works better..
     public void TakeDamage(int damage)
     {
-        //if (isDead) return;
-
         HP -= damage;
 
         if (HP <= 0)
         {
-            //isDead = true;
-            gamemanager.instance.EnemyKilled();
+            if (boss != null)
+            {
+                boss.OnEnemyKilled();
+            }
+            else if (waveManager.instance != null)
+            {
+                waveManager.instance.enemyKilled();
+            }
             Destroy(gameObject);
         }
         else
@@ -180,37 +177,30 @@ public class enemyAI_1 : MonoBehaviour, IDamage
         }
     }
 
-    bool HitByFlashlight() // This method checks if the enemy is currently being hit by the player's flashlight
+    public void SetBoss(enemyAI_4 bossRef)
+    {
+        boss = bossRef;
+    }
+
+    IEnumerator DamageCooldown()
+    {
+        yield return new WaitForSeconds(0.05f);
+        canTakeDamage = true;
+    }
+
+    bool HitByFlashlight()
     {
         RaycastHit hit;
-        //Vector3 center = transform.position;
 
-        //Collider[] hitCollider = Physics.OverlapSphere(center, flashlightCheckDistance);
-        //playerDir = gamemanager.instance.player.transform.position;
-        //angleToPlayer = Vector3.Angle(playerDir, transform.forward);
-        //Debug.DrawRay(playerDir, gamemanager.instance.player.transform.position, Color.purple);
-
-        //for (int i = 0; i < hitCollider.Length; i++)
-        //{
-        //    if (hitCollider[i].CompareTag("Player"))
-        //    {
-        //        isSlowed = true;
-        //    }
-        //    else
-        //    {
-        //        isSlowed = false;
-        //    }
-        //}
-
-        if (Physics.Raycast(gamemanager.instance.player.transform.position, gamemanager.instance.player.transform.forward, out hit,
+        if (Physics.Raycast(
+            gamemanager.instance.player.transform.position,
+            gamemanager.instance.player.transform.forward,
+            out hit,
             flashlightCheckDistance))
         {
-            //return true;
-            if (hit.collider.GetComponentInParent<enemyAI_1>() == this)
-            {
-                return true;
-            }
+            return hit.collider.GetComponentInParent<enemyAI_1>() == this;
         }
+
         return false;
     }
 
@@ -220,5 +210,4 @@ public class enemyAI_1 : MonoBehaviour, IDamage
         yield return new WaitForSeconds(0.1f);
         model.material.color = OGcolor;
     }
-
 }

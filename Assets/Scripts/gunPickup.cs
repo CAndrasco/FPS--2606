@@ -2,42 +2,22 @@ using UnityEngine;
 
 public class gunPickup : MonoBehaviour
 {
-    public enum GunType
-    {
-        Pistol,
-        ShotGun,
-        MachineGun
-    }
-
-    [SerializeField] GunType gunType;
+    [SerializeField] gunStats gun;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player")) return;
+        IPickup pik = other.GetComponent<IPickup>();
 
-        playerGunHolder gunHolder = other.GetComponentInParent<playerGunHolder>();
-
-        if (gunHolder == null)
+        if (pik != null)
         {
-            Debug.LogError("playerGunHolder not found on player!");
-            return;
+            // reset ammo when picked up so player gets full ammo
+            gun.ammoCur = gun.ammoMax;
+
+            // add gun to player's inventory
+            pik.getGunStats(gun);
+
+            // remove pickup from world
+            Destroy(gameObject);
         }
-
-        switch (gunType)
-        {
-            case GunType.Pistol:
-                gunHolder.EquipPistol();
-                break;
-
-            case GunType.ShotGun:
-                gunHolder.EquipShotGun();
-                break;
-
-            case GunType.MachineGun:
-                gunHolder.EquipMachineGun();
-                break;
-        }
-
-        Destroy(gameObject);
     }
 }

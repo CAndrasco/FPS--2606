@@ -6,37 +6,39 @@ public class gamemanager : MonoBehaviour
 {
     public static gamemanager instance;
 
+    [Header("---- Menus ----")]
     [SerializeField] GameObject menuActive;
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
-    [SerializeField] GameObject exitDistance;
+    
 
-    [SerializeField] GameObject[] wave1Enemies;
-    [SerializeField] GameObject[] wave2Enemies;
-    [SerializeField] GameObject [] bossEnemies;
-    [SerializeField] GameObject exitDoorPrefab;
-    [SerializeField] Transform[] exitSpawnPoints;
-
+    [Header("---- UI ----")]
     [SerializeField] TMP_Text waveCounter;
     [SerializeField] TMP_Text zombieCounter;
+    [SerializeField] GameObject exitDistance;
     [SerializeField] TMP_Text exitDistanceText;
 
+    [Header("---- Weapon HUD ----")]
+    [SerializeField] GameObject weaponHUD;
+    [SerializeField] Image currentGunIcon;
+    [SerializeField] TMP_Text ammoText;
+
+    [Header("---- Med HUD ----")]
+    [SerializeField] GameObject medHUD;
+    [SerializeField] Image medIcon;
+    [SerializeField] TMP_Text medText;
+
+    [Header("---- Player UI ----")]
     public Image playerHPBar;
     public GameObject player;
-    public GameObject exitDoor;
     public playerController playerScript;
+    public GameObject damagePlayerFlash;
+    public Image bloodOverlay;
 
     public bool isPaused;
 
     float timeScaleOrig;
-
-    float gameExitDistance;
-    public int enemiesAlive;
-    int currentWave;
-
-    
-
 
     void Awake()
     {
@@ -47,21 +49,65 @@ public class gamemanager : MonoBehaviour
 
         player = GameObject.FindWithTag("Player");
 
-        if(player != null)
+        if (player != null)
         {
             playerScript = player.GetComponent<playerController>();
         }
-        
+
+        //find the menus and turn them off
+        menuPause = GameObject.Find("Pause Menu");
+        if (menuPause) menuPause.SetActive(false);
+        menuLose = GameObject.Find("Lose Menu");
+        if (menuLose) menuLose.SetActive(false);
+        menuWin = GameObject.Find("Win Menu");
+        if (menuWin) menuWin.SetActive(false);
+        //find exit distance UI and Text then turn off (have to find child first)
+        GameObject exitDist = GameObject.Find("Exit Distance Text");
+        if (exitDist != null) exitDistanceText = exitDist.GetComponent<TMP_Text>();
+        exitDistance = GameObject.Find("Exit Distance UI");
+        if (exitDistance) exitDistance.SetActive(false);
+        //wave and zombie counter find
+        GameObject wCount = GameObject.Find("Wave Count Text");
+        if (wCount != null) waveCounter = wCount.GetComponent<TMP_Text>();
+        GameObject zCount = GameObject.Find("Zombie Count Text");
+        if (zCount != null) zombieCounter = zCount.GetComponent<TMP_Text>();
+        //find player HP
+        GameObject playerHealth = GameObject.Find("Player HP Bar");
+        if (playerHealth != null) playerHPBar = playerHealth.GetComponent<Image>();
+        //find damager player
+        damagePlayerFlash = GameObject.Find("Damage Player");
+        if (damagePlayerFlash) damagePlayerFlash.SetActive(false);
+        //find blood damage overlay
+        GameObject blood = GameObject.Find("Blood Overlay");
+        if (blood != null) bloodOverlay = blood.GetComponent<Image>();
+        //find gun ui panel
+        weaponHUD = GameObject.Find("Weapon HUD");
+        if(weaponHUD != null)
+        {
+            //get image and text
+            GameObject gunIcon = GameObject.Find("Gun Icon");
+            if(gunIcon != null) currentGunIcon = gunIcon.GetComponent<Image>();
+            GameObject gText = GameObject.Find("Ammo Text");
+            if (gText != null) ammoText = gText.GetComponent<TMP_Text>();
+            
+            //start weapon HUD hidden
+            weaponHUD.SetActive(false);
+        }
+        //find med UI
+        medHUD = GameObject.Find("Med HUD");
+        GameObject medKit = GameObject.Find("MedKit Icon");
+        if (medKit != null) medIcon = medKit.GetComponent<Image>();
+        GameObject medCount = GameObject.Find("MedKit Text");
+        if (medCount != null) medText = medCount.GetComponent<TMP_Text>();
+
+
     }
 
     void Start()
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-
-        startWave1();
     }
-
 
     void Update()
     {
@@ -79,18 +125,31 @@ public class gamemanager : MonoBehaviour
             }
         }
 
-        // Real time distance tracking
-        // Only runs if exit door exists (wave 3)
-        if (exitDoor != null && exitDoor.activeInHierarchy)
+        // Exit distance tracking
+        if (waveManager.instance != null && waveManager.instance.exitDoor != null)
         {
-            //You can replace Camera.main with player.transform as an alternate way. I was just trying to get it to work... - T
-            float actualDistance = Vector3.Distance(Camera.main.transform.position, exitDoor.transform.position);
-            exitDistanceText.text = actualDistance.ToString("F0") + "m";
+            float dist = Vector3.Distance(
+                player.transform.position,
+                waveManager.instance.exitDoor.transform.position);
 
-            //The trigger script on exit door handles the win. - T
-
-        }        
+            exitDistanceText.text = dist.ToString("F0") + "m";
+        }
     }
+
+    // ---------------- UI UPDATE ----------------
+
+    public void updateGameGoal(int wave, int enemies)
+    {
+        waveCounter.text = wave.ToString();
+        zombieCounter.text = enemies.ToString();
+    }
+
+    public void showExitDistance()
+    {
+        exitDistance.SetActive(true);
+    }
+
+    // ---------------- PAUSE ----------------
 
     public void statePause()
     {
@@ -104,7 +163,6 @@ public class gamemanager : MonoBehaviour
     public void stateUnpause()
     {
         isPaused = false;
-
         Time.timeScale = timeScaleOrig;
 
         Cursor.visible = false;
@@ -114,112 +172,44 @@ public class gamemanager : MonoBehaviour
         menuActive = null;
     }
 
-    
-    public void updateGameGoal()
-    {
-        waveCounter.text = currentWave.ToString("F0");
-        zombieCounter.text = enemiesAlive.ToString("F0");
-        
-    }
+    // ---------------- GAME STATES ----------------
 
     public void youLose()
     {
         statePause();
-
         menuActive = menuLose;
         menuActive.SetActive(true);
     }
 
-    void startWave1()
-    {
-        currentWave = 1;        
-        enemiesAlive = wave1Enemies.Length;
-        updateGameGoal();
-        
-
-
-        for (int i = 0;
-            i < wave1Enemies.Length;
-            i++)
-        {
-            wave1Enemies[i].SetActive(true);
-        }
-    }
-
-    void startWave2()
-    {
-        currentWave = 2;
-        enemiesAlive = wave2Enemies.Length;
-        updateGameGoal();
-        
-
-
-        for (int i = 0;
-            i < wave2Enemies.Length;
-            i++)
-        {
-            wave2Enemies[i].SetActive(true);
-        }
-    }
-
-    void startFinalWave()
-    {
-        currentWave = 3;
-        enemiesAlive = bossEnemies.Length;
-
-        updateGameGoal();
-
-        for (int i = 0; i < bossEnemies.Length; i++)
-        {
-            bossEnemies[i].SetActive(true);
-        }
-
-        int randomIndex = Random.Range(0, exitSpawnPoints.Length);
-
-        Transform spawnPoint = exitSpawnPoints[randomIndex];
-
-
-        //replaces wall with prefab
-        spawnPoint.parent.gameObject.SetActive(false);
-
-        exitDoor = Instantiate(
-            exitDoorPrefab, exitSpawnPoints[randomIndex].position, exitSpawnPoints[randomIndex].rotation);
-
-        exitDistance.SetActive(true);
-    }
-
-    public void EnemyKilled()
-    {
-        enemiesAlive--;
-        
-
-        if (enemiesAlive <= 0)
-        {
-            if (currentWave == 1)
-            {
-                startWave2();
-            }
-            else if (currentWave == 2)
-            {
-                startFinalWave();
-            }
-        }
-        else
-        {
-            updateGameGoal();
-        }
-            //else if (currentWave == 3)
-            //{
-            //    exitDoor.SetActive(true);
-            //}
-        
-    }
-
-    public void youWin() // Called by exitDoor trigger when player enters the exit door
+    public void youWin()
     {
         statePause();
         menuActive = menuWin;
         menuActive.SetActive(true);
     }
+    public void updateGunUI(gunStats stats)
+    {
+        if (stats != null && weaponHUD != null)
+        {
+            weaponHUD.SetActive(true);
+            currentGunIcon.sprite = stats.gunIcon;
 
+            // Pull ammo from playerController, not the ScriptableObject
+            UpdateAmmoOnly();
+        }
+    }
+    public void updateMedUI(int current, int max)
+    {
+        if(medText != null)
+        {
+            medText.text = current.ToString() + " / " + max.ToString();
+        }
+    }
+    public void UpdateAmmoOnly()
+    {
+        if (playerScript != null && ammoText != null)
+        {
+            ammoText.text = playerScript.GetCurrentAmmo() + " / " + playerScript.GetAmmoMax();
+        }
+    }
 }

@@ -1,148 +1,205 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.AI;
-using UnityEditor;
 
-public class enemyAI_3 : MonoBehaviour, IDamage
+public class enemyAI_3 : MonoBehaviour
 {
-    [Header("---- Unity Components ----")]
+    [Header("---- Components ----")]
     [SerializeField] Renderer model;
     [SerializeField] NavMeshAgent agent;
-    [SerializeField] LayerMask ignoreLayer;
-    [SerializeField] Transform armPivot1;
-    [SerializeField] Transform armPivot2;
+    [SerializeField] Animator anim;
 
-    [Header("---- Enemy Settings ----")]
-    [SerializeField] int HP;
-    [SerializeField] int FOV;
-    [SerializeField] int faceTargetSpeed;
-    [SerializeField] int armRotateSpeed;
-    [SerializeField] int sprintSpeed;
-    [SerializeField] int roamPauseTime;
-    [SerializeField] int roamDistance;
-    [SerializeField] float flashlightSlowMultiplier = 0.2f; // How much the enemy's speed is reduced when in the player's flashlight
-    [SerializeField] float flashlightCheckDistance = 20f; // The distance at which the enemy checks if it's in the player's flashlight
+    [Header("---- Audio ----")]
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip[] bossSounds;
+    [SerializeField] float soundRate = 2f;
 
-    Color OGColor;
+    float soundTimer;
 
-    bool isDead = false;
+    [Header("---- Stats ----")]
+    [SerializeField] int HP = 300;
+    [SerializeField] int faceTargetSpeed = 5;
 
-    float angleToPlayer;
+    [Header("---- Attack Stats ----")]
+    [SerializeField] float chargeDelay = 2f;
+    [SerializeField] float chargeSpeed = 15f;
+    [SerializeField] int chargeDistance;
+    [SerializeField] int spawnDistance;
+    [SerializeField] GameObject[] spawns;
+    [SerializeField] int spawnAmount;
+    [SerializeField] float spawnCoolDownTime;
+    [SerializeField] GameObject shockwave;
+    [SerializeField] float shockwaveRate;
+    [SerializeField] Transform shockwavePos;
+    [SerializeField] int attackDamage = 30;
+    [SerializeField] float attackRate = 1f;
+    [SerializeField] float attackRange = 2.5f;
+
     float OGSpeed;
+    float attackTimer;
+    float chargeTimer;
+    float playerDis;
+    float spawnCoolDownTimer;
+    float shockwaveTimer;
+
+    int spawnCount;
 
     Vector3 playerDir;
+    Color OGcolor;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    bool isCharging;
+    bool hasSpawned;
+
     void Start()
     {
-        if (agent == null)
-            agent = GetComponent<NavMeshAgent>(); // Try to get the NavMeshAgent component if not assigned in the inspector
-
-        if (model == null)
-            model = GetComponentInChildren<Renderer>(); // Try to get the Renderer component from children if not assigned in the inspector
-
-        OGColor = model.material.color;
+        OGcolor = model.material.color;
         OGSpeed = agent.speed;
+
+        // make sure audio source exists
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
+
+        // grab animator (handles child models too)
+        if (anim == null)
+            anim = GetComponentInChildren<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        agent.SetDestination(gamemanager.instance.player.transform.position);
+        Debug.Log("Animator object: " + anim.gameObject.name);
+        Debug.Log("Current state: " + anim.GetCurrentAnimatorStateInfo(0).shortNameHash);
+        Debug.Log("Speed param: " + anim.GetFloat("Speed"));
 
-        if (agent == null)
-            return; // If agent is still null, exit the Update method to avoid errors
+        Vector3 playerPos = gamemanager.instance.player.transform.position;
+        playerDir = playerPos - transform.position;
+        playerDis = Vector3.Distance(transform.position, playerPos);
 
-        if (HitByFlashlight())
-        {
-            agent.speed = OGSpeed * flashlightSlowMultiplier;
-        }
-        else if (!HitByFlashlight() && CanSeePlayer())
-        {
-            agent.speed = sprintSpeed;
-        }
-        else
+        attackTimer += Time.deltaTime;
+
+        // always move toward player unless charging
+        if (!isCharging)
         {
             agent.speed = OGSpeed;
+            agent.SetDestination(playerPos);
         }
 
-    }
+        FaceTarget();
 
-    bool HitByFlashlight() // This method checks if the enemy is currently being hit by the player's flashlight
-    {
-        RaycastHit hit;
+        // attack if close
+        if (playerDis <= attackRange)
+            TryAttack();
 
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, flashlightCheckDistance))
+        // spawn enemies if player is close
+        if (playerDis <= spawnDistance && spawnCount < spawnAmount && !hasSpawned)
         {
-            if (hit.collider.GetComponentInParent<enemyAI_2>() == this)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public void TakeDamage(int damage)
-    {
-        if (isDead) return;
-
-        HP -= damage;
-
-        if (HP <= 0)
-        {
-            isDead = true;
-            gamemanager.instance.EnemyKilled();
-            Destroy(gameObject);
+            Spawning();
         }
         else
         {
-            StartCoroutine(FlashRed());
+            spawnCoolDownTimer += Time.deltaTime;
+        }
+
+        if (spawnCoolDownTimer >= spawnCoolDownTime)
+            hasSpawned = false;
+
+        // shockwave if mid distance
+        shockwaveTimer += Time.deltaTime;
+        if (playerDis > spawnDistance && playerDis < chargeDistance && shockwaveTimer >= shockwaveRate)
+        {
+            ShockWave();
+        }
+
+        // charge if far away
+        if (!isCharging && playerDis >= chargeDistance)
+        {
+            chargeTimer += Time.deltaTime;
+
+            if (chargeTimer >= chargeDelay)
+            {
+                Charge();
+            }
+        }
+
+        // animate try number 5?
+        if (agent != null && anim != null)
+        {
+            float speed = agent.velocity.magnitude;
+            anim.SetFloat("Speed", speed);
+        }
+
+        HandleSound();
+    }
+
+    void HandleSound()
+    {
+        soundTimer += Time.deltaTime;
+
+        if (soundTimer >= soundRate && playerDis < 25f)
+        {
+            PlayRandomSound();
+            soundTimer = 0;
+        }
+    }
+
+    void PlayRandomSound()
+    {
+        if (bossSounds == null || bossSounds.Length == 0 || audioSource == null) return;
+
+        int rand = Random.Range(0, bossSounds.Length);
+
+        if (bossSounds[rand] != null)
+            audioSource.PlayOneShot(bossSounds[rand], 5f);
+    }
+
+    void Charge()
+    {
+        isCharging = true;
+        agent.speed = chargeSpeed;
+        agent.SetDestination(gamemanager.instance.player.transform.position);
+
+        chargeTimer = 0;
+        StartCoroutine(chargeTiming());
+    }
+
+    IEnumerator chargeTiming()
+    {
+        yield return new WaitForSeconds(chargeDelay);
+        isCharging = false;
+    }
+
+    void Spawning()
+    {
+        for (int i = 0; i < spawnAmount; i++)
+        {
+            waveManager.instance.Spawn(spawns[Random.Range(0, spawns.Length)]);
+            spawnCount++;
+            waveManager.instance.enemiesAlive++;
+        }
+
+        hasSpawned = true;
+        spawnCoolDownTimer = 0;
+    }
+
+    void ShockWave()
+    {
+        shockwaveTimer = 0;
+        Instantiate(shockwave, shockwavePos.position, transform.rotation);
+    }
+
+    void TryAttack()
+    {
+        if (attackTimer >= attackRate)
+        {
+            gamemanager.instance.playerScript.TakeDamage(attackDamage);
+            attackTimer = 0;
         }
     }
 
     void FaceTarget()
     {
-        Quaternion rot = Quaternion.LookRotation(playerDir);
-        transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * faceTargetSpeed);
+        transform.rotation = Quaternion.Lerp(
+            transform.rotation,
+            Quaternion.LookRotation(playerDir),
+            Time.deltaTime * faceTargetSpeed);
     }
-
-    void ArmRotate()
-    {
-        Quaternion rot = Quaternion.LookRotation(playerDir);
-        armPivot1.rotation = Quaternion.Lerp(armPivot1.rotation, rot, Time.deltaTime * armRotateSpeed);
-        armPivot2.rotation = Quaternion.Lerp(armPivot2.rotation, rot, Time.deltaTime * armRotateSpeed);
-    }
-
-    bool CanSeePlayer()
-    {
-        playerDir = gamemanager.instance.player.transform.position - transform.position;
-        angleToPlayer = Vector3.Angle(playerDir, transform.forward);
-
-        Debug.DrawRay(transform.position, playerDir);
-
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, playerDir, out hit))
-        {
-            if (hit.collider.CompareTag("Player") && angleToPlayer <= FOV)
-            {
-                if (agent.remainingDistance <= agent.stoppingDistance)
-                {
-                    FaceTarget();
-                }
-                ArmRotate();
-
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    IEnumerator FlashRed()
-    {
-        model.material.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        model.material.color = OGColor;
-    }
-
 }

@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be5c79421ce11264c87ff98035a58597, type: 3}
+  m_Name: Uzi
+  m_EditorClassIdentifier: Assembly-CSharp::gunStats
+  gunModel: {fileID: 6167487190009821936, guid: 6d38a64bd5491f64cad9c0325d55559f, type: 3}
+  gunIcon: {fileID: 21300000, guid: a08b57cdff41ada4eb36115a993052bd, type: 3}
+  shootDamage: 3
+  shootDist: 700
+  shootRate: 0.1
+  ammoCur: 32
+  ammoMax: 32
+  automatic: 1
+  pelletsPerShot: 1
+  spread: 5.5
+  hitEffect: {fileID: 0}
+  shootSound:
+  - {fileID: 8300000, guid: 25d89049e254f674ea43d5ca138456dd, type: 3}
+  shootSoundVol: 0.17

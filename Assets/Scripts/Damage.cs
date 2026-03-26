@@ -1,23 +1,35 @@
 using UnityEngine;
-using System.Collections;
 
 public class Damage : MonoBehaviour
 {
-    enum damageType { bullet, stationary, DOT}
+    enum damageType { bullet, stationary, shockwave }
+
     [SerializeField] damageType Type;
     [SerializeField] Rigidbody rb;
-    [SerializeField] int damageAmount;
-    [SerializeField] float damageRate;
-    [SerializeField] int speed;
-    [SerializeField] int destroyTime;
+    [SerializeField] int damageAmount = 10;
+    [SerializeField] int speed = 200;
+    [SerializeField] int destroyTime = 5;
     [SerializeField] ParticleSystem hitEffect;
 
-    bool isDamaging;
+    bool hasHit = false;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if(Type == damageType.bullet)
+        if (rb == null)
+            rb = GetComponent<Rigidbody>();
+
+        if (Type == damageType.bullet)
+        {
+            rb.linearVelocity = transform.forward * speed;
+            transform.forward = rb.linearVelocity.normalized;
+
+            rb.useGravity = false;
+
+            // destroy after time
+            Destroy(gameObject, destroyTime);
+        }
+
+        if (Type == damageType.shockwave)
         {
             rb.linearVelocity = transform.forward * speed;
             Destroy(gameObject, destroyTime);
@@ -26,42 +38,24 @@ public class Damage : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.isTrigger) return;
-        //IDamage dmg = other.GetComponent<IDamage>();
-        IDamage dmg = other.GetComponentInParent<IDamage>(); // For cases where the collider is on a child object of the one with the IDamage script
+        if (hasHit) return;
 
-        if (dmg != null && Type != damageType.DOT)
+        IDamage dmg = other.GetComponentInParent<IDamage>();
+
+        if (dmg != null)
         {
+            hasHit = true;
+
+            // apply damage
             dmg.TakeDamage(damageAmount);
-        }
 
-        if(Type == damageType.bullet)
-        {
-            if(hitEffect != null)
+            // spawn hit effect on enemies
+            if (other.CompareTag("Enemy") && hitEffect != null)
             {
                 Instantiate(hitEffect, transform.position, Quaternion.identity);
             }
+
             Destroy(gameObject);
         }
     }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if(other.isTrigger) return;
-        IDamage dmg = other.GetComponentInParent<IDamage>();
-
-        if(dmg != null && Type == damageType.DOT && !isDamaging)
-        {
-            StartCoroutine(DamageOther(dmg));
-        }
-    }
-
-    IEnumerator DamageOther(IDamage dmg)
-    {
-        isDamaging = true;
-        dmg.TakeDamage(damageAmount);
-        yield return new WaitForSeconds(damageRate);
-        isDamaging = false;
-    }
-
 }

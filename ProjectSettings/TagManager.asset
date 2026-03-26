@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Enemy
+  - Floor
+  - Tree
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -11,15 +15,15 @@ TagManager:
   - Player
   - Water
   - UI
-  - Player Bullet
+  - Ammo
   - Enemy
-  - Enemy Bullet
+  - Gun Cam
   - Gun
   - Bullet
-  - 
-  - 
-  - 
-  - 
+  - MapIgnore
+  - Map
+  - Minimaponly
+  - Environment
   - 
   - 
   - 
