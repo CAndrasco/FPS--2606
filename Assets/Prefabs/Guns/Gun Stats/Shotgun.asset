@@ -17,14 +17,15 @@ MonoBehaviour:
   shootDamage: 9
   shootDist: 300
   shootRate: 0.7
-  ammoCur: 0
+  ammoCur: 8
   ammoMax: 8
   automatic: 0
   pelletsPerShot: 10
   spread: 6
   hitEffect: {fileID: 0}
-  shootSound: []
-  shootSoundVol: 0
+  shootSound:
+  - {fileID: 8300000, guid: 7fe3bac32504faa4cbec51b567585fa7, type: 3}
+  shootSoundVol: 1
   holdPosition: {x: 0, y: 0, z: 0}
   holdRotation: {x: 0, y: 180, z: 0}
   shootPositionOffset: {x: 0, y: 0, z: 0}
