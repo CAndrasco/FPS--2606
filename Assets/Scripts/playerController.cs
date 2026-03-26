@@ -155,7 +155,7 @@ public class playerController : MonoBehaviour, IDamage , IPickup
     public void RefillAllAmmo()
     {
         ammo = ammoMax;
-        gamemanager.instance.UpdateAmmoOnly();
+        updatePlayerUI();
     }
 
     public void TakeDamage(int amount)

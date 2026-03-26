@@ -195,7 +195,8 @@ public class gamemanager : MonoBehaviour
             currentGunIcon.sprite = stats.gunIcon;
 
             // Pull ammo from playerController, not the ScriptableObject
-            UpdateAmmoOnly();
+            if (playerScript != null)
+                ammoText.text = playerScript.GetCurrentAmmo() + " / " + playerScript.GetAmmoMax();
         }
     }
     public void updateMedUI(int current, int max)
