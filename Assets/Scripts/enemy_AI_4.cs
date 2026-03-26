@@ -231,10 +231,16 @@ public class enemyAI_4 : MonoBehaviour, IDamage
             {
                 GameObject newEnemy = Instantiate(enemy, hit.position, Quaternion.identity);
 
-                enemyAI_1 ai = newEnemy.GetComponent<enemyAI_1>();
-                if (ai != null)
+                enemyAI_1 ai1 = newEnemy.GetComponent<enemyAI_1>();
+                if (ai1 != null)
                 {
-                    ai.SetBoss(this);
+                    ai1.SetBoss(this);
+                }
+
+                enemyAI_2 ai2 = newEnemy.GetComponent<enemyAI_2>();
+                if (ai2 != null)
+                {
+                    ai2.SetBoss(this);
                 }
 
                 enemiesAlive++;
