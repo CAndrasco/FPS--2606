@@ -1012,7 +1012,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 87355b3bbddeec343bb9ca2f984d6154, type: 3}
   - {fileID: 8300000, guid: cc6b351abe3c99543afd27d0b0fe871d, type: 3}
   soundRate: 3
-  HP: 35
+  HP: 20
   faceTargetSpeed: 4
   armRotateSpeed: 4
   sprintSpeed: 3

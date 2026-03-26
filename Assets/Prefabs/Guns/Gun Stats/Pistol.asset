@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Pistol
   m_EditorClassIdentifier: Assembly-CSharp::gunStats
   gunModel: {fileID: 7636599367085182550, guid: 8f85c0463a72f494c9489508c7c836ef, type: 3}
-  gunIcon: {fileID: 0}
+  gunIcon: {fileID: 21300000, guid: bd08e1a95c059014b8b3a721a787e4cd, type: 3}
   shootDamage: 4
   shootDist: 800
   shootRate: 0.25
-  ammoCur: 0
+  ammoCur: 12
   ammoMax: 12
   automatic: 0
   pelletsPerShot: 1
